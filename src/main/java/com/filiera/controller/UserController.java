@@ -1,10 +1,9 @@
 package com.filiera.controller;
 
-import com.filiera.model.User;
+import com.filiera.model.users.User;
 import com.filiera.services.UserService;
 
 import java.util.List;
-import java.util.UUID;
 
 public class UserController {
 

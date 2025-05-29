@@ -1,6 +1,4 @@
-package com.filiera.model;
-
-import java.util.List;
+package com.filiera.model.sellers;
 
 public class Trasformatore extends Venditore {
 

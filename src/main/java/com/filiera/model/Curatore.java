@@ -1,6 +1,6 @@
 package com.filiera.model;
 
-import java.util.UUID;
+import com.filiera.model.users.User;
 
 public class Curatore extends User {
 

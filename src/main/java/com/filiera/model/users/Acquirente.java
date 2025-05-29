@@ -1,4 +1,4 @@
-package com.filiera.model;
+package com.filiera.model.users;
 
 public class Acquirente extends User {
 

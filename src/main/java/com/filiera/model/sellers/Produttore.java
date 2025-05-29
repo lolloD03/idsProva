@@ -1,4 +1,4 @@
-package com.filiera.model;
+package com.filiera.model.sellers;
 
 public class Produttore extends Venditore {
 

@@ -1,5 +1,7 @@
 package com.filiera.model;
 
+import com.filiera.model.sellers.Venditore;
+
 import java.util.UUID;
 
 public class Prodotto {

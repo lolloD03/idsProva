@@ -1,4 +1,4 @@
-package com.filiera.model;
+package com.filiera.model.users;
 import java.util.UUID;
 public abstract class User {
 
