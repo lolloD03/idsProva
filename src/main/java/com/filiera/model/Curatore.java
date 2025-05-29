@@ -1,5 +1,7 @@
 package com.filiera.model;
 
+import java.util.UUID;
+
 public class Curatore extends User {
 
     public Curatore() {
@@ -8,6 +10,12 @@ public class Curatore extends User {
 
     public Curatore(String password, String email, String name, String surname) {
         super(password, email, name, surname);
+    }
+
+    public void approveProduct(Prodotto prodotto) {
+
+        prodotto.setStato(StatoProdotto.APPROVATO);
+
     }
 
     @Override
