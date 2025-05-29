@@ -1,25 +1,29 @@
 package com.filiera.model;
-
+import java.util.UUID;
 public abstract class User {
 
-    private String id;
+    private UUID id;
     private String password;
     private String email;
     private String name;
     private String surname;
 
 
-    public User(String id, String password, String email, String name, String surname) {
-        this.id = id;
+    public User(String password, String email, String name, String surname) {
+        this.id = UUID.randomUUID();
         this.password = password;
         this.email = email;
         this.name = name;
         this.surname = surname;
     }
 
+    public User() {
+
+    }
+
     public abstract String getRole();
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
