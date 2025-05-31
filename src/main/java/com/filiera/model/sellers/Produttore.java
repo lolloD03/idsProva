@@ -1,5 +1,9 @@
 package com.filiera.model.sellers;
 
+import com.filiera.model.Products.Prodotto;
+
+import java.util.Date;
+
 public class Produttore extends Venditore {
 
     private String process;
@@ -22,9 +26,10 @@ public class Produttore extends Venditore {
         this.process = cultivationProcess;
     }
 
-    /*
-    Public void createProduct(Prodotto prodotto) {}
-     */
+
+   public Prodotto createProduct(String name, String description, double price, int quantity, Venditore seller, Date expirationDate) {
+       return new Prodotto(name, description, price, quantity, seller, expirationDate);
+    }
 
     
 }

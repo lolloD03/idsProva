@@ -1,6 +1,6 @@
 package com.filiera.services;
 
-import com.filiera.model.Prodotto;
+import com.filiera.model.Products.Prodotto;
 
 import java.util.List;
 import java.util.UUID;
