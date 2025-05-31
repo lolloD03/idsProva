@@ -96,4 +96,13 @@ public class Prodotto {
     public void setApprovedBy(Curatore approvedBy) {
         this.approvedBy = approvedBy;
     }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
 }

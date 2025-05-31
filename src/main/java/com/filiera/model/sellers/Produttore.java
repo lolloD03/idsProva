@@ -31,5 +31,6 @@ public class Produttore extends Venditore {
        return new Prodotto(name, description, price, quantity, seller, expirationDate);
     }
 
+
     
 }
