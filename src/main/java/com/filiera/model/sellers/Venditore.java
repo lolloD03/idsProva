@@ -1,11 +1,12 @@
 package com.filiera.model.sellers;
 
 import com.filiera.model.Products.Prodotto;
+import com.filiera.model.users.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Venditore  {
+public abstract class Venditore extends User {
     private List<Prodotto> prodotti;
 
 

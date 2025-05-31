@@ -19,6 +19,7 @@ public class Prodotto {
 
     public Prodotto() {
         // Default constructor
+        this.id = UUID.randomUUID();
     }
 
     public Prodotto(String name, String description, double price, int quantity, Venditore seller) {

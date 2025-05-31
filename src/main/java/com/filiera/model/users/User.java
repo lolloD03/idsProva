@@ -18,7 +18,7 @@ public abstract class User {
     }
 
     public User() {
-
+        this.id = UUID.randomUUID();
     }
 
     public abstract String getRole();

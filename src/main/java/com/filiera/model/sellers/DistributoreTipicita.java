@@ -12,6 +12,11 @@ public class DistributoreTipicita extends Venditore {
         super();
     }
 
+    @Override
+    public String getRole() {
+        return "";
+    }
+
     public DistributoreTipicita(String name , String address) {
         super(name , address);
     }

@@ -15,6 +15,11 @@ public class ProductServiceImpl implements ProductService {
     @Override public Prodotto getById(UUID id) { return repo.findById(id).orElse(null); }
 
     @Override public Prodotto createProduct(Venditore seller, String name, String descrizione, double price, int quantity) {
+
+        if (!existsById(seller.getId())) {
+            throw new IllegalArgumentException("Il venditore con ID " + seller.getId() + " non esiste.");
+        }
+
         Prodotto prodotto = new Prodotto();
         prodotto.setName(name);
         prodotto.setDescription(descrizione);
@@ -22,6 +27,13 @@ public class ProductServiceImpl implements ProductService {
         prodotto.setAvailableQuantity(quantity);
         prodotto.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
         prodotto.setSeller(seller);
-        return prodotto;
+
+        Prodotto prodottoSalvato = repo.save(prodotto);
+
+        return prodottoSalvato;
 }
+
+    public boolean existsById(UUID id) {
+        return repo.findById(id).isPresent();
+    }
 }

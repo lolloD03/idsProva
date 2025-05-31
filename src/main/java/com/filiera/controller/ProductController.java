@@ -11,9 +11,23 @@ import java.util.UUID;
 public class ProductController {
     private final ProductService service;
     public ProductController(ProductService service) { this.service = service; }
+
+
     public Prodotto createProduct(Venditore venditor, String name, String descrizione, double price, int quantity) {
 
-        return service.createProduct(venditor, name, descrizione, price, quantity);
+        try {
+            if (venditor == null || name == null || descrizione == null || price <= 0 || quantity <= 0) {
+                throw new IllegalArgumentException("Invalid product details provided.");
+            }
+
+            return service.createProduct(venditor, name, descrizione, price, quantity);
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error creating product: " + e.getMessage());
+            return null;
+        }
+
+        //return service.createProduct(venditor, name, descrizione, price, quantity);
     }
 
     public List<Prodotto> list() { return service.listAll(); }
