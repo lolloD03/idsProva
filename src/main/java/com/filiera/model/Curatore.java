@@ -2,7 +2,11 @@ package com.filiera.model;
 
 import com.filiera.model.users.User;
 
+import java.util.List;
+
 public class Curatore extends User {
+
+    private List<Prodotto> productsToApprove;
 
     public Curatore() {
         super();
@@ -13,9 +17,7 @@ public class Curatore extends User {
     }
 
     public void approveProduct(Prodotto prodotto) {
-
         prodotto.setStato(StatoProdotto.APPROVATO);
-
     }
 
     @Override

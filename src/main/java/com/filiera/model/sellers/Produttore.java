@@ -2,20 +2,29 @@ package com.filiera.model.sellers;
 
 public class Produttore extends Venditore {
 
+    private String process;
 
     public Produttore() {
         super();
     }
 
-    public Produttore(String password, String email, String name, String surname) {
-        super(password, email, name, surname);
+    public Produttore(String name , String address , String cultivationProcess) {
+        super(name , address);
+        this.process = cultivationProcess;
     }
 
 
-    @Override
-    public String getRole() {
-        return "";
+    public String getCultivationProcess() {
+        return process;
     }
-    // Additional methods specific to Produttore can be added here
 
+    public void setCultivationProcess(String cultivationProcess) {
+        this.process = cultivationProcess;
+    }
+
+    /*
+    Public void createProduct(Prodotto prodotto) {}
+     */
+
+    
 }

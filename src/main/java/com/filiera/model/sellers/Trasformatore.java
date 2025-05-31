@@ -2,20 +2,29 @@ package com.filiera.model.sellers;
 
 public class Trasformatore extends Venditore {
 
+    private String process;
+
     public Trasformatore() {
         super();
     }
 
-    public Trasformatore(String password, String email, String name, String surname) {
-        super(password, email, name, surname);
+    public Trasformatore(String name , String address , String productionProcess) {
+        super(name, address);
+        this.process = productionProcess;
     }
 
-    @Override
-    public String getRole() {
-        return "Trasformatore";
+    public String getProductionProcess() {
+        return process;
     }
 
+    public void setProductionProcess(String productionProcess) {
+        this.process = productionProcess;
+    }
+
+    /*
+    Public void createProduct(Prodotto prodotto) {}
+     */
 
 
-    // Additional methods specific to Trasformatore can be added here
+
 }

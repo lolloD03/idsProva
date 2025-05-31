@@ -6,7 +6,7 @@ import com.filiera.model.users.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Venditore extends User {
+public abstract class Venditore  {
     private List<Prodotto> prodotti;
 
 
@@ -15,8 +15,7 @@ public abstract class Venditore extends User {
         prodotti = new ArrayList<>();
     }
 
-    public Venditore(String password, String email, String name, String surname) {
-        super(password, email, name, surname);
+    public Venditore(String name , String address ) {
         prodotti = new ArrayList<>();
     }
 }
