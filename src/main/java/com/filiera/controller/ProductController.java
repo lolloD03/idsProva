@@ -1,11 +1,9 @@
 package com.filiera.controller;
 
-import com.filiera.model.Prodotto;
+import com.filiera.model.Products.Prodotto;
 import com.filiera.services.ProductService;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 public class ProductController {
     private final ProductService service;

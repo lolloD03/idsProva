@@ -1,6 +1,6 @@
 package com.filiera.services;
 
-import com.filiera.model.Prodotto;
+import com.filiera.model.Products.Prodotto;
 import com.filiera.repository.InMemoryProductRepository;
 
 import java.util.List;

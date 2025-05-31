@@ -1,6 +1,6 @@
 package com.filiera.repository;
 
-import com.filiera.model.Prodotto;
+import com.filiera.model.Products.Prodotto;
 
 import java.util.*;
 
