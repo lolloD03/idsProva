@@ -12,6 +12,11 @@ public class Produttore extends Venditore {
         super();
     }
 
+    @Override
+    public String getRole() {
+        return "";
+    }
+
     public Produttore(String name , String address , String cultivationProcess) {
         super(name , address);
         this.process = cultivationProcess;
