@@ -25,10 +25,9 @@ public class Trasformatore extends Venditore {
         this.process = productionProcess;
     }
 
-    public Prodotto createProduct(String name, String description, double price, int quantity, Venditore seller, Date expirationDate) {
-        return new Prodotto(name, description, price, quantity, seller, expirationDate);
+
     }
 
 
 
-}
+

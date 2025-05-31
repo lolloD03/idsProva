@@ -21,14 +21,13 @@ public class Prodotto {
         // Default constructor
     }
 
-    public Prodotto(String name, String description, double price, int quantity, Venditore seller, Date expirationDate) {
+    public Prodotto(String name, String description, double price, int quantity, Venditore seller) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.price = price;
         this.availableQuantity = quantity;
         this.seller =seller;
-        this.expirationDate = expirationDate;
     }
 
 
