@@ -7,6 +7,7 @@ import java.util.List;
 public class DistributoreTipicita extends Venditore {
 
     private List<Prodotto> productsBundle;
+    private List<List<Prodotto>> listOfBundles;  //TODO: modifica effettuata in questa riga da verificre;
 
     public DistributoreTipicita() {
         super();
@@ -25,8 +26,9 @@ public class DistributoreTipicita extends Venditore {
     public void addToBundle(Prodotto prodotto) {
     productsBundle.add(prodotto);
     }
-
-
-
-
+    //TODO Modifiche da verificare
+    public void removeFromBundle(Prodotto prodotto) {productsBundle.remove(prodotto);}
+    public void addToListOfBundles(List<Prodotto> bundleOfproducts) {listOfBundles.add(bundleOfproducts);}
+    public void removeFromListOfBundles(List<Prodotto> bundleOfproducts) {listOfBundles.remove(bundleOfproducts);}
+    //TODO fine modifche da verificare
 }

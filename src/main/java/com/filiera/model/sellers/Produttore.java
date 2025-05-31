@@ -30,9 +30,11 @@ public class Produttore extends Venditore {
     public void setCultivationProcess(String cultivationProcess) {
         this.process = cultivationProcess;
     }
-
-
-
+    //TODO: Modifiche da verificare
+    public void addProductToInventory(Prodotto prodotto) {
+    prodotti.add(prodotto);
+    }
+    public void removeProductFromInventory(Prodotto prodotto) {prodotti.remove(prodotto);}
 
 
     

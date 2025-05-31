@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Venditore extends User {
-    private List<Prodotto> prodotti;
+    //TODO ho modificato da private a protected
+    protected List<Prodotto> prodotti;
 
 
     public Venditore() {
@@ -18,4 +19,7 @@ public abstract class Venditore extends User {
     public Venditore(String name , String address ) {
         prodotti = new ArrayList<>();
     }
+    //TODO: Modifica da verificare ->
+    protected void addProductToInventory(Prodotto prodotto){prodotti.add(prodotto);}
+    protected void removeProductFromInventory(Prodotto prodotto) {prodotti.remove(prodotto);}
 }
