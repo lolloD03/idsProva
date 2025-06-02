@@ -30,5 +30,9 @@ public class ProductController {
         //return service.createProduct(venditor, name, descrizione, price, quantity);
     }
 
+    public List<Prodotto> getApprovedProducts() {
+        return service.getApprovedProducts();
+    }
+
     public List<Prodotto> list() { return service.listAll(); }
 }

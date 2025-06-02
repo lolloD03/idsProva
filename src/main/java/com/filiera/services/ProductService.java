@@ -9,4 +9,6 @@ public interface ProductService {
     Prodotto createProduct(Venditore venditore, String name, String descrizione, double price, int quantity);
     List<Prodotto> listAll();
     Prodotto getById(UUID id);
+
+    public List<Prodotto> getApprovedProducts();
 }
