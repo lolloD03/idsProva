@@ -30,7 +30,7 @@ public class Trasformatore extends Venditore {
         this.process = productionProcess;
     }
 
-    //TODO: Modifiche da Verificare
+
 
     protected void addProductToInventory(Prodotto prodotto) {
         prodotti.add(prodotto);
