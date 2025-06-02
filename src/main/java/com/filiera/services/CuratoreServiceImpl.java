@@ -1,7 +1,11 @@
 package com.filiera.services;
 
+import com.filiera.model.Curatore;
+import com.filiera.model.Products.Prodotto;
+import com.filiera.model.Products.StatoProdotto;
 import com.filiera.model.users.User;
 import com.filiera.repository.InMemoryProductRepository;
+import com.filiera.repository.InMemoryUserRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,9 +13,11 @@ import java.util.UUID;
 public class CuratoreServiceImpl implements UserService {
 
     private final InMemoryProductRepository productRepository;
+    private final InMemoryUserRepository userRepository;
 
-    public CuratoreServiceImpl(InMemoryProductRepository productRepository) {
+    public CuratoreServiceImpl(InMemoryProductRepository productRepository, InMemoryUserRepository userRepository) {
         this.productRepository = productRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -28,4 +34,32 @@ public class CuratoreServiceImpl implements UserService {
     }
 
 
+    public List<Prodotto> getPendingProducts() {
+        // Retrieve products with state "PENDING"
+        return productRepository.findByState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
+    }
+
+    public Prodotto approveProduct(Prodotto prodotto, UUID curatoreId) {
+
+        // Check if the product is in the pending state
+        if (prodotto.getState() != StatoProdotto.IN_ATTESA_DI_APPROVAZIONE) {
+            throw new IllegalArgumentException("Il prodotto non è in attesa di approvazione.");
+        }
+        // Check if the curator exists
+        if (!userRepository.findById(curatoreId).isPresent()) {
+            throw new IllegalArgumentException("Il curatore con ID " + curatoreId + " non esiste.");
+        }
+
+        Curatore curatore  = (Curatore) userRepository.findById(curatoreId).get();
+
+        // Set the curator who approved the product
+        prodotto.setApprovedBy(curatore);
+
+        // Change the product state to APPROVED
+        prodotto.setState(StatoProdotto.APPROVATO);
+
+        // Save the updated product
+        return productRepository.save(prodotto);
+
+    }
 }
