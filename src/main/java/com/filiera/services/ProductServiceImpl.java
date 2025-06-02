@@ -75,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+
     public boolean existsById(UUID id) {
     return userService.findById(id) != null;
     }

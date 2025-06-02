@@ -66,5 +66,7 @@ public class ProductController {
         return service.getApprovedProducts();
     }
 
+    public Prodotto getById(UUID id) { return service.getById(id); }
+
     public List<Prodotto> list() { return service.listAll(); }
 }
