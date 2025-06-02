@@ -38,6 +38,11 @@ public class Prodotto {
         this.approvedBy = curatore;
     }
 
+    public void rejectBy(Curatore curatoreObj) {
+        this.state = StatoProdotto.RIFIUTATO;
+        this.approvedBy = curatoreObj;
+    }
+
 
     public UUID getId() {
         return id;
@@ -111,5 +116,6 @@ public class Prodotto {
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
+
 
 }

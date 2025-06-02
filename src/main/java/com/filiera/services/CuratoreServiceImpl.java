@@ -59,4 +59,25 @@ public class CuratoreServiceImpl implements UserService {
         return productRepository.save(prodotto);
 
     }
+
+
+    public Prodotto rejectProduct(Prodotto prodotto, UUID curatore) {
+        // Check if the product is in the pending state
+        if (prodotto.getState() != StatoProdotto.IN_ATTESA_DI_APPROVAZIONE) {
+            throw new IllegalArgumentException("Il prodotto non è in attesa di approvazione.");
+        }
+
+        // Check if the curator exists
+        if (!userRepository.findById(curatore).isPresent()) {
+            throw new IllegalArgumentException("Il curatore con ID " + curatore + " non esiste.");
+        }
+
+        Curatore curatoreObj = (Curatore) userRepository.findById(curatore).get();
+
+        // Reject the product by the curator
+        prodotto.rejectBy(curatoreObj);
+
+        // Save the updated product
+        return productRepository.save(prodotto);
+    }
 }

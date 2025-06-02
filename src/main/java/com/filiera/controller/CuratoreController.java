@@ -29,4 +29,14 @@ public class CuratoreController {
         }
     }
 
+    public Prodotto rejectProduct(Prodotto prodotto, UUID curatore) {
+        try {
+            curatoreService.rejectProduct(prodotto, curatore);
+            return prodotto;
+        } catch (Exception e) {
+            System.out.println("Error rejecting product: " + e.getMessage());
+            return null;
+        }
+    }
+
 }
