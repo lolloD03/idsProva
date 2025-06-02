@@ -2,11 +2,12 @@ package com.filiera.model;
 
 import com.filiera.model.Products.Prodotto;
 import com.filiera.model.Products.StatoProdotto;
+import com.filiera.model.users.User;
 
 
 import java.util.List;
 
-public class Curatore {
+public class Curatore  extends User {
 
     private List<Prodotto> productsToApprove;
 
@@ -16,6 +17,11 @@ public class Curatore {
 
     public Curatore() {
         super();
+    }
+
+    @Override
+    public String getRole() {
+        return "";
     }
 
     public Curatore(String name, int id) {
