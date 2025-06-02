@@ -27,7 +27,6 @@ public class ProductController {
             return null;
         }
 
-        //return service.createProduct(venditor, name, descrizione, price, quantity);
     }
 
     public List<Prodotto> getApprovedProducts() {
