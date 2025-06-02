@@ -18,7 +18,7 @@ public class Main {
         InMemoryProductRepository productRepository = new InMemoryProductRepository();
         InMemoryUserRepository userRepository = new InMemoryUserRepository();
         UserServiceImpl userService = new UserServiceImpl(userRepository);
-        ProductService productService = new ProductServiceImpl(productRepository, userService);
+        ProductService productService = new ProductServiceImpl(productRepository, userService, userRepository);
         ProductController productController = new ProductController(productService);
 
         Venditore venditore = new Produttore();

@@ -29,6 +29,39 @@ public class ProductController {
 
     }
 
+    public Prodotto updateProduct(Prodotto updatedProduct) {
+
+        try {
+            if (!existsProduct(updatedProduct.getId())) {
+                throw new IllegalArgumentException("Doesn't exist a product with this id");
+            }
+
+            return service.updateProduct(updatedProduct);
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error updating product: " + e.getMessage());
+            return null;
+        }
+
+    }
+
+    public void deleteProduct(Prodotto toDeleteProduct) {
+
+        try {
+            if (!existsProduct(toDeleteProduct.getId())) {
+                throw new IllegalArgumentException("Doesn't exist a product with this id");
+            }
+
+            service.deleteProduct(toDeleteProduct);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error updating product: " + e.getMessage());
+        }
+    }
+
+    public boolean existsProduct(UUID id) {
+        return service.getById(id) != null;
+    }
+
     public List<Prodotto> getApprovedProducts() {
         return service.getApprovedProducts();
     }

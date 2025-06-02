@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
         this.userService = userService;
         this.userRepo = userRepository;
     }
-    //@Override public Prodotto createProduct(Prodotto product) { return repo.save(product); }
+
     @Override public List<Prodotto> listAll() { return prodRepo.findAll(); }
     @Override public Prodotto getById(UUID id) { return prodRepo.findById(id).orElse(null); }
 
@@ -43,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
         return prodottoSalvato;
 }
 
+    @Override
     public Prodotto updateProduct(Prodotto updatedProduct) {
 
         Prodotto actualProduct = prodRepo.findById(updatedProduct.getId())
@@ -56,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
         return prodRepo.save(actualProduct);
     }
 
+    @Override
     public void deleteProduct(Prodotto prodotto) {
 
         if (prodRepo.findById(prodotto.getId()).isEmpty()) {
