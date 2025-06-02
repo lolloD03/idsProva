@@ -3,7 +3,7 @@ package com.filiera.model.Products;
 import com.filiera.model.Curatore;
 import com.filiera.model.sellers.Venditore;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Prodotto {
@@ -15,20 +15,21 @@ public class Prodotto {
     private StatoProdotto state;
     private Venditore seller;
     private Curatore approvedBy;
-    private Date expirationDate;
+    private LocalDate expirationDate;
 
     public Prodotto() {
         // Default constructor
         this.id = UUID.randomUUID();
     }
 
-    public Prodotto(String name, String description, double price, int quantity, Venditore seller) {
+    public Prodotto(String name, String description, double price, int quantity, Venditore seller,int daysToExpire) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.price = price;
         this.availableQuantity = quantity;
         this.seller =seller;
+        this.setExpirationDate(LocalDate.now().plusDays(daysToExpire));
     }
 
 
@@ -97,11 +98,11 @@ public class Prodotto {
         this.approvedBy = approvedBy;
     }
 
-    public Date getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
 
