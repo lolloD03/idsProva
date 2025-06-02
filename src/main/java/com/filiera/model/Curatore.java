@@ -23,17 +23,6 @@ public class Curatore  extends User {
     }
 
 
-    public void approveProduct(Prodotto prodotto) {
-        prodotto.setState(StatoProdotto.APPROVATO);
-        productsToApprove.remove(prodotto);
-    }
-
-    public void rejectProduct(Prodotto prodotto) {
-        prodotto.setState(StatoProdotto.REJECTED);
-        productsToApprove.remove(prodotto);
-
-    }
-
     public String getName() {
         return name;
     }

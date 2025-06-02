@@ -33,6 +33,12 @@ public class Prodotto {
     }
 
 
+    public void approveBy(Curatore curatore) {
+        this.state = StatoProdotto.APPROVATO;
+        this.approvedBy = curatore;
+    }
+
+
     public UUID getId() {
         return id;
     }

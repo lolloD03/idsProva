@@ -52,11 +52,8 @@ public class CuratoreServiceImpl implements UserService {
 
         Curatore curatore  = (Curatore) userRepository.findById(curatoreId).get();
 
-        // Set the curator who approved the product
-        prodotto.setApprovedBy(curatore);
-
-        // Change the product state to APPROVED
-        prodotto.setState(StatoProdotto.APPROVATO);
+        // Approve the product by the curator
+        prodotto.approveBy(curatore);
 
         // Save the updated product
         return productRepository.save(prodotto);
