@@ -11,5 +11,5 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(InMemoryUserRepository repo) { this.repo = repo; }
     @Override public User register(User user) { return repo.save(user); }
     @Override public User findById(UUID id) { return repo.findById(id).orElse(null); }
-    @Override public List<User> listAll() { return repo.findAll(); }
+
 }
