@@ -15,7 +15,7 @@ public class DistributoreTipicita extends Venditore {
 
     @Override
     public String getRole() {
-        return "";
+        return "DISTRIBUTOREDITIPICITA";
     }
 
     public DistributoreTipicita(String name , String address) {
@@ -28,7 +28,9 @@ public class DistributoreTipicita extends Venditore {
     }
 
     public void removeFromBundle(Prodotto prodotto) {productsBundle.remove(prodotto);}
+
     public void addToListOfBundles(List<Prodotto> bundleOfproducts) {listOfBundles.add(bundleOfproducts);}
+
     public void removeFromListOfBundles(List<Prodotto> bundleOfproducts) {listOfBundles.remove(bundleOfproducts);}
 
 }
