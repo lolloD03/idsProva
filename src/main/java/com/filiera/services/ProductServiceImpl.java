@@ -4,22 +4,29 @@ import com.filiera.model.Products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.repository.InMemoryProductRepository;
 import com.filiera.model.Products.StatoProdotto;
+import com.filiera.repository.InMemoryUserRepository;
+
 import java.util.List;
 import java.util.UUID;
 
 public class ProductServiceImpl implements ProductService {
-    private final InMemoryProductRepository repo;
+    private final InMemoryProductRepository prodRepo;
     private final UserServiceImpl userService;
-    public ProductServiceImpl(InMemoryProductRepository repo, UserServiceImpl userService) { this.repo = repo;
+    private final InMemoryUserRepository userRepo;
+
+    public ProductServiceImpl(InMemoryProductRepository repo, UserServiceImpl userService, InMemoryUserRepository userRepository)
+    {
+        this.prodRepo = repo;
         this.userService = userService;
+        this.userRepo = userRepository;
     }
-    //@Override public Prodotto createProduct(Prodotto product) { return repo.save(product); }
-    @Override public List<Prodotto> listAll() { return repo.findAll(); }
-    @Override public Prodotto getById(UUID id) { return repo.findById(id).orElse(null); }
+
+    @Override public List<Prodotto> listAll() { return prodRepo.findAll(); }
+    @Override public Prodotto getById(UUID id) { return prodRepo.findById(id).orElse(null); }
 
     @Override public Prodotto createProduct(Venditore seller, String name, String descrizione, double price, int quantity) {
 
-        if (!existsById(seller.getId())) {
+        if(userRepo.findById(seller.getId()).isEmpty()){
             throw new IllegalArgumentException("Il venditore con ID " + seller.getId() + " non esiste.");
         }
 
@@ -31,14 +38,40 @@ public class ProductServiceImpl implements ProductService {
         prodotto.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
         prodotto.setSeller(seller);
 
-        Prodotto prodottoSalvato = repo.save(prodotto);
+        Prodotto prodottoSalvato = prodRepo.save(prodotto);
 
         return prodottoSalvato;
 }
 
     @Override
+    public Prodotto updateProduct(Prodotto updatedProduct) {
+
+        Prodotto actualProduct = prodRepo.findById(updatedProduct.getId())
+            .orElseThrow(() -> new RuntimeException("Prodotto non trovato con id: " + updatedProduct.getId()));
+
+        actualProduct.setName(updatedProduct.getName());
+        actualProduct.setDescription(updatedProduct.getDescription());
+        actualProduct.setPrice(updatedProduct.getPrice());
+        actualProduct.setAvailableQuantity(updatedProduct.getAvailableQuantity());
+
+        return prodRepo.save(actualProduct);
+    }
+
+    @Override
+    public void deleteProduct(Prodotto prodotto) {
+
+        if (prodRepo.findById(prodotto.getId()).isEmpty()) {
+            throw new RuntimeException("Il prodotto con ID " + prodotto.getId() + " non esiste.");
+        }
+
+        prodRepo.deleteById(prodotto.getId());
+
+    }
+
+
+    @Override
     public List<Prodotto> getApprovedProducts() {
-        return repo.findByState(StatoProdotto.APPROVATO);
+        return prodRepo.findByState(StatoProdotto.APPROVATO);
     }
 
 
