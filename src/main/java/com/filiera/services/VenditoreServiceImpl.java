@@ -9,6 +9,7 @@ public class VenditoreServiceImpl {
 
     public InMemoryProductRepository productRepository;
     public InMemoryUserRepository userRepository;
+    public ProductServiceImpl productService;
 
     public VenditoreServiceImpl(InMemoryProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -20,9 +21,8 @@ public class VenditoreServiceImpl {
             throw new IllegalArgumentException("Il venditore con ID " + seller.getId() + " non esiste.");
         }
 
-        Prodotto product = new Prodotto(name, descrizione, price, quantity, seller);
-        return productRepository.save(product);
-
+        Prodotto newProduct = productService.createProduct(seller, name, descrizione, price, quantity);
+        return newProduct;
     }
 
 
