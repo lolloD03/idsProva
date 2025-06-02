@@ -36,6 +36,12 @@ public class ProductServiceImpl implements ProductService {
         return prodottoSalvato;
 }
 
+    @Override
+    public List<Prodotto> getApprovedProducts() {
+        return repo.findByState(StatoProdotto.APPROVATO);
+    }
+
+
     public boolean existsById(UUID id) {
     return userService.findById(id) != null;
     }
