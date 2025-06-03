@@ -4,39 +4,38 @@ import com.filiera.model.Products.Carrello;
 import com.filiera.model.Products.Prodotto;
 import com.filiera.model.users.Acquirente;
 import com.filiera.repository.InMemoryProductRepository;
-import com.filiera.repository.InMemoryUserRepository;
 
 import java.util.List;
 
 public class AcquirenteServiceImpl {
 
-    private final Acquirente buyer;
-    private Carrello carrello;
+    private final Carrello carrello;
     private final InMemoryProductRepository prodRepo;
     private final ProductService productService;
 
-    public AcquirenteServiceImpl(InMemoryProductRepository prodRepo, ProductServiceImpl productService) {
+    public AcquirenteServiceImpl(InMemoryProductRepository prodRepo, ProductService productService) {
        this.prodRepo = prodRepo;
-       this.productService = productService;
-       this.carrello = new Carrello();
-       this.buyer = new Acquirente();
+        this.productService = productService;
+        this.carrello = new Carrello();
 
     }
 
     public List<Prodotto> addProduct(Prodotto prod) {
-        if(!productService.existsById(prod.getId())) {throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");}
+        if(!productService.existsInRepoById(prod.getId())) {throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");}
 
-        carrello.addProduct(prod);
+        this.carrello.addProduct(prod);
         return carrello.getProducts();
     }
 
     public List<Prodotto> removeProduct(Prodotto prod) {
-        if(!productService.existsById(prod.getId())) {throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");}
+        if(!productService.existsInRepoById(prod.getId())) {throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");}
         carrello.removeProduct(prod);
         return carrello.getProducts();
     }
 
     public StringBuilder getInvoice(Carrello carrello) {
+
+
         double totalInvoice = carrello.getTotalPrice();
 
         StringBuilder sb = new StringBuilder();
@@ -51,12 +50,16 @@ public class AcquirenteServiceImpl {
         return sb;
     }
 
-   public void clearCarrello(Carrello carrello){
-       if (carrello.getProducts().isEmpty()) {
+   public void clearCarrello(){
+       if (this.carrello.getProducts().isEmpty()) {
            throw new RuntimeException("Il carrello è già vuoto.");
        }
 
-       carrello.clearCarrello();
+       this.carrello.clearCarrello();
+   }
+
+   public Carrello getCarrello(){
+        return this.carrello;
    }
 
 }

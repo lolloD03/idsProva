@@ -14,5 +14,5 @@ public interface ProductService {
 
     public List<Prodotto> getApprovedProducts();
 
-    boolean existsById(UUID id);
+    boolean existsInRepoById(UUID id);
 }

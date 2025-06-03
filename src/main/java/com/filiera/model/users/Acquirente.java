@@ -15,5 +15,6 @@ public class Acquirente extends User {
         return "Acquirente";
     }
 
+
     // Additional methods specific to Acquirente can be added here
 }
