@@ -47,12 +47,14 @@ public class Main {
         AcquirenteController acquirenteController = new AcquirenteController(acquirenteService,userRepository);
         acquirenteController.createAcquirente(acquirente);
         System.out.println("Acquirente creato con successo!");
-        System.out.println("Acquirente: " + acquirente.getName() + acquirente.getEmail() + acquirente.getPassword() + acquirente.getId());
+        System.out.println(acquirente);
         acquirenteController.updateAcquirente("newEmail@example.com", "Gionno bianchi ", "updatedPass", acquirente.getId());
-        System.out.println("Acquirente: " + acquirente.getName() + acquirente.getEmail() + acquirente.getPassword() + acquirente.getId());
+        System.out.println(acquirente);
+        System.out.println(userRepository.findById(acquirente.getId()));
 
+        acquirenteController.deleteAcquirente(acquirente.getId());
+        System.out.println(userRepository.findById(acquirente.getId()));
 
-        //acquirenteController.updateAcquirente(acquirente.getId(), );
 
 
     }
