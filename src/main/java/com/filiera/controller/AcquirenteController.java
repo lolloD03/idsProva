@@ -67,6 +67,7 @@ public class AcquirenteController {
             }
         }
         catch(Exception e) {
+
             System.out.println("Error deleting acquirente: " + e.getMessage());
         }
     }

@@ -13,7 +13,7 @@ public class DistributoreTipicita extends Venditore {
         super();
     }
 
-    @Override
+
     public String getRole() {
         return "DISTRIBUTOREDITIPICITA";
     }
