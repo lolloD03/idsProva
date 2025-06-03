@@ -10,7 +10,7 @@ import com.filiera.repository.InMemoryUserRepository;
 import java.util.List;
 import java.util.UUID;
 
-public class CuratoreServiceImpl implements UserService {
+public class CuratoreServiceImpl {
 
     private final InMemoryProductRepository productRepository;
     private final InMemoryUserRepository userRepository;
@@ -22,16 +22,6 @@ public class CuratoreServiceImpl implements UserService {
 
 
 
-    public User register(User user) {
-        // Implement registration logic for Curatore
-        return null; // Placeholder return
-    }
-
-    @Override
-    public User findById(UUID id) {
-        // Implement logic to find Curatore by ID
-        return null; // Placeholder return
-    }
 
 
     public List<Prodotto> getPendingProducts() {

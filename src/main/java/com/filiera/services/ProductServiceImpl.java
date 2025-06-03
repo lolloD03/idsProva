@@ -2,24 +2,29 @@ package com.filiera.services;
 
 import com.filiera.model.Products.Prodotto;
 import com.filiera.model.sellers.Venditore;
-import com.filiera.repository.InMemoryProductRepository;
+import com.filiera.model.users.User;
+import com.filiera.repository.CrudRepository;
+
 import com.filiera.model.Products.StatoProdotto;
-import com.filiera.repository.InMemoryUserRepository;
+import com.filiera.repository.InMemoryProductRepository;
+
 
 import java.util.List;
 import java.util.UUID;
 
 public class ProductServiceImpl implements ProductService {
-    private final InMemoryProductRepository prodRepo;
-    private final InMemoryUserRepository userRepo;
+    private final CrudRepository<Prodotto, UUID> prodRepo;
 
-    public ProductServiceImpl(InMemoryProductRepository repo, InMemoryUserRepository userRepository)
+    private final CrudRepository<User, UUID> userRepo;
+
+    public ProductServiceImpl(CrudRepository<Prodotto, UUID> repo,  CrudRepository<User , UUID> userRepository)
     {
         this.prodRepo = repo;
         this.userRepo = userRepository;
     }
 
     @Override public List<Prodotto> listAll() { return prodRepo.findAll(); }
+
     @Override public Prodotto getById(UUID id) { return prodRepo.findById(id).orElse(null); }
 
     @Override public Prodotto createProduct(Venditore seller, String name, String descrizione, double price, int quantity) {
@@ -29,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Prodotto prodotto = new Prodotto();
+        prodotto.setId(UUID.randomUUID());
         prodotto.setName(name);
         prodotto.setDescription(descrizione);
         prodotto.setPrice(price);
@@ -69,10 +75,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Prodotto> getApprovedProducts() {
-        return prodRepo.findByState(StatoProdotto.APPROVATO);
+        return prodRepo.findAll().stream()
+                .filter(p -> p.getState() == StatoProdotto.APPROVATO)
+                .toList();
     }
 
-    public boolean existsInRepoById(UUID id) {
-    return prodRepo.findById(id).isPresent();
+    public boolean existsById(UUID id) {
+        return prodRepo.findById(id).isPresent();
     }
 }

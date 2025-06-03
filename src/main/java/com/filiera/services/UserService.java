@@ -1,5 +1,6 @@
 package com.filiera.services;
 
+import com.filiera.model.users.RuoloUser;
 import com.filiera.model.users.User;
 
 import java.util.List;

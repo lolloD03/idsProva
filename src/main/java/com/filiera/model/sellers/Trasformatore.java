@@ -12,10 +12,7 @@ public class Trasformatore extends Venditore {
         super();
     }
 
-    @Override
-    public String getRole() {
-        return "";
-    }
+
 
     public Trasformatore(String name , String address , String productionProcess) {
         super(name, address);
