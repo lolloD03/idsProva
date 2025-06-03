@@ -11,13 +11,11 @@ import java.util.UUID;
 
 public class ProductServiceImpl implements ProductService {
     private final InMemoryProductRepository prodRepo;
-    private final UserServiceImpl userService;
     private final InMemoryUserRepository userRepo;
 
-    public ProductServiceImpl(InMemoryProductRepository repo, UserServiceImpl userService, InMemoryUserRepository userRepository)
+    public ProductServiceImpl(InMemoryProductRepository repo, InMemoryUserRepository userRepository)
     {
         this.prodRepo = repo;
-        this.userService = userService;
         this.userRepo = userRepository;
     }
 
@@ -74,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
         return prodRepo.findByState(StatoProdotto.APPROVATO);
     }
 
-    public boolean existsById(UUID id) {
-    return userService.findById(id) != null;
+    public boolean existsInRepoById(UUID id) {
+    return prodRepo.findById(id).isPresent();
     }
 }
