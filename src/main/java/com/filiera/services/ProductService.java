@@ -13,4 +13,6 @@ public interface ProductService {
     void deleteProduct(Prodotto deletedProduct);
 
     public List<Prodotto> getApprovedProducts();
+
+    boolean existsById(UUID id);
 }

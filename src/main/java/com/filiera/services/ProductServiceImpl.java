@@ -74,8 +74,6 @@ public class ProductServiceImpl implements ProductService {
         return prodRepo.findByState(StatoProdotto.APPROVATO);
     }
 
-
-
     public boolean existsById(UUID id) {
     return userService.findById(id) != null;
     }

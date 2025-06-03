@@ -3,6 +3,7 @@ package com.filiera.controller;
 import com.filiera.model.Products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.services.ProductService;
+import com.filiera.services.ProductServiceImpl;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 public class ProductController {
     private final ProductService service;
+
     public ProductController(ProductService service) { this.service = service; }
 
 
@@ -32,7 +34,7 @@ public class ProductController {
     public Prodotto updateProduct(Prodotto updatedProduct) {
 
         try {
-            if (!existsProduct(updatedProduct.getId())) {
+            if (!service.existsById(updatedProduct.getId())) {
                 throw new IllegalArgumentException("Doesn't exist a product with this id");
             }
 
@@ -48,7 +50,7 @@ public class ProductController {
     public void deleteProduct(Prodotto toDeleteProduct) {
 
         try {
-            if (!existsProduct(toDeleteProduct.getId())) {
+            if (!service.existsById(toDeleteProduct.getId())) {
                 throw new IllegalArgumentException("Doesn't exist a product with this id");
             }
 
@@ -58,9 +60,6 @@ public class ProductController {
         }
     }
 
-    public boolean existsProduct(UUID id) {
-        return service.getById(id) != null;
-    }
 
     public List<Prodotto> getApprovedProducts() {
         return service.getApprovedProducts();
