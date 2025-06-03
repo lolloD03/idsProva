@@ -1,19 +1,18 @@
 package com.filiera.model.users;
 
+import java.util.UUID;
+
 public class Acquirente extends User {
 
     public Acquirente() {
         super();
     }
 
-    public Acquirente(String password, String email, String name, String surname) {
-        super(password, email, name, surname);
+    public Acquirente(UUID id , String password, String email, String name, String surname) {
+        super(id, password, email, name, surname);
     }
 
-    @Override
-    public String getRole() {
-        return "Acquirente";
-    }
+
 
     public String toString() {
         return "Acquirente{" +
