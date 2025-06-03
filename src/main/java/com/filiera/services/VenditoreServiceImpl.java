@@ -52,4 +52,8 @@ public class VenditoreServiceImpl {
         }
         userRepository.save(v);
     }
+    public void UpdatePasswordByID(UUID id, String password){
+        Venditore v = getVenditoreByID(id);
+        //if(password == v.getPassword())
+    }
 }
