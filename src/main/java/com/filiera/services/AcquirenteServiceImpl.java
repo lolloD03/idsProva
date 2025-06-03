@@ -8,7 +8,7 @@ import com.filiera.repository.InMemoryUserRepository;
 
 import java.util.List;
 
-public class AcquirenteServiceImpl implements UserService {
+public class AcquirenteServiceImpl {
 
     private final Acquirente buyer;
     private Carrello carrello;

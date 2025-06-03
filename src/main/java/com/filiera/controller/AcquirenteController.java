@@ -6,4 +6,7 @@ public class AcquirenteController {
 
     private final AcquirenteServiceImpl service;
 
+    public AcquirenteController(AcquirenteServiceImpl service) {
+        this.service = service;
+    }
 }
