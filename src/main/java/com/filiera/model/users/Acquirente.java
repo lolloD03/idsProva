@@ -15,5 +15,15 @@ public class Acquirente extends User {
         return "Acquirente";
     }
 
+    public String toString() {
+        return "Acquirente{" +
+                "id=" + getId() +
+                ", email='" + getEmail() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", surname='" + getSurname() + '\'' +
+                ", password='" + getPassword() + '\'' +
+                '}';
+    }
+
     // Additional methods specific to Acquirente can be added here
 }

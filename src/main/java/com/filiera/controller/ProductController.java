@@ -34,13 +34,8 @@ public class ProductController {
     public Prodotto updateProduct(Prodotto updatedProduct) {
 
         try {
-            if (!service.existsById(updatedProduct.getId())) {
-                throw new IllegalArgumentException("Doesn't exist a product with this id");
-            }
-
             return service.updateProduct(updatedProduct);
-
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.err.println("Error updating product: " + e.getMessage());
             return null;
         }
@@ -50,10 +45,6 @@ public class ProductController {
     public void deleteProduct(Prodotto toDeleteProduct) {
 
         try {
-            if (!service.existsById(toDeleteProduct.getId())) {
-                throw new IllegalArgumentException("Doesn't exist a product with this id");
-            }
-
             service.deleteProduct(toDeleteProduct);
         } catch (IllegalArgumentException e) {
             System.err.println("Error updating product: " + e.getMessage());
