@@ -13,10 +13,6 @@ public class DistributoreTipicita extends Venditore {
         super();
     }
 
-    @Override
-    public String getRole() {
-        return "DISTRIBUTOREDITIPICITA";
-    }
 
     public DistributoreTipicita(String name , String address) {
         super(name , address);
