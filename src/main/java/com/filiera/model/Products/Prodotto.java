@@ -21,8 +21,8 @@ public class Prodotto {
         // Default constructor
     }
 
-    public Prodotto(String name, String description, double price, int quantity, Venditore seller,int daysToExpire) {
-        this.id = UUID.randomUUID();
+    public Prodotto(UUID id ,String name, String description, double price, int quantity, Venditore seller,int daysToExpire) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;

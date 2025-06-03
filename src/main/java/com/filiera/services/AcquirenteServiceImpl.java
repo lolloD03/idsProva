@@ -21,14 +21,18 @@ public class AcquirenteServiceImpl {
     }
 
     public List<Prodotto> addProduct(Prodotto prod) {
-        if(!productService.existsInRepoById(prod.getId())) {throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");}
+        if(!productService.getById(prod.getId()).isPresent()) {
+            throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");
+        }
 
         this.carrello.addProduct(prod);
         return carrello.getProducts();
     }
 
     public List<Prodotto> removeProduct(Prodotto prod) {
-        if(!productService.existsInRepoById(prod.getId())) {throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");}
+        if(!productService.getById(prod.getId()).isPresent()) {
+            throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");
+        }
         carrello.removeProduct(prod);
         return carrello.getProducts();
     }
