@@ -10,6 +10,7 @@ import com.filiera.repository.InMemoryProductRepository;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ProductServiceImpl implements ProductService {
@@ -25,7 +26,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override public List<Prodotto> listAll() { return prodRepo.findAll(); }
 
-    @Override public Prodotto getById(UUID id) { return prodRepo.findById(id).orElse(null); }
+    @Override public Optional<Prodotto> getById(UUID id) {
+        return prodRepo.findById(id);
+    }
 
     @Override public Prodotto createProduct(Venditore seller, String name, String descrizione, double price, int quantity) {
 
