@@ -21,7 +21,7 @@ public class CuratoreServiceImpl implements UserService {
     }
 
 
-    @Override
+
     public User register(User user) {
         // Implement registration logic for Curatore
         return null; // Placeholder return
