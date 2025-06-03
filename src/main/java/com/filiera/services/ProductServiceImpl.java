@@ -83,7 +83,5 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
     }
 
-    public boolean existsById(UUID id) {
-        return prodRepo.findById(id).isPresent();
-    }
+
 }
