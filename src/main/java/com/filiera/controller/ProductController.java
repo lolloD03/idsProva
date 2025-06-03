@@ -7,6 +7,7 @@ import com.filiera.services.ProductServiceImpl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ProductController {
@@ -56,7 +57,7 @@ public class ProductController {
         return service.getApprovedProducts();
     }
 
-    public Prodotto getById(UUID id) { return service.getById(id); }
+    public Optional<Prodotto> getById(UUID id) { return service.getById(id); }
 
     public List<Prodotto> list() { return service.listAll(); }
 }
