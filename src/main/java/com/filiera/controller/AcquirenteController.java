@@ -1,5 +1,7 @@
 package com.filiera.controller;
 
+import com.filiera.model.Products.Carrello;
+import com.filiera.model.Products.Prodotto;
 import com.filiera.model.users.Acquirente;
 import com.filiera.model.users.User;
 import com.filiera.repository.InMemoryUserRepository;
@@ -71,6 +73,8 @@ public class AcquirenteController {
             System.out.println("Error deleting acquirente: " + e.getMessage());
         }
     }
+
+
 
 
     public Optional<User> findById(UUID id) {
