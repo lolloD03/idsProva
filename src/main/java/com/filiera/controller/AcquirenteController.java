@@ -60,14 +60,20 @@ public class AcquirenteController {
 
     public void deleteAcquirente(UUID id) {
         try {
-            userRepo.deleteById(id);
+            if(userRepo.findById(id).isPresent()) {
+                userRepo.deleteById(id);
+            } else {
+                System.out.println("Acquirente con id " + id + " non trovato.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println("Error deleting acquirente: " + e.getMessage());
         }
     }
 
 
     public Optional<User> findById(UUID id) {
           return userRepo.findById(id);
-
     }
 
 
