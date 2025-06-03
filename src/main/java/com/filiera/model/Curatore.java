@@ -1,11 +1,11 @@
 package com.filiera.model;
 
 import com.filiera.model.Products.Prodotto;
-import com.filiera.model.Products.StatoProdotto;
 import com.filiera.model.users.User;
 
 
 import java.util.List;
+import java.util.UUID;
 
 public class Curatore  extends User {
 
@@ -13,14 +13,11 @@ public class Curatore  extends User {
 
     private String name;
 
-    public Curatore() {
+    public Curatore(UUID uuid, String nome, String email, String password) {
         super();
     }
 
-    @Override
-    public String getRole() {
-        return "";
-    }
+
 
 
     public String getName() {
