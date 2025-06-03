@@ -53,4 +53,20 @@ public class Carrello {
         return totalPrice;
     }
 
+    public Prodotto addProduct(Prodotto product) {
+        if(product==null){throw new RuntimeException("Il prodotto è nullo");}
+        products.add(product);
+        return product;
+    }
+
+    public Prodotto removeProduct(Prodotto product) {
+        if(!products.contains(product)){throw new RuntimeException("Il prodotto non è nel carrello");}
+        products.remove(product);
+        return product;
+    }
+
+    public void clearCarrello() {
+        products.clear();
+    }
+
 }
