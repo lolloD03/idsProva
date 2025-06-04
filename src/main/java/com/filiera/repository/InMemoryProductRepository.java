@@ -22,4 +22,8 @@ public class InMemoryProductRepository implements CrudRepository<Prodotto, UUID>
         return result;
     }
 
+    public List<Prodotto> getApprovedProducts() {
+        return findByState(StatoProdotto.APPROVATO);
+    }
+
 }
