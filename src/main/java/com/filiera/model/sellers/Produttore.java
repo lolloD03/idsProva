@@ -15,8 +15,8 @@ public class Produttore extends Venditore {
 
 
 
-    public Produttore(UUID id , String password, String email, String name, String surname, String cultivationProcess , String certificati ) {
-        super(id, password, email, name, surname);
+    public Produttore(UUID id , String password, String email, String name, String nomeNegozio ,String surname, String cultivationProcess  ) {
+        super(id, password, email, name , nomeNegozio);
         this.process = cultivationProcess;
         this.certificati = certificati;
     }

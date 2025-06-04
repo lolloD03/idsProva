@@ -9,12 +9,11 @@ public abstract class User {
     private String surname;
 
 
-    public User(UUID id ,String password, String email, String name, String surname) {
+    public User(UUID id ,String password, String email, String name) {
         this.id = id;
         this.password = password;
         this.email = email;
         this.name = name;
-        this.surname = surname;
     }
 
     public User() {
