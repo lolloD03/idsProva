@@ -22,5 +22,4 @@ public class UserController {
 
     public void deleteById(UUID id) {service.deleteById(id);}
 
-
 }

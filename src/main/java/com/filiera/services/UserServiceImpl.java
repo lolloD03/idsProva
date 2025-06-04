@@ -7,7 +7,7 @@ import com.filiera.repository.InMemoryUserRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public class UserServiceImpl implements UserService {
+public class    UserServiceImpl implements UserService {
     private final CrudRepository<User , UUID> repo;
     public UserServiceImpl(InMemoryUserRepository repo) { this.repo = repo; }
     @Override

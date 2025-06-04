@@ -36,11 +36,7 @@ public class Produttore extends Venditore {
 
 
 
-   /* public void addProductToInventory(Prodotto prodotto) {
-    prodotti.add(prodotto);
-    }
-    public void removeProductFromInventory(Prodotto prodotto) {prodotti.remove(prodotto);}
-*/
+
 
     
 }

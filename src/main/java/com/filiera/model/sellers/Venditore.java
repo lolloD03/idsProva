@@ -24,11 +24,8 @@ public abstract class Venditore extends User {
         prodotti = new ArrayList<>();
     }
 
-    public int getPartitaIva() {
-        return partitaIva;
-    }
+    public int getPartitaIva() {return partitaIva;}
     public void setPartitaIva(int nuovaPartitaIva) {partitaIva = nuovaPartitaIva;}
-
     protected void addProductToInventory(Prodotto prodotto){prodotti.add(prodotto);}
     protected void removeProductFromInventory(Prodotto prodotto) {prodotti.remove(prodotto);}
 }
