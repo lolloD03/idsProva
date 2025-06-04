@@ -1,6 +1,6 @@
 package com.filiera.model.administration;
 
-import com.filiera.model.Prodotto;
+import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.User;
 
 

@@ -2,13 +2,12 @@ package com.filiera.model;
 
 
 import com.filiera.model.administration.Curatore;
+import com.filiera.model.products.Prodotto;
+import com.filiera.model.products.StatoProdotto;
 import com.filiera.model.sellers.Produttore;
 import com.filiera.model.sellers.Venditore;
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 

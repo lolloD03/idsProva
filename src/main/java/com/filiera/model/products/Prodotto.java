@@ -1,4 +1,4 @@
-package com.filiera.model;
+package com.filiera.model.products;
 
 import com.filiera.model.administration.Curatore;
 import com.filiera.model.sellers.Venditore;
