@@ -1,4 +1,4 @@
-package com.filiera.model;
+package com.filiera.Tests.ModelTest;
 
 
 import com.filiera.model.administration.Curatore;

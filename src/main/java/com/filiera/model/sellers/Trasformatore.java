@@ -30,10 +30,7 @@ public  class Trasformatore extends Venditore {
     }
 
 
-    protected void addProductToInventory(Prodotto prodotto) {
-        prodotti.add(prodotto);
-    }
-    protected void removeProductFromInventory(Prodotto prodotto) {prodotti.remove(prodotto);}
+
 
     }
 
