@@ -26,12 +26,7 @@ public class CuratoreServiceImpl {
 
 
     public List<Prodotto> getPendingProducts() {
-        List<Prodotto> pendingProducts = productRepository.findAll().stream()
-                .filter(p -> p.getState().equals(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE))
-                .filter(p -> p.getName() != null && !p.getName().isBlank())
-                .filter(p -> p.getAvailableQuantity() > 0)
-                .toList();
-
+        List<Prodotto> pendingProducts = productRepository.findByState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
         return pendingProducts;
     }
 
