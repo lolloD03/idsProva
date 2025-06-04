@@ -15,8 +15,8 @@ public class DistributoreTipicita extends Venditore {
     }
 
 
-    public DistributoreTipicita(UUID id , String password, String email, String name, String nomeNegozio) {
-        super(id, password, email, name, nomeNegozio);
+    public DistributoreTipicita(UUID id , String password, String email, String name,int partitaIva) {
+        super(id, password, email, name, partitaIva);
     }
 
 

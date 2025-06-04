@@ -11,18 +11,23 @@ import java.util.UUID;
 public abstract class Venditore extends User {
 
     protected List<Prodotto> prodotti;
-    private String nomeNegozio;
+    private int partitaIva;
 
     public Venditore() {
         super();
         prodotti = new ArrayList<>();
     }
 
-    public Venditore(UUID id , String password, String email, String name , String nomeNegozio) {
+    public Venditore(UUID id , String password, String email, String name, int partitaIva) {
         super(id, password, email, name);
-        this.nomeNegozio = nomeNegozio;
+        this.partitaIva = partitaIva;
         prodotti = new ArrayList<>();
     }
+
+    public int getPartitaIva() {
+        return partitaIva;
+    }
+    public void setPartitaIva(int nuovaPartitaIva) {partitaIva = nuovaPartitaIva;}
 
     protected void addProductToInventory(Prodotto prodotto){prodotti.add(prodotto);}
     protected void removeProductFromInventory(Prodotto prodotto) {prodotti.remove(prodotto);}
