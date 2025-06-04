@@ -2,6 +2,7 @@ package com.filiera.model.products;
 
 import com.filiera.model.users.Acquirente;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,8 @@ public class Carrello {
 
     public Carrello() {
         this.id = UUID.randomUUID();
+        this.products = new ArrayList<>();
+        this.buyer = new Acquirente();
     }
 
     public Carrello(List<Prodotto> products , Acquirente buyer) {
@@ -50,6 +53,11 @@ public class Carrello {
             totalPrice += product.getPrice();
         }
         return totalPrice;
+        /*
+         return products.stream()
+                   .mapToDouble(Prodotto::getPrice)
+                   .sum();
+         */
     }
 
     public Prodotto addProduct(Prodotto product) {
