@@ -16,7 +16,17 @@ public class CuratoreController {
     }
 
     public List<Prodotto> getPendingProducts() {
-        return curatoreService.getPendingProducts();
+        try {
+            List<Prodotto> pendingProducts = curatoreService.getPendingProducts();
+
+            if(pendingProducts == null||pendingProducts.isEmpty()) {
+                throw new IllegalArgumentException("No pending products found.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving pending products: " + e.getMessage());
+        }
+        return null;
+
     }
 
     public Prodotto approveProduct(Prodotto prodotto, UUID curatore) {
@@ -38,5 +48,7 @@ public class CuratoreController {
             return null;
         }
     }
+
+
 
 }

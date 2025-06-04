@@ -9,6 +9,7 @@ import com.filiera.repository.InMemoryUserRepository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CuratoreServiceImpl {
 
@@ -25,8 +26,13 @@ public class CuratoreServiceImpl {
 
 
     public List<Prodotto> getPendingProducts() {
-        // Retrieve products with state "PENDING"
-        return productRepository.findByState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
+        List<Prodotto> pendingProducts = productRepository.findAll().stream()
+                .filter(p -> p.getState().equals(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE))
+                .filter(p -> p.getName() != null && !p.getName().isBlank())
+                .filter(p -> p.getAvailableQuantity() > 0)
+                .toList();
+
+        return pendingProducts;
     }
 
     public Prodotto approveProduct(Prodotto prodotto, UUID curatoreId) {
