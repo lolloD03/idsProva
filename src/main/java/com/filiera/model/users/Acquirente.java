@@ -4,12 +4,16 @@ import java.util.UUID;
 
 public class Acquirente extends User {
 
+
+    private String address;
+
+
     public Acquirente() {
         super();
     }
 
-    public Acquirente(UUID id , String password, String email, String name, String surname) {
-        super(id, password, email, name, surname);
+    public Acquirente(UUID id , String password, String email, String name , String surname) {
+        super(id, password, email, name);
     }
 
 

@@ -17,9 +17,10 @@ public class Trasformatore extends Venditore {
 
 
 
-    public Trasformatore(UUID id , String password, String email, String name, String surname , String process , String certification ) {
-        super(id, password, email, name, surname );
+    public Trasformatore(UUID id , String password, String email, String name,String nomeNegozio , String process , String certification ) {
+        super(id, password, email, name , nomeNegozio);
         this.process = process;
+        this.certification = certification;
     }
 
     public String getProductionProcess() {
