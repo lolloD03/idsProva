@@ -3,6 +3,7 @@ package com.filiera.model.sellers;
 import com.filiera.model.Products.Prodotto;
 
 import java.util.List;
+import java.util.UUID;
 
 public class DistributoreTipicita extends Venditore {
 
@@ -14,8 +15,8 @@ public class DistributoreTipicita extends Venditore {
     }
 
 
-    public DistributoreTipicita(String name , String address) {
-        super(name , address);
+    public DistributoreTipicita(UUID id , String password, String email, String name, String nomeNegozio) {
+        super(id, password, email, name, nomeNegozio);
     }
 
 

@@ -11,10 +11,8 @@ public class Curatore  extends User {
 
     private List<Prodotto> productsToApprove;
 
-    private String name;
-
-    public Curatore(UUID uuid, String nome, String email, String password) {
-        super();
+    public Curatore(UUID id ,String password, String email, String name, String surname) {
+        super( id, password, email, name, surname);
     }
 
 
