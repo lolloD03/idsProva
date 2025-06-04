@@ -30,4 +30,7 @@ public class AcquirenteController {
 
 
 
+    public AcquirenteController(AcquirenteServiceImpl service) {
+        this.service = service;
+    }
 }

@@ -7,7 +7,7 @@ import com.filiera.repository.InMemoryUserRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public class UserServiceImpl implements UserService {
+public class    UserServiceImpl implements UserService {
     private final CrudRepository<User , UUID> repo;
     public UserServiceImpl(InMemoryUserRepository repo) { this.repo = repo; }
     @Override
@@ -19,7 +19,12 @@ public class UserServiceImpl implements UserService {
         return repo.save(user);
     }
 
+    @Override
+    public User findById(UUID id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(("Utente non trovato con id: " + id)));
+    }
 
-    @Override public Optional<User> findById(UUID id) { return repo.findById(id); }
+    public void deleteById(UUID id){ repo.deleteById(id); }
 
 }

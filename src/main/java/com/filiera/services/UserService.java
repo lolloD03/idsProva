@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface UserService {
     User register(User user);
-    Optional<User> findById(UUID id);
-
+    User findById(UUID id);
+    void deleteById(UUID id);
 }
