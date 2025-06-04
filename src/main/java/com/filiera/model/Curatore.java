@@ -11,22 +11,9 @@ public class Curatore  extends User {
 
     private List<Prodotto> productsToApprove;
 
-    public Curatore(UUID id ,String password, String email, String name, String surname) {
-        super( id, password, email, name, surname);
+    public Curatore(UUID id ,String password, String email, String name) {
+        super( id, password, email, name);
     }
-
-
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
 
 
     // Additional methods specific to Curatore can be added here

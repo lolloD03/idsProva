@@ -2,19 +2,16 @@ package com.filiera.services;
 
 import com.filiera.model.Products.Carrello;
 import com.filiera.model.Products.Prodotto;
-import com.filiera.model.users.Acquirente;
 import com.filiera.repository.InMemoryProductRepository;
 
 import java.util.List;
 
-public class AcquirenteServiceImpl {
+public class CarrelloServiceImpl {
 
     private final Carrello carrello;
-    private final InMemoryProductRepository prodRepo;
     private final ProductService productService;
 
-    public AcquirenteServiceImpl(InMemoryProductRepository prodRepo, ProductService productService) {
-       this.prodRepo = prodRepo;
+    public CarrelloServiceImpl(InMemoryProductRepository prodRepo, ProductService productService) {
         this.productService = productService;
         this.carrello = new Carrello();
 

@@ -2,13 +2,13 @@ package com.filiera.controller;
 
 import com.filiera.model.Products.Carrello;
 import com.filiera.model.Products.Prodotto;
-import com.filiera.services.AcquirenteServiceImpl;
+import com.filiera.services.CarrelloServiceImpl;
 
 public class CarrelloController {
 
-    private final AcquirenteServiceImpl service;
+    private final CarrelloServiceImpl service;
 
-    public CarrelloController(AcquirenteServiceImpl service) {
+    public CarrelloController(CarrelloServiceImpl service) {
         this.service = service;
     }
 
@@ -40,17 +40,20 @@ public class CarrelloController {
     }
 
     public StringBuilder getInvoice(Carrello carrello){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Carrello:\n");
-        for (Prodotto product : carrello.getProducts()) {
-            sb.append("Nome: ").append(product.getName()).append("\n");
-            sb.append("Descrizione: ").append(product.getDescription()).append("\n");
-            sb.append("Prezzo: ").append(product.getPrice()).append("\n");
-            sb.append("Quantità: ").append(product.getAvailableQuantity()).append("\n"); //TODO da rivedere la quantita
-            sb.append("------------------------\n");
+        try {
+            if (carrello == null) {
+                throw new IllegalArgumentException("Cart cannot be null");
+            }
+
+            if (carrello.getProducts().isEmpty()) {
+                throw new IllegalArgumentException("Cart is empty");
+            }
+            return service.getInvoice(carrello);
+        } catch(Exception e) {
+            System.out.println("Error getting invoice: " + e.getMessage());
         }
-        sb.append("Totale: ").append(carrello.getTotalPrice()).append("\n");
-        return sb;
+
+        return null;
     }
 
     public Carrello getCart() {
