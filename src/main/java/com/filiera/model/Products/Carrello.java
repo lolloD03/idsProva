@@ -3,10 +3,11 @@ package com.filiera.model.Products;
 import com.filiera.model.users.Acquirente;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Carrello {
 
-    private int id;
+    private UUID id;
 
     private List<Prodotto> products;
 
@@ -17,17 +18,13 @@ public class Carrello {
     public Carrello() {}
 
     public Carrello(int id, List<Prodotto> products , Acquirente buyer) {
-        this.id = id;
+        this.id = UUID.randomUUID();
         this.products = products;
         this.buyer = buyer;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public List<Prodotto> getProducts() {

@@ -16,8 +16,6 @@ public class Curatore  extends User {
     }
 
 
-
-
     public String getName() {
         return name;
     }
