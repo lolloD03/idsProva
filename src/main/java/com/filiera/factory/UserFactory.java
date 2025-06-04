@@ -1,6 +1,6 @@
 package com.filiera.factory;
 
-import com.filiera.model.Curatore;
+import com.filiera.model.administration.Curatore;
 import com.filiera.model.sellers.Produttore;
 import com.filiera.model.sellers.Trasformatore;
 import com.filiera.model.users.RuoloUser;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class UserFactory {
 
-    public static User createUser(String name, String address, RuoloUser role) {
+   /* public static User createUser(String name, String address, RuoloUser role) {
 
         UUID userId = UUID.randomUUID(); // Generate a unique ID for the user
 
@@ -25,5 +25,5 @@ public class UserFactory {
                 throw new IllegalArgumentException("Unknown user role: " + role);
         }
     }
-
+*/
 }

@@ -1,6 +1,6 @@
-package com.filiera.model.Products;
+package com.filiera.model.products;
 
-import com.filiera.model.Curatore;
+import com.filiera.model.administration.Curatore;
 import com.filiera.model.sellers.Venditore;
 
 import java.time.LocalDate;
@@ -21,8 +21,8 @@ public class Prodotto {
         // Default constructor
     }
 
-    public Prodotto(UUID id ,String name, String description, double price, int quantity, Venditore seller,int daysToExpire) {
-        this.id = id;
+    public Prodotto(String name, String description, double price, int quantity, Venditore seller,int daysToExpire) {
+        this.id = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.price = price;

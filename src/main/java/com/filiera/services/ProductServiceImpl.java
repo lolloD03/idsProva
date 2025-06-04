@@ -1,12 +1,11 @@
 package com.filiera.services;
 
-import com.filiera.model.Products.Prodotto;
+import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.model.users.User;
 import com.filiera.repository.CrudRepository;
 
-import com.filiera.model.Products.StatoProdotto;
-import com.filiera.repository.InMemoryProductRepository;
+import com.filiera.model.products.StatoProdotto;
 
 
 import java.util.List;
@@ -45,9 +44,7 @@ public class ProductServiceImpl implements ProductService {
         prodotto.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
         prodotto.setSeller(seller);
 
-        Prodotto prodottoSalvato = prodRepo.save(prodotto);
-
-        return prodottoSalvato;
+        return prodRepo.save(prodotto);
 }
 
     @Override

@@ -1,9 +1,8 @@
 package com.filiera.services;
 
-import com.filiera.model.Curatore;
-import com.filiera.model.Products.Prodotto;
-import com.filiera.model.Products.StatoProdotto;
-import com.filiera.model.users.User;
+import com.filiera.model.administration.Curatore;
+import com.filiera.model.products.Prodotto;
+import com.filiera.model.products.StatoProdotto;
 import com.filiera.repository.InMemoryProductRepository;
 import com.filiera.repository.InMemoryUserRepository;
 
@@ -22,11 +21,9 @@ public class CuratoreServiceImpl {
 
 
 
-
-
     public List<Prodotto> getPendingProducts() {
-        // Retrieve products with state "PENDING"
-        return productRepository.findByState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
+        List<Prodotto> pendingProducts = productRepository.findByState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
+        return pendingProducts;
     }
 
     public Prodotto approveProduct(Prodotto prodotto, UUID curatoreId) {
@@ -36,7 +33,7 @@ public class CuratoreServiceImpl {
             throw new IllegalArgumentException("Il prodotto non è in attesa di approvazione.");
         }
         // Check if the curator exists
-        if (!userRepository.findById(curatoreId).isPresent()) {
+        if (userRepository.findById(curatoreId).isEmpty()) {
             throw new IllegalArgumentException("Il curatore con ID " + curatoreId + " non esiste.");
         }
 

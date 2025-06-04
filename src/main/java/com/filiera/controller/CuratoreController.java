@@ -1,7 +1,6 @@
 package com.filiera.controller;
 
-import com.filiera.model.Curatore;
-import com.filiera.model.Products.Prodotto;
+import com.filiera.model.products.Prodotto;
 import com.filiera.services.CuratoreServiceImpl;
 
 import java.util.List;
@@ -16,7 +15,17 @@ public class CuratoreController {
     }
 
     public List<Prodotto> getPendingProducts() {
-        return curatoreService.getPendingProducts();
+        try {
+            List<Prodotto> pendingProducts = curatoreService.getPendingProducts();
+
+            if(pendingProducts == null||pendingProducts.isEmpty()) {
+                throw new IllegalArgumentException("No pending products found.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving pending products: " + e.getMessage());
+        }
+        return null;
+
     }
 
     public Prodotto approveProduct(Prodotto prodotto, UUID curatore) {
@@ -38,5 +47,7 @@ public class CuratoreController {
             return null;
         }
     }
+
+
 
 }
