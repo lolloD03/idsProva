@@ -1,7 +1,6 @@
 package com.filiera.controller;
 
-import com.filiera.model.Curatore;
-import com.filiera.model.Products.Prodotto;
+import com.filiera.model.products.Prodotto;
 import com.filiera.services.CuratoreServiceImpl;
 
 import java.util.List;

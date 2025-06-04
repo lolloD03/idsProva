@@ -1,6 +1,6 @@
 package com.filiera.factory;
 
-import com.filiera.model.Curatore;
+import com.filiera.model.administration.Curatore;
 import com.filiera.model.sellers.Produttore;
 import com.filiera.model.sellers.Trasformatore;
 import com.filiera.model.users.RuoloUser;

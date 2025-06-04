@@ -1,7 +1,7 @@
 package com.filiera.services;
 
-import com.filiera.model.Products.Carrello;
-import com.filiera.model.Products.Prodotto;
+import com.filiera.model.products.Carrello;
+import com.filiera.model.products.Prodotto;
 import com.filiera.repository.InMemoryProductRepository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.filiera.model.Products;
+package com.filiera.model.products;
 
 public enum StatoProdotto {
     IN_ATTESA_DI_APPROVAZIONE,

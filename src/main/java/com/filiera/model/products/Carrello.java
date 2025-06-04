@@ -1,4 +1,4 @@
-package com.filiera.model.Products;
+package com.filiera.model.products;
 
 import com.filiera.model.users.Acquirente;
 

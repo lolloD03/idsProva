@@ -1,15 +1,13 @@
 package com.filiera.services;
 
-import com.filiera.model.Curatore;
-import com.filiera.model.Products.Prodotto;
-import com.filiera.model.Products.StatoProdotto;
-import com.filiera.model.users.User;
+import com.filiera.model.administration.Curatore;
+import com.filiera.model.products.Prodotto;
+import com.filiera.model.products.StatoProdotto;
 import com.filiera.repository.InMemoryProductRepository;
 import com.filiera.repository.InMemoryUserRepository;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class CuratoreServiceImpl {
 

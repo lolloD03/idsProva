@@ -1,9 +1,7 @@
 package com.filiera.model.sellers;
 
-import com.filiera.model.Products.Prodotto;
+import com.filiera.model.products.Prodotto;
 
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 public  class Trasformatore extends Venditore {
