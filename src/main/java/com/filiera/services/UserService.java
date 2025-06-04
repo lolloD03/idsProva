@@ -9,5 +9,4 @@ import java.util.UUID;
 public interface UserService {
     User register(User user);
     User findById(UUID id);
-
 }
