@@ -1,6 +1,6 @@
-package com.filiera.model;
+package com.filiera.model.administration;
 
-import com.filiera.model.Products.Prodotto;
+import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.User;
 
 
@@ -11,14 +11,11 @@ public class Curatore  extends User {
 
     private List<Prodotto> productsToApprove;
 
+    public Curatore() {super();}
+
     public Curatore(UUID id ,String password, String email, String name) {
         super( id, password, email, name);
     }
-
-
-
-
-
 
     // Additional methods specific to Curatore can be added here
 }
