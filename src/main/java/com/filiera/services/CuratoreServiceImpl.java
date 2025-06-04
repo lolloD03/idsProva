@@ -23,8 +23,6 @@ public class CuratoreServiceImpl {
 
 
 
-
-
     public List<Prodotto> getPendingProducts() {
         List<Prodotto> pendingProducts = productRepository.findAll().stream()
                 .filter(p -> p.getState().equals(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE))
@@ -42,7 +40,7 @@ public class CuratoreServiceImpl {
             throw new IllegalArgumentException("Il prodotto non è in attesa di approvazione.");
         }
         // Check if the curator exists
-        if (!userRepository.findById(curatoreId).isPresent()) {
+        if (userRepository.findById(curatoreId).isEmpty()) {
             throw new IllegalArgumentException("Il curatore con ID " + curatoreId + " non esiste.");
         }
 

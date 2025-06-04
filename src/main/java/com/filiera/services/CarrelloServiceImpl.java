@@ -18,7 +18,7 @@ public class CarrelloServiceImpl {
     }
 
     public List<Prodotto> addProduct(Prodotto prod) {
-        if(!productService.getById(prod.getId()).isPresent()) {
+        if(productService.getById(prod.getId()).isEmpty()) {
             throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");
         }
 
@@ -27,7 +27,7 @@ public class CarrelloServiceImpl {
     }
 
     public List<Prodotto> removeProduct(Prodotto prod) {
-        if(!productService.getById(prod.getId()).isPresent()) {
+        if(productService.getById(prod.getId()).isEmpty()) {
             throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");
         }
         carrello.removeProduct(prod);

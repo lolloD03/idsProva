@@ -34,7 +34,6 @@ public class VenditoreServiceImpl {
     public void removeVenditoreByID(UUID id) {
         Venditore v = getVenditoreByID(id);
         userRepository.deleteById(id);
-
     }
 
     public void UpdateVenditoreByID(UUID id, String email, String name, String surname){
@@ -52,4 +51,5 @@ public class VenditoreServiceImpl {
         }
         userRepository.save(v);
     }
+
 }
