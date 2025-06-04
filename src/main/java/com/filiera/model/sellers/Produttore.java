@@ -3,20 +3,22 @@ package com.filiera.model.sellers;
 import com.filiera.model.Products.Prodotto;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Produttore extends Venditore {
 
     private String process;
+    private String certificati;
 
     public Produttore() {
-        super();
     }
 
 
 
-    public Produttore(String name , String address , String cultivationProcess) {
-        super(name , address);
+    public Produttore(UUID id , String password, String email, String name, String surname, String cultivationProcess , String certificati ) {
+        super(id, password, email, name, surname);
         this.process = cultivationProcess;
+        this.certificati = certificati;
     }
 
 

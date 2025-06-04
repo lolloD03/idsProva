@@ -1,12 +1,10 @@
 package com.filiera.services;
 
-import com.filiera.model.Curatore;
-import com.filiera.model.sellers.Produttore;
-import com.filiera.model.users.RuoloUser;
 import com.filiera.model.users.User;
 import com.filiera.repository.CrudRepository;
 import com.filiera.repository.InMemoryUserRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class UserServiceImpl implements UserService {
@@ -20,6 +18,8 @@ public class UserServiceImpl implements UserService {
         }
         return repo.save(user);
     }
-    @Override public User findById(UUID id) { return repo.findById(id).orElse(null); }
+
+
+    @Override public Optional<User> findById(UUID id) { return repo.findById(id); }
 
 }

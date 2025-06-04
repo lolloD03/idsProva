@@ -4,7 +4,8 @@ public enum RuoloUser {
 
     PRODUTTORE,
     TRASFORMATORE,
-    CURATORE
+    CURATORE,
+
 
 
 }
