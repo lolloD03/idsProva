@@ -1,4 +1,4 @@
-package com.filiera.model.products;
+package com.filiera.model;
 
 import com.filiera.model.users.Acquirente;
 
@@ -15,9 +15,11 @@ public class Carrello {
 
     private double totalPrice;
 
-    public Carrello() {}
+    public Carrello() {
+        this.id = UUID.randomUUID();
+    }
 
-    public Carrello(int id, List<Prodotto> products , Acquirente buyer) {
+    public Carrello(List<Prodotto> products , Acquirente buyer) {
         this.id = UUID.randomUUID();
         this.products = products;
         this.buyer = buyer;

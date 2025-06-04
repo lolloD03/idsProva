@@ -1,7 +1,7 @@
 package com.filiera.controller;
 
-import com.filiera.model.products.Carrello;
-import com.filiera.model.products.Prodotto;
+import com.filiera.model.Carrello;
+import com.filiera.model.Prodotto;
 import com.filiera.services.CarrelloServiceImpl;
 
 public class CarrelloController {

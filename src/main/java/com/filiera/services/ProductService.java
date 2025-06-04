@@ -1,6 +1,6 @@
 package com.filiera.services;
 
-import com.filiera.model.products.Prodotto;
+import com.filiera.model.Prodotto;
 import com.filiera.model.sellers.Venditore;
 
 import java.util.List;
