@@ -6,6 +6,7 @@ import com.filiera.model.users.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class Venditore extends User {
 
@@ -17,7 +18,8 @@ public abstract class Venditore extends User {
         prodotti = new ArrayList<>();
     }
 
-    public Venditore(String name , String address ) {
+    public Venditore(UUID id , String password, String email, String name, String surname) {
+        super(id, password, email, name, surname);
         prodotti = new ArrayList<>();
     }
 
