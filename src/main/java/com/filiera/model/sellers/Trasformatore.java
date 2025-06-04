@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class Trasformatore extends Venditore {
+public  class Trasformatore extends Venditore {
 
     private String process;
     private String certification;
@@ -30,7 +30,6 @@ public class Trasformatore extends Venditore {
     public void setProductionProcess(String productionProcess) {
         this.process = productionProcess;
     }
-
 
 
     protected void addProductToInventory(Prodotto prodotto) {
