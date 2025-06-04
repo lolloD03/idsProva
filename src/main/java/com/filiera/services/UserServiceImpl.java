@@ -19,7 +19,12 @@ public class UserServiceImpl implements UserService {
         return repo.save(user);
     }
 
+    @Override
+    public User findById(UUID id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(("Utente non trovato con id: " + id)));
+    }
 
-    @Override public Optional<User> findById(UUID id) { return repo.findById(id); }
+    public void deleteById(UUID id){ repo.deleteById(id); }
 
 }

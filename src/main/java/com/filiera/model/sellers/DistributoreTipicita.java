@@ -19,7 +19,6 @@ public class DistributoreTipicita extends Venditore {
         super(id, password, email, name, partitaIva);
     }
 
-
     public void addToBundle(Prodotto prodotto) {
     productsBundle.add(prodotto);
     }

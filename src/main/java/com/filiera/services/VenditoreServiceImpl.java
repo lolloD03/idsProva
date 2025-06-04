@@ -18,7 +18,7 @@ public class VenditoreServiceImpl {
         this.productRepository = productRepository;
     }
 
-     public Venditore getVenditoreByID(UUID id){
+    /* public Venditore getVenditoreByID(UUID id){
         Optional<User> user = userRepository.findById(id);
          if (user.isEmpty()) {
              throw new RuntimeException("Utente non trovato con ID: " + id);
@@ -61,5 +61,5 @@ public class VenditoreServiceImpl {
         } else {
             System.out.println("Password errata");
         }
-    }
+    }*/
 }
