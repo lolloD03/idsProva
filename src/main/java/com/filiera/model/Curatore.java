@@ -18,15 +18,6 @@ public class Curatore  extends User {
 
 
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
 
 
     // Additional methods specific to Curatore can be added here
