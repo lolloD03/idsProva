@@ -4,7 +4,7 @@ import com.filiera.model.Products.Prodotto;
 
 import java.util.Date;
 
-public class Trasformatore extends Venditore {
+public  class Trasformatore extends Venditore {
 
     private String process;
 
@@ -26,7 +26,6 @@ public class Trasformatore extends Venditore {
     public void setProductionProcess(String productionProcess) {
         this.process = productionProcess;
     }
-
 
 
     protected void addProductToInventory(Prodotto prodotto) {

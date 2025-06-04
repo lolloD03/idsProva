@@ -2,6 +2,7 @@ package com.filiera;
 
 import com.filiera.controller.ProductController;
 import com.filiera.model.sellers.Produttore;
+import com.filiera.model.sellers.Trasformatore;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.model.users.User;
 import com.filiera.repository.CrudRepository;
@@ -13,6 +14,8 @@ import com.filiera.services.UserServiceImpl;
 
 public class Main {
     public static void main(String[] args) {
+
+
 
 
     }
