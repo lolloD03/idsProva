@@ -13,26 +13,26 @@ public class CarrelloController {
     }
 
 
-    public Prodotto addToCart(Prodotto prodotto) {
+    public Carrello addToCart(Prodotto prodotto) {
         try {
             if (prodotto == null) {
                 throw new IllegalArgumentException("Product cannot be null");
             }
             service.addProduct(prodotto);
-            return prodotto;
+            return service.getCarrello();
         } catch (Exception e) {
             System.out.println("Error adding product to cart: " + e.getMessage());
             return null;
         }
     }
 
-    public Prodotto removeFromCart(Prodotto prodotto) {
+    public Carrello removeFromCart(Prodotto prodotto) {
         try {
             if (prodotto == null) {
                 throw new IllegalArgumentException("Product cannot be null");
             }
             service.removeProduct(prodotto);
-            return prodotto;
+            return service.getCarrello();
         } catch (Exception e) {
             System.out.println("Error removing product from cart: " + e.getMessage());
             return null;
@@ -54,6 +54,14 @@ public class CarrelloController {
         }
 
         return null;
+    }
+
+    public void clearCart() {
+        try {
+            service.clearCarrello();
+        } catch (Exception e) {
+            System.out.println("Error clearing cart: " + e.getMessage());
+        }
     }
 
     public Carrello getCart() {
