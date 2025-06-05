@@ -1,6 +1,7 @@
 package com.filiera.model.sellers;
 
 import com.filiera.model.products.Prodotto;
+import com.filiera.model.users.RuoloUser;
 import com.filiera.model.users.User;
 
 
@@ -18,8 +19,8 @@ public abstract class Venditore extends User {
         prodotti = new ArrayList<>();
     }
 
-    public Venditore(UUID id , String password, String email, String name, int partitaIva) {
-        super( password, email, name);
+    public Venditore(String password, String email, String name, RuoloUser ruolo, int partitaIva) {
+        super( password, email, name , ruolo);
         this.partitaIva = partitaIva;
         prodotti = new ArrayList<>();
     }

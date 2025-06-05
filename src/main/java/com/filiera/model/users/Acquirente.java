@@ -12,8 +12,8 @@ public class Acquirente extends User {
         super();
     }
 
-    public Acquirente( String password, String email, String name , String surname) {
-        super( password, email, name);
+    public Acquirente( String password, String email, String name , RuoloUser ruoloUser, String surname) {
+        super( password, email, name , ruoloUser);
     }
 
 
