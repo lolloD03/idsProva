@@ -1,6 +1,7 @@
 package com.filiera.model.sellers;
 
 import com.filiera.model.products.Prodotto;
+import com.filiera.model.users.RuoloUser;
 
 import java.util.UUID;
 
@@ -15,8 +16,8 @@ public  class Trasformatore extends Venditore {
 
 
 
-    public Trasformatore(UUID id , String password, String email, String name,int partitaIva, String process , String certification ) {
-        super(id, password, email, name, partitaIva);
+    public Trasformatore(String password, String email, String name, RuoloUser ruoloUser, int partitaIva, String process , String certification ) {
+        super( password, email, name, ruoloUser ,partitaIva);
         this.process = process;
         this.certification = certification;
     }
