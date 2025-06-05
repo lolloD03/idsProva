@@ -16,7 +16,7 @@ public  class Trasformatore extends Venditore {
 
 
 
-    public Trasformatore(String password, String email, String name, RuoloUser ruoloUser, int partitaIva, String process , String certification ) {
+    public Trasformatore(String password, String email, String name, RuoloUser ruoloUser, int partitaIva ) {
         super( password, email, name, ruoloUser ,partitaIva);
         this.process = process;
         this.certification = certification;
