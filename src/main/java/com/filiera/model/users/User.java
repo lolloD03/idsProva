@@ -7,13 +7,15 @@ public abstract class User {
     private String email;
     private String name;
     private String surname;
+    private RuoloUser ruolo;
 
 
-    public User(String password, String email, String name) {
+    public User(String password, String email, String name , RuoloUser ruolo) {
         this.id = UUID.randomUUID();
         this.password = password;
         this.email = email;
         this.name = name;
+        this.ruolo = ruolo;
     }
 
     public User() {}

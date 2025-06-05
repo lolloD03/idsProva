@@ -1,8 +1,8 @@
 package com.filiera.Tests.RepoTest;
 
-import com.filiera.model.sellers.Produttore;
-import com.filiera.model.sellers.Venditore;
+
 import com.filiera.model.users.Acquirente;
+import com.filiera.model.users.RuoloUser;
 import com.filiera.model.users.User;
 import com.filiera.repository.InMemoryUserRepository;
 import org.junit.jupiter.api.*;
@@ -25,7 +25,9 @@ class InMemoryUserRepositoryTest {
                 "testUser",
                 "password123",
                 "test@example.com",
+                RuoloUser.ACQUIRENTE,
                 "Test"
+
         );
     }
 
@@ -53,7 +55,7 @@ class InMemoryUserRepositoryTest {
 
     @Test
     void findAll_shouldReturnAllUsers() {
-        User user2 = new Acquirente( "secondUser", "abc", "second@example.com","SecondTest");
+        User user2 = new Acquirente( "secondUser", "abc", "second@example.com", RuoloUser.ACQUIRENTE, "Second");
         repository.save(user);
         repository.save(user2);
 

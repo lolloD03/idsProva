@@ -1,6 +1,8 @@
 package com.filiera.model.sellers;
 
 
+import com.filiera.model.users.RuoloUser;
+
 import java.util.UUID;
 
 public class Produttore extends Venditore {
@@ -13,8 +15,8 @@ public class Produttore extends Venditore {
 
 
 
-    public Produttore(UUID id , String password, String email,int partitaIva, String name, String cultivationProcess, String certificati) {
-        super(id, password, email, name ,partitaIva);
+    public Produttore(String password, String email, RuoloUser ruoloUser, int partitaIva, String name, String cultivationProcess, String certificati) {
+        super(password, email, name, ruoloUser ,partitaIva);
         this.process = cultivationProcess;
         this.certificati = certificati;
     }

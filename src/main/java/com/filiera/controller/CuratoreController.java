@@ -3,12 +3,13 @@ package com.filiera.controller;
 import com.filiera.model.products.Prodotto;
 import com.filiera.services.CuratoreServiceImpl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 public class CuratoreController {
 
-    private CuratoreServiceImpl curatoreService;
+    private final CuratoreServiceImpl curatoreService;
 
     public CuratoreController(CuratoreServiceImpl curatoreService) {
         this.curatoreService = curatoreService;
@@ -19,19 +20,22 @@ public class CuratoreController {
             List<Prodotto> pendingProducts = curatoreService.getPendingProducts();
 
             if(pendingProducts == null||pendingProducts.isEmpty()) {
-                throw new IllegalArgumentException("No pending products found.");
+                System.out.println("No pending products found.");
+                return Collections.emptyList();
             }
+            return pendingProducts;
+
         } catch (Exception e) {
             System.out.println("Error retrieving pending products: " + e.getMessage());
+            return null;
+
         }
-        return null;
 
     }
 
     public Prodotto approveProduct(Prodotto prodotto, UUID curatore) {
         try {
-            curatoreService.approveProduct(prodotto, curatore);
-            return prodotto;
+            return curatoreService.approveProduct(prodotto, curatore);
         } catch (Exception e) {
             System.out.println("Error approving product: " + e.getMessage());
             return null;
@@ -40,8 +44,7 @@ public class CuratoreController {
 
     public Prodotto rejectProduct(Prodotto prodotto, UUID curatore) {
         try {
-            curatoreService.rejectProduct(prodotto, curatore);
-            return prodotto;
+            return curatoreService.rejectProduct(prodotto, curatore);
         } catch (Exception e) {
             System.out.println("Error rejecting product: " + e.getMessage());
             return null;
