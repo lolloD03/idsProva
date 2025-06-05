@@ -1,40 +1,61 @@
 package com.filiera.controller;
 
+import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
-import com.filiera.services.UserService;
-import com.filiera.services.UserServiceImpl;
-import com.filiera.services.VenditoreServiceImpl;
+import com.filiera.services.ProductService;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class VenditoreController {
-    private final UserService userService;
-    private final VenditoreServiceImpl venditoreService;
+    private final ProductService service;
 
-    public VenditoreController(UserService userService, VenditoreServiceImpl venditoreService) {
-        this.userService = userService;
-        this.venditoreService = venditoreService;
-    }
+    public VenditoreController(ProductService service) { this.service = service; }
 
-    public Venditore getVenditoreByID(UUID id){
-        if(id == null){
-            throw new IllegalArgumentException("Invalid parameters");
+
+    public Prodotto createProduct(Venditore venditor, String name, String descrizione, double price, int quantity) {
+
+        try {
+            if (venditor == null || name == null || descrizione == null || price <= 0 || quantity <= 0) {
+                throw new IllegalArgumentException("Invalid product details provided.");
+            }
+
+            return service.createProduct(venditor, name, descrizione, price, quantity);
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error creating product: " + e.getMessage());
+            return null;
         }
-       return venditoreService.getVenditoreByID(id);
 
     }
-    public void updateVenditoreByID(UUID id, String email, String name, int partitaIva){
-        if(id==null || email == null || name == null || partitaIva == 0){
-            throw new IllegalArgumentException("Invalid parameters");
+
+    public Prodotto updateProduct(Prodotto updatedProduct) {
+
+        try {
+            return service.updateProduct(updatedProduct);
+        } catch (Exception e) {
+            System.err.println("Error updating product: " + e.getMessage());
+            return null;
         }
-        venditoreService.updateVenditoreByID(id, email, name, partitaIva);
-    }
-    // TODO definire chi come e perche con quale autorita si permette di eliminare un utente (puo eliminare solo se stesso in teoria)
-    public void removeVenditoreByID(UUID id){
-        if(id == null){
-            throw new IllegalArgumentException("Invalid parameters");
-        }
-        userService.deleteById(id);
+
     }
 
+    public void deleteProduct(Prodotto toDeleteProduct) {
+
+        try {
+            service.deleteProduct(toDeleteProduct);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error updating product: " + e.getMessage());
+        }
+    }
+
+
+    public List<Prodotto> getApprovedProducts() {
+        return service.getApprovedProducts();
+    }
+
+    public Optional<Prodotto> getById(UUID id) { return service.getById(id); }
+
+    public List<Prodotto> list() { return service.listAll(); }
 }
