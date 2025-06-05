@@ -1,5 +1,6 @@
-package com.filiera.model.products;
+package com.filiera.model.payment;
 
+import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.Acquirente;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.filiera.Tests.ModelTest;
 
-import com.filiera.model.products.Carrello;
+import com.filiera.model.payment.Carrello;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.products.StatoProdotto;
 import com.filiera.model.sellers.Produttore;
