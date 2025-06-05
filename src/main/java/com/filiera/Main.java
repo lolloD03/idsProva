@@ -1,6 +1,6 @@
 package com.filiera;
 
-import com.filiera.controller.ProductController;
+//import com.filiera.controller.ProductController;
 import com.filiera.model.sellers.Produttore;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.model.users.User;
