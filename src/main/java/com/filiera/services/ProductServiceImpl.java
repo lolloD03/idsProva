@@ -81,4 +81,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    public void riduciQuantità(Prodotto prodotto, int quantity) {
+        if (prodRepo.findById(prodotto.getId()).isEmpty()) {
+            throw new RuntimeException("Il prodotto con ID " + prodotto.getId() + " non esiste.");
+        }
+
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("La quantità da ridurre deve essere maggiore di zero.");
+        }
+
+        if (prodotto.getAvailableQuantity() < quantity) {
+            throw new RuntimeException("Quantità insufficiente per il prodotto con ID " + prodotto.getId());
+        }
+
+        prodotto.setAvailableQuantity(prodotto.getAvailableQuantity() - quantity);
+
+        if (prodotto.getAvailableQuantity() == 0) {
+            prodotto.setState(StatoProdotto.ESAURITO);
+        }
+
+         // Salva le modifiche al prodotto
+        prodRepo.save(prodotto);
+    }
+
 }
