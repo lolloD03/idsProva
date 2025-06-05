@@ -1,7 +1,6 @@
 package com.filiera.Tests.RepoTest;
 
-import com.filiera.model.sellers.Produttore;
-import com.filiera.model.sellers.Venditore;
+
 import com.filiera.model.users.Acquirente;
 import com.filiera.model.users.User;
 import com.filiera.repository.InMemoryUserRepository;
