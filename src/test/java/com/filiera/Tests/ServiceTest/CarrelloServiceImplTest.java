@@ -48,23 +48,35 @@ class CarrelloServiceImplTest {
     }
 
     @Test
-    void addProduct() {
+    void addProduct_shouldThrowIfProductNotFound() {
+        when(productService.getById(prodotto.getId())).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                carrelloService.addProduct(prodotto)
+        );
+
+        assertEquals("Il prodotto con id " + prodotto.getId() + " non esiste.", exception.getMessage());
     }
 
     @Test
-    void removeProduct() {
+    void removeProduct_shouldRemoveExistingProduct() {
+        when(productService.getById(prodotto.getId())).thenReturn(Optional.of(prodotto));
+        carrelloService.addProduct(prodotto);
+
+        List<Prodotto> result = carrelloService.removeProduct(prodotto);
+        assertFalse(result.contains(prodotto));
     }
 
     @Test
-    void getInvoice() {
-    }
+    void getInvoice_shouldReturnFormattedInvoice() {
+        when(productService.getById(prodotto.getId())).thenReturn(Optional.of(prodotto));
+        carrelloService.addProduct(prodotto);
+        Carrello carrello = carrelloService.getCarrello();
 
-    @Test
-    void clearCarrello() {
-    }
+        String invoice = carrelloService.getInvoice(carrello).toString();
 
-    @Test
-    void getCarrello() {
+        assertTrue(invoice.contains("Prodotto: Pane"));
+        assertTrue(invoice.contains("Prezzo: 2.0"));
     }
 
     @Test

@@ -10,8 +10,5 @@ public class InMemoryUserRepository implements CrudRepository<User, UUID> {
     @Override public Optional<User> findById(UUID id) { return Optional.ofNullable(store.get(id)); }
     @Override public List<User> findAll() { return new ArrayList<>(store.values()); }
     @Override public void deleteById(UUID id) { store.remove(id); }
-    public User findByUsername(String username) {
-        //return store.values().stream().filter(u->u.getUsername().equals(username)).findFirst().orElse(null);
-        return null;
-    }
+
 }

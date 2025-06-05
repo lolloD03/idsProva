@@ -19,7 +19,7 @@ public abstract class Venditore extends User {
     }
 
     public Venditore(UUID id , String password, String email, String name, int partitaIva) {
-        super(id, password, email, name);
+        super( password, email, name);
         this.partitaIva = partitaIva;
         prodotti = new ArrayList<>();
     }

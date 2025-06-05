@@ -13,8 +13,8 @@ public class Curatore  extends User {
 
     public Curatore() {super();}
 
-    public Curatore(UUID id ,String password, String email, String name) {
-        super( id, password, email, name);
+    public Curatore(String password, String email, String name) {
+        super( password, email, name);
     }
 
     // Additional methods specific to Curatore can be added here

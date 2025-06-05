@@ -9,8 +9,8 @@ public abstract class User {
     private String surname;
 
 
-    public User(UUID id ,String password, String email, String name) {
-        this.id = id;
+    public User(String password, String email, String name) {
+        this.id = UUID.randomUUID();
         this.password = password;
         this.email = email;
         this.name = name;

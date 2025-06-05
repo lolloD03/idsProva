@@ -12,8 +12,8 @@ public class Acquirente extends User {
         super();
     }
 
-    public Acquirente(UUID id , String password, String email, String name , String surname) {
-        super(id, password, email, name);
+    public Acquirente( String password, String email, String name , String surname) {
+        super( password, email, name);
     }
 
 
@@ -23,7 +23,6 @@ public class Acquirente extends User {
                 "id=" + getId() +
                 ", email='" + getEmail() + '\'' +
                 ", name='" + getName() + '\'' +
-                ", surname='" + getSurname() + '\'' +
                 ", password='" + getPassword() + '\'' +
                 '}';
     }
