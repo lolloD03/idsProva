@@ -3,6 +3,7 @@ package com.filiera.Tests.ServiceTest;
 import com.filiera.model.administration.Curatore;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.products.StatoProdotto;
+import com.filiera.model.users.RuoloUser;
 import com.filiera.repository.InMemoryProductRepository;
 import com.filiera.repository.InMemoryUserRepository;
 import com.filiera.services.CuratoreServiceImpl;
@@ -28,7 +29,7 @@ class CuratoreServiceImplTest {
         userRepo = new InMemoryUserRepository();
         service = new CuratoreServiceImpl(productRepo, userRepo);
 
-        curatore = new Curatore("pass", "curatore@example.com", "curatore1");
+        curatore = new Curatore("pass", "curatore@example.com", "curatore1 " , RuoloUser.CURATORE);
         userRepo.save(curatore);
 
         prodotto = new Prodotto("Formaggio", "Pecorino stagionato", 8.0, 10, null, 60);

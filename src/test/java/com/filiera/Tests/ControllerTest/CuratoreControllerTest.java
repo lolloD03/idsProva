@@ -76,4 +76,32 @@ class CuratoreControllerTest {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void approveProduct_shouldRemoveFromPendingList() {
+        // Controlla che il prodotto sia inizialmente nei pending
+        List<Prodotto> pendingBefore = controller.getPendingProducts();
+        assertTrue(pendingBefore.contains(prodotto));
+
+        // Approvazione
+        controller.approveProduct(prodotto, curatore.getId());
+
+        // Il prodotto NON dovrebbe più essere pending
+        List<Prodotto> pendingAfter = controller.getPendingProducts();
+        assertFalse(pendingAfter.contains(prodotto));
+    }
+
+    @Test
+    void rejectProduct_shouldRemoveFromPendingList() {
+        // Controlla che il prodotto sia inizialmente pending
+        List<Prodotto> pendingBefore = controller.getPendingProducts();
+        assertTrue(pendingBefore.contains(prodotto));
+
+        // Rifiuto
+        controller.rejectProduct(prodotto, curatore.getId());
+
+        // Il prodotto NON dovrebbe più essere pending
+        List<Prodotto> pendingAfter = controller.getPendingProducts();
+        assertFalse(pendingAfter.contains(prodotto));
+    }
+
 }

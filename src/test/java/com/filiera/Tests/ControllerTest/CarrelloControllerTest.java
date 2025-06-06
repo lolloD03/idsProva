@@ -1,7 +1,7 @@
 package com.filiera.Tests.ControllerTest;
 
 import com.filiera.controller.CarrelloController;
-import com.filiera.model.products.Carrello;
+import com.filiera.model.payment.Carrello;
 import com.filiera.model.products.Prodotto;
 import com.filiera.repository.InMemoryProductRepository;
 import com.filiera.repository.InMemoryUserRepository;
