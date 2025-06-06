@@ -50,15 +50,11 @@ public class Carrello {
     }
 
     public double getTotalPrice() {
-        for (Prodotto product : products) {
-            totalPrice += product.getPrice();
-        }
-        return totalPrice;
-        /*
+
          return products.stream()
                    .mapToDouble(Prodotto::getPrice)
                    .sum();
-         */
+
     }
 
     public Prodotto addProduct(Prodotto product) {
