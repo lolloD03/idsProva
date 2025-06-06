@@ -31,6 +31,24 @@ public class Prodotto {
         this.setExpirationDate(LocalDate.now().plusDays(daysToExpire));
     }
 
+    public static Prodotto creaProdotto(String name, String description, double price, int quantity, Venditore seller) {
+        Prodotto prodotto = new Prodotto();
+        prodotto.id = UUID.randomUUID();
+        prodotto.name = name;
+        prodotto.description = description;
+        prodotto.price = price;
+        prodotto.availableQuantity = quantity;
+        prodotto.seller = seller;
+        prodotto.state = StatoProdotto.IN_ATTESA_DI_APPROVAZIONE;
+        return prodotto;
+    }
+
+    public void aggiornaProdotto(String name, String description, double price, int quantity) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.availableQuantity = quantity;
+    }
 
     public void approveBy(Curatore curatore) {
         this.state = StatoProdotto.APPROVATO;
@@ -42,7 +60,6 @@ public class Prodotto {
         this.approvedBy = curatoreObj;
     }
 
-
     public UUID getId() {
         return id;
     }
@@ -50,7 +67,6 @@ public class Prodotto {
     public void setId(UUID id) {
         this.id = id;
     }
-
 
     public String getName() {
         return name;
@@ -115,6 +131,4 @@ public class Prodotto {
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
-
-
 }

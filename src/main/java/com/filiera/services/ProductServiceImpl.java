@@ -29,35 +29,25 @@ public class ProductServiceImpl implements ProductService {
         return prodRepo.findById(id);
     }
 
-    @Override public Prodotto createProduct(Venditore seller, String name, String descrizione, double price, int quantity) {
-
+    @Override
+    public Prodotto createProduct(Venditore seller, String name, String descrizione, double price, int quantity) {
         if(userRepo.findById(seller.getId()).isEmpty()){
             throw new IllegalArgumentException("Il venditore con ID " + seller.getId() + " non esiste.");
         }
-
-        Prodotto prodotto = new Prodotto();
-        prodotto.setId(UUID.randomUUID());
-        prodotto.setName(name);
-        prodotto.setDescription(descrizione);
-        prodotto.setPrice(price);
-        prodotto.setAvailableQuantity(quantity);
-        prodotto.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
-        prodotto.setSeller(seller);
-
+        Prodotto prodotto = Prodotto.creaProdotto(name, descrizione, price, quantity, seller);
         return prodRepo.save(prodotto);
-}
+    }
 
     @Override
     public Prodotto updateProduct(Prodotto updatedProduct) {
-
         Prodotto actualProduct = prodRepo.findById(updatedProduct.getId())
             .orElseThrow(() -> new RuntimeException("Prodotto non trovato con id: " + updatedProduct.getId()));
-
-        actualProduct.setName(updatedProduct.getName());
-        actualProduct.setDescription(updatedProduct.getDescription());
-        actualProduct.setPrice(updatedProduct.getPrice());
-        actualProduct.setAvailableQuantity(updatedProduct.getAvailableQuantity());
-
+        actualProduct.aggiornaProdotto(
+            updatedProduct.getName(),
+            updatedProduct.getDescription(),
+            updatedProduct.getPrice(),
+            updatedProduct.getAvailableQuantity()
+        );
         return prodRepo.save(actualProduct);
     }
 
