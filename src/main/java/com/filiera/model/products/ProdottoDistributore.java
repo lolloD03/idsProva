@@ -5,17 +5,16 @@ import com.filiera.model.sellers.Venditore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdottoDistributore extends Prodotto {
+public class ProdottoDistributore {
 
     private List<Prodotto> prodotti;
 
     public ProdottoDistributore() {
-        super();
+        this.prodotti = new ArrayList<>();
     }
 
-    public ProdottoDistributore(String name, String description, double price, int quantity, Venditore seller, int daysToExpire) {
-        super(name, description, price, quantity,seller, daysToExpire);
-        this.prodotti = new ArrayList<>();
+    public ProdottoDistributore(List<Prodotto> prodotti) {
+        this.prodotti = prodotti;
     }
 
     public void addToProdotti(Prodotto prodotto) {
