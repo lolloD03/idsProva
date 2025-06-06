@@ -55,7 +55,7 @@ public class CuratoreServiceImpl {
         }
 
         // Check if the curator exists
-        if (!userRepository.findById(curatore).isPresent()) {
+        if (userRepository.findById(curatore).isEmpty()) {
             throw new IllegalArgumentException("Il curatore con ID " + curatore + " non esiste.");
         }
 
