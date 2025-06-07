@@ -19,8 +19,6 @@ public class CuratoreServiceImpl {
         this.userRepository = userRepository;
     }
 
-
-
     public List<Prodotto> getPendingProducts() {
         List<Prodotto> pendingProducts = productRepository.findByState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
         return pendingProducts;
