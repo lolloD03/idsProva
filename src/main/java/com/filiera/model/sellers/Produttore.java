@@ -8,7 +8,6 @@ import java.util.UUID;
 public class Produttore extends Venditore {
 
     private String process;
-    private String certificati;
 
     public Produttore() {
     }
@@ -17,7 +16,6 @@ public class Produttore extends Venditore {
 
     public Produttore(String password, String email, RuoloUser ruoloUser, int partitaIva, String name) {
         super(password, email, name, ruoloUser ,partitaIva);
-        this.certificati = certificati;
     }
 
 
@@ -26,12 +24,8 @@ public class Produttore extends Venditore {
     public String getCultivationProcess() {
         return process;
     }
-    public void setCultivationProcess(String cultivationProcess) {
-        this.process = cultivationProcess;
-    }
+    public void setCultivationProcess(String cultivationProcess) {this.process = cultivationProcess;}
 
-    public String getCertificati() {return certificati;}
-    public void setCertificati(String certificati) {}
 
 
 

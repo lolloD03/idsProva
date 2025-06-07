@@ -12,6 +12,7 @@ public class Curatore  extends User {
 
     private List<Prodotto> productsToApprove;
 
+
     public Curatore() {super();}
 
     public Curatore(String password, String email, String name, RuoloUser ruoloUser) {

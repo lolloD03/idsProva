@@ -6,7 +6,6 @@ public abstract class User {
     private String password;
     private String email;
     private String name;
-    private String surname;
     private RuoloUser ruolo;
 
 
@@ -40,6 +39,8 @@ public abstract class User {
     }
     public String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
+    public RuoloUser getRuolo() {return ruolo;}
+    public void setRuolo(RuoloUser ruolo) {this.ruolo = ruolo;}
 
 
 }
