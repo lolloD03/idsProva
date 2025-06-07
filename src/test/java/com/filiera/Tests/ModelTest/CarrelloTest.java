@@ -26,10 +26,10 @@ class CarrelloTest {
         carrello.setProducts(new ArrayList<>());
 
         prodotto1 = new Prodotto(
-                 "Pane", "Pane integrale", 2.5, 1, new Produttore(), 5
+                 "Pane", "Pane integrale", 2.5, 1, new Produttore(), 5, "DOP"
         );
         prodotto2 = new Prodotto(
-                 "Latte", "Latte fresco", 1.2, 2, new Produttore(), 7
+                 "Latte", "Latte fresco", 1.2, 2, new Produttore(), 7 , "DOP"
         );
         prodotto1.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
         prodotto2.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);

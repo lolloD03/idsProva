@@ -38,7 +38,7 @@ class ProductServiceImplTest {
 
     @Test
     void createProduct_shouldSucceedWithValidSeller() {
-        Prodotto p = productService.createProduct(venditore, "Pane", "Pane fresco", 2.5, 10);
+        Prodotto p = productService.createProduct(venditore, "Pane", "Pane fresco", 2.5, 10,"DOP");
 
         assertNotNull(p.getId());
         assertEquals("Pane", p.getName());
@@ -53,7 +53,7 @@ class ProductServiceImplTest {
         fake.setId(UUID.randomUUID());
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            productService.createProduct(fake, "Latte", "Latte bio", 1.5, 5);
+            productService.createProduct(fake, "Latte", "Latte bio", 1.5, 5,"DOP");
         });
 
         assertTrue(ex.getMessage().contains("non esiste"));
@@ -61,8 +61,8 @@ class ProductServiceImplTest {
 
     @Test
     void listAll_shouldReturnAllProducts() {
-        productService.createProduct(venditore, "Miele", "Miele bio", 6.0, 5);
-        productService.createProduct(venditore, "Farina", "Farina tipo 0", 1.0, 15);
+        productService.createProduct(venditore, "Miele", "Miele bio", 6.0, 5,"DOP");
+        productService.createProduct(venditore, "Farina", "Farina tipo 0", 1.0, 15,"DOP");
 
         List<Prodotto> list = productService.listAll();
         assertEquals(2, list.size());
@@ -70,7 +70,7 @@ class ProductServiceImplTest {
 
     @Test
     void getById_shouldReturnCorrectProduct() {
-        Prodotto prodotto = productService.createProduct(venditore, "Olio", "Olio EVO", 10.0, 3);
+        Prodotto prodotto = productService.createProduct(venditore, "Olio", "Olio EVO", 10.0, 3,"DOP");
         Optional<Prodotto> found = productService.getById(prodotto.getId());
 
         assertTrue(found.isPresent());
@@ -79,7 +79,7 @@ class ProductServiceImplTest {
 
     @Test
     void updateProduct_shouldUpdateValues() {
-        Prodotto p = productService.createProduct(venditore, "Formaggio", "Fresco", 4.0, 7);
+        Prodotto p = productService.createProduct(venditore, "Formaggio", "Fresco", 4.0, 7,"DOP");
         p.setName("Formaggio stagionato");
         p.setPrice(6.5);
 
@@ -103,7 +103,7 @@ class ProductServiceImplTest {
 
     @Test
     void deleteProduct_shouldRemoveExistingProduct() {
-        Prodotto p = productService.createProduct(venditore, "Burro", "Burro di malga", 3.5, 4);
+        Prodotto p = productService.createProduct(venditore, "Burro", "Burro di malga", 3.5, 4,"DOP");
         productService.deleteProduct(p);
 
         assertTrue(productRepository.findAll().isEmpty());
@@ -123,8 +123,8 @@ class ProductServiceImplTest {
 
     @Test
     void getApprovedProducts_shouldFilterByState() {
-        Prodotto p1 = productService.createProduct(venditore, "Yogurt", "Yogurt greco", 2.0, 5);
-        Prodotto p2 = productService.createProduct(venditore, "Uova", "Uova fresche", 3.0, 12);
+        Prodotto p1 = productService.createProduct(venditore, "Yogurt", "Yogurt greco", 2.0, 5,"DOP");
+        Prodotto p2 = productService.createProduct(venditore, "Uova", "Uova fresche", 3.0, 12,"DOP");
 
         p2.setState(StatoProdotto.APPROVATO);
         productRepository.save(p2);
