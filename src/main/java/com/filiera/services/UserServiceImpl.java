@@ -3,9 +3,15 @@ package com.filiera.services;
 import com.filiera.model.users.User;
 import com.filiera.repository.CrudRepository;
 import com.filiera.repository.InMemoryUserRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
+
+
+@Service
+@Transactional
 
 public class    UserServiceImpl implements UserService {
     private final CrudRepository<User , UUID> repo;

@@ -5,10 +5,15 @@ import com.filiera.model.products.Prodotto;
 import com.filiera.model.products.StatoProdotto;
 import com.filiera.repository.InMemoryProductRepository;
 import com.filiera.repository.InMemoryUserRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+
+@Service
+@Transactional
 public class CuratoreServiceImpl {
 
     private final InMemoryProductRepository productRepository;

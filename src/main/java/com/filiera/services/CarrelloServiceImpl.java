@@ -3,9 +3,14 @@ package com.filiera.services;
 import com.filiera.model.payment.Carrello;
 import com.filiera.model.products.Prodotto;
 import com.filiera.repository.InMemoryProductRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
+@Transactional
 public class CarrelloServiceImpl {
 
     private final Carrello carrello;

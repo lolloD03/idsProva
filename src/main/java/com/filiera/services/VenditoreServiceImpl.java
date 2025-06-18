@@ -6,8 +6,12 @@ import com.filiera.model.sellers.Venditore;
 import com.filiera.model.users.User;
 import com.filiera.repository.InMemoryProductRepository;
 import com.filiera.repository.InMemoryUserRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 
+@Service
+@Transactional
 public class VenditoreServiceImpl {
 
    private final UserService userService;
