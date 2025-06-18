@@ -3,18 +3,23 @@ package com.filiera.controller;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@RestController
+@RequestMapping("/venditore")
 public class VenditoreController {
     private final ProductService service;
 
+    @Autowired
     public VenditoreController(ProductService service) { this.service = service; }
 
-
-    public Prodotto createProduct(Venditore venditor, String name, String descrizione, double price, int quantity,String certification) {
+    @PostMapping("/create-product")
+    public Prodotto createProduct(@RequestBody Venditore venditor, @RequestParam String name, @RequestParam String descrizione, @RequestParam double price, @RequestParam int quantity, @RequestParam String certification) {
 
         try {
             if (venditor == null || name == null || descrizione == null || price <= 0 || quantity <= 0) {
@@ -30,7 +35,8 @@ public class VenditoreController {
 
     }
 
-    public Prodotto updateProduct(Prodotto updatedProduct) {
+    @PutMapping("/update-product")
+    public Prodotto updateProduct(@RequestBody Prodotto updatedProduct) {
 
         try {
             return service.updateProduct(updatedProduct);
@@ -41,7 +47,8 @@ public class VenditoreController {
 
     }
 
-    public void deleteProduct(Prodotto toDeleteProduct) {
+    @DeleteMapping("/delete-product")
+    public void deleteProduct(@RequestBody Prodotto toDeleteProduct) {
 
         try {
             service.deleteProduct(toDeleteProduct);
@@ -50,12 +57,14 @@ public class VenditoreController {
         }
     }
 
-
+    @GetMapping("/approved-products")
     public List<Prodotto> getApprovedProducts() {
         return service.getApprovedProducts();
     }
 
-    public Optional<Prodotto> getById(UUID id) { return service.getById(id); }
+    @GetMapping("/product/{id}")
+    public Optional<Prodotto> getById(@PathVariable UUID id) { return service.getById(id); }
 
+    @GetMapping("/list")
     public List<Prodotto> list() { return service.listAll(); }
 }

@@ -3,17 +3,22 @@ package com.filiera.controller;
 import com.filiera.model.payment.Carrello;
 import com.filiera.model.products.Prodotto;
 import com.filiera.services.CarrelloServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/carrello")
 public class CarrelloController {
 
     private final CarrelloServiceImpl service;
 
+    @Autowired
     public CarrelloController(CarrelloServiceImpl service) {
         this.service = service;
     }
 
-
-    public Carrello addToCart(Prodotto prodotto) {
+    @PostMapping("/add")
+    public Carrello addToCart(@RequestBody Prodotto prodotto) {
         try {
             if (prodotto == null) {
                 throw new IllegalArgumentException("Product cannot be null");
@@ -27,7 +32,8 @@ public class CarrelloController {
         }
     }
 
-    public Carrello removeFromCart(Prodotto prodotto) {
+    @PostMapping("/remove")
+    public Carrello removeFromCart(@RequestBody Prodotto prodotto) {
         try {
             if (prodotto == null) {
                 throw new IllegalArgumentException("Product cannot be null");
@@ -40,7 +46,8 @@ public class CarrelloController {
         }
     }
 
-    public StringBuilder getInvoice(Carrello carrello){
+    @PostMapping("/invoice")
+    public StringBuilder getInvoice(@RequestBody Carrello carrello){
         try {
             if (carrello == null) {
                 throw new IllegalArgumentException("Cart cannot be null");
@@ -57,6 +64,7 @@ public class CarrelloController {
         return null;
     }
 
+    @PostMapping("/clear")
     public void clearCart() {
         try {
             service.clearCarrello();
@@ -65,6 +73,7 @@ public class CarrelloController {
         }
     }
 
+    @GetMapping
     public Carrello getCart() {
         return service.getCarrello();
     }
