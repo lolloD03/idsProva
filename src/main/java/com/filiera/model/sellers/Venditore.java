@@ -13,11 +13,10 @@ import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-
 public abstract class Venditore extends User {
 
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "venditore")
     private List<Prodotto> prodotti;
 
     @Embedded
