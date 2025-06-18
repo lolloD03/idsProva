@@ -2,19 +2,25 @@ package com.filiera.controller;
 
 import com.filiera.model.products.Prodotto;
 import com.filiera.services.CuratoreServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+@RestController
+@RequestMapping("/curatore")
 public class CuratoreController {
 
     private final CuratoreServiceImpl curatoreService;
 
+    @Autowired
     public CuratoreController(CuratoreServiceImpl curatoreService) {
         this.curatoreService = curatoreService;
     }
 
+    @GetMapping("/pending-products")
     public List<Prodotto> getPendingProducts() {
         try {
             List<Prodotto> pendingProducts = curatoreService.getPendingProducts();
@@ -33,7 +39,8 @@ public class CuratoreController {
 
     }
 
-    public Prodotto approveProduct(Prodotto prodotto, UUID curatore) {
+    @PostMapping("/approve-product")
+    public Prodotto approveProduct(@RequestBody Prodotto prodotto, @RequestParam UUID curatore) {
         try {
             return curatoreService.approveProduct(prodotto, curatore);
         } catch (Exception e) {
@@ -42,7 +49,8 @@ public class CuratoreController {
         }
     }
 
-    public Prodotto rejectProduct(Prodotto prodotto, UUID curatore) {
+    @PostMapping("/reject-product")
+    public Prodotto rejectProduct(@RequestBody Prodotto prodotto, @RequestParam UUID curatore) {
         try {
             return curatoreService.rejectProduct(prodotto, curatore);
         } catch (Exception e) {
@@ -54,3 +62,4 @@ public class CuratoreController {
 
 
 }
+
