@@ -18,6 +18,7 @@ public class CarrelloController {
             if (prodotto == null) {
                 throw new IllegalArgumentException("Product cannot be null");
             }
+
             service.addProduct(prodotto);
             return service.getCarrello();
         } catch (Exception e) {

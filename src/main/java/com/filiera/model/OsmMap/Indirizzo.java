@@ -1,5 +1,8 @@
 package com.filiera.model.OsmMap;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class Indirizzo {
     private String citta;
 

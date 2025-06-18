@@ -1,12 +1,18 @@
 package com.filiera.model.users;
+import jakarta.persistence.*;
+
 import java.util.UUID;
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+
     private String password;
     private String email;
     private String name;
-    private String surname;
     private RuoloUser ruolo;
 
 
@@ -40,6 +46,8 @@ public abstract class User {
     }
     public String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
+    public RuoloUser getRuolo() {return ruolo;}
+    public void setRuolo(RuoloUser ruolo) {this.ruolo = ruolo;}
 
 
 }

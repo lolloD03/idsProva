@@ -3,14 +3,11 @@ package com.filiera.model.administration;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.RuoloUser;
 import com.filiera.model.users.User;
+import jakarta.persistence.Entity;
 
 
-import java.util.List;
-import java.util.UUID;
-
+@Entity
 public class Curatore  extends User {
-
-    private List<Prodotto> productsToApprove;
 
     public Curatore() {super();}
 
@@ -18,5 +15,4 @@ public class Curatore  extends User {
         super( password, email, name, ruoloUser);
     }
 
-    // Additional methods specific to Curatore can be added here
 }

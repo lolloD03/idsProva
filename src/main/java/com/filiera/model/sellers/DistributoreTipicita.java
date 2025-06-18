@@ -2,13 +2,16 @@ package com.filiera.model.sellers;
 
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.RuoloUser;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.UUID;
 
+@Entity
+@DiscriminatorValue("DISTRIBUTORE")
 public class DistributoreTipicita extends Venditore {
 
-    private List<Prodotto> productsBundle;
     private List<List<Prodotto>> listOfBundles;
 
     public DistributoreTipicita() {
@@ -20,11 +23,6 @@ public class DistributoreTipicita extends Venditore {
         super( password, email, name, ruoloUser , partitaIva);
     }
 
-    public void addToBundle(Prodotto prodotto) {
-    productsBundle.add(prodotto);
-    }
-
-    public void removeFromBundle(Prodotto prodotto) {productsBundle.remove(prodotto);}
 
     public void addToListOfBundles(List<Prodotto> bundleOfproducts) {listOfBundles.add(bundleOfproducts);}
 

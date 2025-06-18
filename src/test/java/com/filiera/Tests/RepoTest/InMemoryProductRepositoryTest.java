@@ -25,7 +25,8 @@ class InMemoryProductRepositoryTest {
                 5.0,
                 10,
                 null,
-                10
+                10,
+                "DOP"
         );
     }
 
@@ -56,8 +57,8 @@ class InMemoryProductRepositoryTest {
 
     @Test
     void findAll_shouldReturnAllSavedProducts() {
-        Prodotto p1 = new Prodotto( "P1", "desc", 1.0, 5, null, 5);
-        Prodotto p2 = new Prodotto( "P2", "desc", 2.0, 3, null, 3);
+        Prodotto p1 = new Prodotto( "P1", "desc", 1.0, 5, null, 5,"DOP");
+        Prodotto p2 = new Prodotto( "P2", "desc", 2.0, 3, null, 3,"DOP");
 
         repository.save(p1);
         repository.save(p2);
@@ -79,9 +80,9 @@ class InMemoryProductRepositoryTest {
 
     @Test
     void findByState_shouldReturnMatchingProducts() {
-        Prodotto p1 = new Prodotto( "P1", "desc", 1.0, 5, null, 5);
-        Prodotto p2 = new Prodotto( "P2", "desc", 2.0, 3, null, 3);
-        Prodotto p3 = new Prodotto( "P3", "desc", 2.0, 3, null, 3);
+        Prodotto p1 = new Prodotto( "P1", "desc", 1.0, 5, null, 5,"DOP");
+        Prodotto p2 = new Prodotto( "P2", "desc", 2.0, 3, null, 3,"DOP");
+        Prodotto p3 = new Prodotto( "P3", "desc", 2.0, 3, null, 3,"DOP");
 
 
         p1.setState(StatoProdotto.APPROVATO);
@@ -101,8 +102,8 @@ class InMemoryProductRepositoryTest {
 
     @Test
     void getApprovedProducts_shouldReturnOnlyApproved() {
-        Prodotto p1 = new Prodotto( "P1", "desc", 1.0, 5, null, 5);
-        Prodotto p2 = new Prodotto( "P2", "desc", 2.0, 3, null, 3);
+        Prodotto p1 = new Prodotto( "P1", "desc", 1.0, 5, null, 5,"DOP");
+        Prodotto p2 = new Prodotto( "P2", "desc", 2.0, 3, null, 3,"DOP");
 
         p1.setState(StatoProdotto.APPROVATO);
         p2.setState(StatoProdotto.RIFIUTATO);

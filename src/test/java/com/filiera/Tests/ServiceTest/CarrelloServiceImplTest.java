@@ -37,7 +37,7 @@ class CarrelloServiceImplTest {
         venditore.setId(UUID.randomUUID());
         userRepository.save(venditore);
 
-        prodotto = productService.createProduct(venditore, "Pane", "Pane fresco", 2.0, 5);
+        prodotto = productService.createProduct(venditore, "Pane", "Pane fresco", 2.0, 5,"DOP");
         prodotto.setState(StatoProdotto.APPROVATO); // Permettiamo l'aggiunta al carrello
         productRepository.save(prodotto);
     }

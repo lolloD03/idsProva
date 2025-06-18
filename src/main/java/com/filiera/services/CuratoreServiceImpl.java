@@ -19,8 +19,6 @@ public class CuratoreServiceImpl {
         this.userRepository = userRepository;
     }
 
-
-
     public List<Prodotto> getPendingProducts() {
         List<Prodotto> pendingProducts = productRepository.findByState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
         return pendingProducts;
@@ -55,7 +53,7 @@ public class CuratoreServiceImpl {
         }
 
         // Check if the curator exists
-        if (!userRepository.findById(curatore).isPresent()) {
+        if (userRepository.findById(curatore).isEmpty()) {
             throw new IllegalArgumentException("Il curatore con ID " + curatore + " non esiste.");
         }
 
