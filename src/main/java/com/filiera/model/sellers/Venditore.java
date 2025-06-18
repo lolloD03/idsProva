@@ -4,9 +4,7 @@ import com.filiera.model.OsmMap.Indirizzo;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.RuoloUser;
 import com.filiera.model.users.User;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 
 import java.util.ArrayList;
@@ -14,6 +12,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+
 public abstract class Venditore extends User {
 
 

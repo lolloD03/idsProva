@@ -1,11 +1,9 @@
 package com.filiera.model.users;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class User {
 
     @Id
