@@ -16,12 +16,14 @@ public class Prodotto {
     private Venditore seller;
     private Curatore approvedBy;
     private LocalDate expirationDate;
+    private String certification;
 
     public Prodotto() {
         // Default constructor
     }
 
-    public Prodotto(String name, String description, double price, int quantity, Venditore seller,int daysToExpire) {
+    public Prodotto(String name, String description, double price, int quantity, Venditore seller,int daysToExpire,String certification) {
+        this.certification = certification;
         this.id = UUID.randomUUID();
         this.name = name;
         this.description = description;
@@ -31,8 +33,9 @@ public class Prodotto {
         this.setExpirationDate(LocalDate.now().plusDays(daysToExpire));
     }
 
-    public static Prodotto creaProdotto(String name, String description, double price, int quantity, Venditore seller) {
+    public static Prodotto creaProdotto(String name, String description, double price, int quantity, Venditore seller,String certification) {
         Prodotto prodotto = new Prodotto();
+        prodotto.certification = certification;
         prodotto.id = UUID.randomUUID();
         prodotto.name = name;
         prodotto.description = description;
@@ -130,5 +133,29 @@ public class Prodotto {
 
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public String getCertification() {
+        return certification;
+    }
+
+    public void setCertification(String certification) {
+        this.certification = certification;
+    }
+
+    public String toString(){
+
+        return "Prodotto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", availableQuantity=" + availableQuantity +
+                ", state=" + state +
+                ", seller=" + seller +
+                ", approvedBy=" + approvedBy +
+                ", expirationDate=" + expirationDate +
+                ", certification='" + certification + '\'' +
+                '}';
     }
 }

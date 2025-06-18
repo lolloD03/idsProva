@@ -5,5 +5,4 @@ public enum StatoProdotto {
     APPROVATO,
     RIFIUTATO,
     ESAURITO,
-    REJECTED
 }

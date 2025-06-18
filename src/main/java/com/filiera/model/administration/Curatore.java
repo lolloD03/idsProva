@@ -5,12 +5,8 @@ import com.filiera.model.users.RuoloUser;
 import com.filiera.model.users.User;
 
 
-import java.util.List;
-import java.util.UUID;
 
 public class Curatore  extends User {
-
-    private List<Prodotto> productsToApprove;
 
     public Curatore() {super();}
 
@@ -18,5 +14,4 @@ public class Curatore  extends User {
         super( password, email, name, ruoloUser);
     }
 
-    // Additional methods specific to Curatore can be added here
 }

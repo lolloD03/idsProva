@@ -26,7 +26,8 @@ class ProdottoTest {
                 10.5,
                 15,
                 venditore,
-                30 // giorni alla scadenza
+                30,
+                "DOP"// giorni alla scadenza
         );
         prodotto.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
     }

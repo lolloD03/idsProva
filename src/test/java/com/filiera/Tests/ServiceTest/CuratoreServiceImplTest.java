@@ -32,15 +32,15 @@ class CuratoreServiceImplTest {
         curatore = new Curatore("pass", "curatore@example.com", "curatore1 " , RuoloUser.CURATORE);
         userRepo.save(curatore);
 
-        prodotto = new Prodotto("Formaggio", "Pecorino stagionato", 8.0, 10, null, 60);
+        prodotto = new Prodotto("Formaggio", "Pecorino stagionato", 8.0, 10, null, 60,"DOP");
         prodotto.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
         productRepo.save(prodotto);
     }
 
     @Test
     void getPendingProducts_shouldReturnOnlyPending() {
-        Prodotto approvato = new Prodotto("Pane", "Pane integrale", 2.0, 5, null, 3);
-        Prodotto approvato2 = new Prodotto("Pane2", "Pane integrale", 2.0, 5, null, 3);
+        Prodotto approvato = new Prodotto("Pane", "Pane integrale", 2.0, 5, null, 3,"DOP");
+        Prodotto approvato2 = new Prodotto("Pane2", "Pane integrale", 2.0, 5, null, 3,"DOP");
 
         approvato.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
 

@@ -11,7 +11,9 @@ import java.util.UUID;
 
 public abstract class Venditore extends User {
 
-    protected List<Prodotto> prodotti;
+
+
+    private List<Prodotto> prodotti;
     private int partitaIva;
 
     public Venditore() {
@@ -25,8 +27,10 @@ public abstract class Venditore extends User {
         prodotti = new ArrayList<>();
     }
 
+    public void setProdotti(List<Prodotto> prodotti) {this.prodotti = prodotti;}
+    public List<Prodotto> getProdotti() {return prodotti;}
     public int getPartitaIva() {return partitaIva;}
     public void setPartitaIva(int nuovaPartitaIva) {partitaIva = nuovaPartitaIva;}
-    protected void addProductToInventory(Prodotto prodotto){prodotti.add(prodotto);}
+    protected void prod(Prodotto prodotto){prodotti.add(prodotto);}
     protected void removeProductFromInventory(Prodotto prodotto) {prodotti.remove(prodotto);}
 }

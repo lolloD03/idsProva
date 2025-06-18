@@ -21,6 +21,9 @@ public class CarrelloServiceImpl {
         if(productService.getById(prod.getId()).isEmpty()) {
             throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");
         }
+        if(prod.getAvailableQuantity() == 0) {
+            throw new RuntimeException("Il prodotto con id " + prod.getId() + " non è disponibile.");
+        }
 
         this.carrello.addProduct(prod);
         return carrello.getProducts();

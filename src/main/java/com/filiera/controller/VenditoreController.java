@@ -14,14 +14,14 @@ public class VenditoreController {
     public VenditoreController(ProductService service) { this.service = service; }
 
 
-    public Prodotto createProduct(Venditore venditor, String name, String descrizione, double price, int quantity) {
+    public Prodotto createProduct(Venditore venditor, String name, String descrizione, double price, int quantity,String certification) {
 
         try {
             if (venditor == null || name == null || descrizione == null || price <= 0 || quantity <= 0) {
                 throw new IllegalArgumentException("Invalid product details provided.");
             }
 
-            return service.createProduct(venditor, name, descrizione, price, quantity);
+            return service.createProduct(venditor, name, descrizione, price, quantity,certification);
 
         } catch (IllegalArgumentException e) {
             System.err.println("Error creating product: " + e.getMessage());

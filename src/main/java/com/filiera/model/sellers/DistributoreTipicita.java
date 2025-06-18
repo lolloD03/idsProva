@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public class DistributoreTipicita extends Venditore {
 
-    private List<Prodotto> productsBundle;
     private List<List<Prodotto>> listOfBundles;
 
     public DistributoreTipicita() {
@@ -20,11 +19,6 @@ public class DistributoreTipicita extends Venditore {
         super( password, email, name, ruoloUser , partitaIva);
     }
 
-    public void addToBundle(Prodotto prodotto) {
-    productsBundle.add(prodotto);
-    }
-
-    public void removeFromBundle(Prodotto prodotto) {productsBundle.remove(prodotto);}
 
     public void addToListOfBundles(List<Prodotto> bundleOfproducts) {listOfBundles.add(bundleOfproducts);}
 

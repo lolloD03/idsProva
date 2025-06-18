@@ -25,6 +25,8 @@ public class    UserServiceImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException(("Utente non trovato con id: " + id)));
     }
 
+
+
     public void deleteById(UUID id){ repo.deleteById(id); }
 
 }

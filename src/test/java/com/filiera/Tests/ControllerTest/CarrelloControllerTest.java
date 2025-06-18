@@ -28,7 +28,7 @@ class CarrelloControllerTest {
         service = new CarrelloServiceImpl(productRepository, productService);
         controller = new CarrelloController(service);
 
-        prodotto = new Prodotto("Pane", "Pane fresco", 2.0, 1, null, 10);
+        prodotto = new Prodotto("Pane", "Pane fresco", 2.0, 1, null, 10,"DOP");
         productRepository.save(prodotto); // assicurati che esista nel repository
     }
 

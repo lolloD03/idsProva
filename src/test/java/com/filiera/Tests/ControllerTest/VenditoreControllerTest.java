@@ -38,20 +38,20 @@ class VenditoreControllerTest {
 
     @Test
     void createProduct_shouldReturnCreatedProduct() {
-        Prodotto prodotto = controller.createProduct(venditore, "Prodotto Test", "Descrizione", 10.0, 5);
+        Prodotto prodotto = controller.createProduct(venditore, "Prodotto Test", "Descrizione", 10.0, 5,"DOP");
         assertNotNull(prodotto);
         assertEquals("Prodotto Test", prodotto.getName());
     }
 
     @Test
     void createProduct_shouldReturnNullIfInvalidInput() {
-        Prodotto prodotto = controller.createProduct(null, null, null, -1, -5);
+        Prodotto prodotto = controller.createProduct(null, null, null, -1, -5,"DOP");
         assertNull(prodotto);
     }
 
     @Test
     void updateProduct_shouldUpdateAndReturnProduct() {
-        Prodotto prodotto = controller.createProduct(venditore, "Prod", "desc", 10.0, 3);
+        Prodotto prodotto = controller.createProduct(venditore, "Prod", "desc", 10.0, 3,"DOP");
         prodotto.setName("Modificato");
         Prodotto updated = controller.updateProduct(prodotto);
 
@@ -61,7 +61,7 @@ class VenditoreControllerTest {
 
     @Test
     void deleteProduct_shouldRemoveProduct() {
-        Prodotto prodotto = controller.createProduct(venditore, "Prod", "desc", 10.0, 3);
+        Prodotto prodotto = controller.createProduct(venditore, "Prod", "desc", 10.0, 3,"DOP");
         controller.deleteProduct(prodotto);
 
         Optional<Prodotto> retrieved = controller.getById(prodotto.getId());
@@ -70,11 +70,11 @@ class VenditoreControllerTest {
 
     @Test
     void getApprovedProducts_shouldReturnOnlyApproved() {
-        Prodotto p1 = controller.createProduct(venditore, "Prod 1", "desc", 10.0, 2);
+        Prodotto p1 = controller.createProduct(venditore, "Prod 1", "desc", 10.0, 2,"DOP");
         p1.setState(StatoProdotto.APPROVATO);
         productRepo.save(p1);
 
-        Prodotto p2 = controller.createProduct(venditore, "Prod 2", "desc", 20.0, 1);
+        Prodotto p2 = controller.createProduct(venditore, "Prod 2", "desc", 20.0, 1,"DOP");
         p2.setState(StatoProdotto.IN_ATTESA_DI_APPROVAZIONE);
         productRepo.save(p2);
 
@@ -85,8 +85,8 @@ class VenditoreControllerTest {
 
     @Test
     void list_shouldReturnAllProducts() {
-        controller.createProduct(venditore, "Prod 1", "desc", 10.0, 2);
-        controller.createProduct(venditore, "Prod 2", "desc", 20.0, 1);
+        controller.createProduct(venditore, "Prod 1", "desc", 10.0, 2,"DOP");
+        controller.createProduct(venditore, "Prod 2", "desc", 20.0, 1,"DOP");
 
         List<Prodotto> all = controller.list();
         assertEquals(2, all.size());
