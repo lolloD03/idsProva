@@ -6,4 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.*;
 
-public interface InMemoryProductRepository extends JpaRepository<Prodotto, UUID> { }
+public interface InMemoryProductRepository extends JpaRepository<Prodotto, UUID> {
+
+    List<Prodotto> findByState(StatoProdotto stato);
+
+
+}
