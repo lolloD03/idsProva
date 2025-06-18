@@ -3,67 +3,78 @@ package com.filiera.controller;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.services.ProductService;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 @RestController
 @RequestMapping("/venditore")
+@Validated
 public class VenditoreController {
+
     private final ProductService service;
 
     @Autowired
-    public VenditoreController(ProductService service) { this.service = service; }
-
-    @PostMapping("/create-product")
-    public Prodotto createProduct(@RequestParam UUID venditor, @RequestParam String name, @RequestParam String descrizione, @RequestParam double price, @RequestParam int quantity, @RequestParam String certification) {
-
-        try {
-            if (venditor == null || name == null || descrizione == null || price <= 0 || quantity <= 0) {
-                throw new IllegalArgumentException("Invalid product details provided.");
-            }
-
-            return service.createProduct(venditor, name, descrizione, price, quantity,certification);
-
-        } catch (IllegalArgumentException e) {
-            System.err.println("Error creating product: " + e.getMessage());
-            return null;
-        }
-
+    public VenditoreController(ProductService service) {
+        this.service = service;
     }
 
+    @PostMapping("/create-product")
+    public ResponseEntity<Prodotto> createProduct(
+            @RequestParam @NotNull UUID venditor,
+            @RequestParam @NotBlank String name,
+            @RequestParam @NotBlank String descrizione,
+            @RequestParam @DecimalMin(value = "0.01", message = "Price must be greater than 0") double price,
+            @RequestParam @Min(value = 1, message = "Quantity must be greater than 0") int quantity,
+            @RequestParam @NotBlank String certification) {
+
+        Prodotto product = service.createProduct(venditor, name, descrizione, price, quantity, certification);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
 
     @PutMapping("/update-product")
-    public Prodotto updateProduct(@RequestParam UUID prodottoId, @RequestParam String name, @RequestParam String descrizione, @RequestParam double price, @RequestParam int quantity) {
-        try {
-            return service.updateProduct(prodottoId, name, descrizione, price, quantity);
-        } catch (Exception e) {
-            System.err.println("Error updating product: " + e.getMessage());
-            return null;
-        }
+    public ResponseEntity<Prodotto> updateProduct(
+            @RequestParam @NotNull UUID prodottoId,
+            @RequestParam @NotBlank String name,
+            @RequestParam @NotBlank String descrizione,
+            @RequestParam @DecimalMin(value = "0.01") double price,
+            @RequestParam @Min(1) int quantity) {
+
+        Prodotto product = service.updateProduct(prodottoId, name, descrizione, price, quantity);
+        return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("/delete-product")
-    public void deleteProduct(@RequestParam UUID prodottoId) {
-        try {
-            service.deleteProduct(prodottoId);
-        } catch (IllegalArgumentException e) {
-            System.err.println("Error deleting product: " + e.getMessage());
-        }
+    public ResponseEntity<Void> deleteProduct(@RequestParam @NotNull UUID prodottoId) {
+        service.deleteProduct(prodottoId);
+        return ResponseEntity.noContent().build();
     }
 
-
     @GetMapping("/approved-products")
-    public List<Prodotto> getApprovedProducts() {
-        return service.getApprovedProducts();
+    public ResponseEntity<List<Prodotto>> getApprovedProducts() {
+        List<Prodotto> products = service.getApprovedProducts();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/product/{id}")
-    public Optional<Prodotto> getById(@PathVariable UUID id) { return service.getById(id); }
+    public ResponseEntity<Prodotto> getById(@PathVariable @NotNull UUID id) {
+        Optional<Prodotto> product = service.getById(id);
+        return product.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-    @GetMapping("/list")
-    public List<Prodotto> list() { return service.listAll(); }
+    @GetMapping("/products")
+    public ResponseEntity<List<Prodotto>> getAllProducts() {
+        List<Prodotto> products = service.listAll();
+        return ResponseEntity.ok(products);
+    }
 }
