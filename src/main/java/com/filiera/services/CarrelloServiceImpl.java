@@ -2,26 +2,31 @@ package com.filiera.services;
 
 import com.filiera.model.payment.Carrello;
 import com.filiera.model.products.Prodotto;
+import com.filiera.model.users.Acquirente;
+import com.filiera.repository.InMemoryCarrelloRepository;
 import com.filiera.repository.InMemoryProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
 @Transactional
 public class CarrelloServiceImpl {
 
-    private final Carrello carrello;
     private final ProductService productService;
+    private final InMemoryCarrelloRepository cartRepo;
+    Carrello carrello;
 
     @Autowired
-    public CarrelloServiceImpl(InMemoryProductRepository prodRepo, ProductService productService) {
+    public CarrelloServiceImpl( ProductService productService , InMemoryCarrelloRepository cartRepo) {
+        this.cartRepo = cartRepo;
         this.productService = productService;
-        this.carrello = new Carrello();
-
+        this.carrello = cartRepo.findById(carrello.getBuyer().getId())  // oppure id del carrello utente
+                .orElseGet(() -> new Carrello());
     }
 
     public List<Prodotto> addProduct(Prodotto prod) {
@@ -33,15 +38,20 @@ public class CarrelloServiceImpl {
         }
 
         this.carrello.addProduct(prod);
-        return carrello.getProducts();
+
+        cartRepo.save(carrello);
+        return List.copyOf(carrello.getProducts());
     }
 
     public List<Prodotto> removeProduct(Prodotto prod) {
         if(productService.getById(prod.getId()).isEmpty()) {
             throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");
         }
+
         carrello.removeProduct(prod);
-        return carrello.getProducts();
+
+        cartRepo.save(carrello);
+        return List.copyOf(carrello.getProducts());
     }
 
     public StringBuilder getInvoice(Carrello carrello) {
@@ -61,12 +71,23 @@ public class CarrelloServiceImpl {
         return sb;
     }
 
+    private Carrello loadOrCreateCarrello() {
+        return cartRepo.findById(carrello.getBuyer().getId())
+                .orElseGet(() -> {
+                    Carrello newCart = new Carrello();
+                    newCart.setBuyer(carrello.getBuyer());
+                    return cartRepo.save(newCart);
+                });
+    }
+
    public void clearCarrello(){
        if (this.carrello.getProducts().isEmpty()) {
            throw new RuntimeException("Il carrello è già vuoto.");
        }
 
        this.carrello.clearCarrello();
+
+       cartRepo.save(carrello);
    }
 
    public Carrello getCarrello(){
