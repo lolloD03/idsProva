@@ -10,8 +10,8 @@ public interface ProductService {
     Prodotto createProduct(Venditore venditore, String name, String descrizione, double price, int quantity, String certitfication);
     List<Prodotto> listAll();
     Optional<Prodotto> getById(UUID id);
-    Prodotto updateProduct(Prodotto updatedProduct);
-    void deleteProduct(Prodotto deletedProduct);
+    Prodotto updateProduct(UUID prodottoId, String name, String descrizione, double price, int quantity);
+    void deleteProduct(UUID prodottoId);
 
     public List<Prodotto> getApprovedProducts();
 

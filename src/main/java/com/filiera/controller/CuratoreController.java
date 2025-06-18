@@ -39,10 +39,11 @@ public class CuratoreController {
 
     }
 
+
     @PostMapping("/approve-product")
-    public Prodotto approveProduct(@RequestBody Prodotto prodotto, @RequestParam UUID curatore) {
+    public Prodotto approveProduct(@RequestParam UUID prodottoId, @RequestParam UUID curatore) {
         try {
-            return curatoreService.approveProduct(prodotto, curatore);
+            return curatoreService.approveProduct(prodottoId, curatore);
         } catch (Exception e) {
             System.out.println("Error approving product: " + e.getMessage());
             return null;
@@ -50,14 +51,15 @@ public class CuratoreController {
     }
 
     @PostMapping("/reject-product")
-    public Prodotto rejectProduct(@RequestBody Prodotto prodotto, @RequestParam UUID curatore) {
+    public Prodotto rejectProduct(@RequestParam UUID prodottoId, @RequestParam UUID curatore) {
         try {
-            return curatoreService.rejectProduct(prodotto, curatore);
+            return curatoreService.rejectProduct(prodottoId, curatore);
         } catch (Exception e) {
             System.out.println("Error rejecting product: " + e.getMessage());
             return null;
         }
     }
+
 
 
 
