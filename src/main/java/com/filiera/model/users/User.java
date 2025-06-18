@@ -2,8 +2,10 @@ package com.filiera.model.users;
 import jakarta.persistence.*;
 
 import java.util.UUID;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_user", discriminatorType = DiscriminatorType.STRING)
 public abstract class User {
 
     @Id
