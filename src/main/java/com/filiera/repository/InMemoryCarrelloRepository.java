@@ -12,5 +12,4 @@ public interface InMemoryCarrelloRepository extends JpaRepository<Carrello, UUID
 
     Optional<Carrello> findByBuyer(Acquirente buyer);
 
-
 }

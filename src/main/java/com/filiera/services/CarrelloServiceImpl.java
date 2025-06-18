@@ -71,22 +71,15 @@ public class CarrelloServiceImpl {
         return sb;
     }
 
-    private Carrello loadOrCreateCarrello() {
-        return cartRepo.findById(carrello.getBuyer().getId())
-                .orElseGet(() -> {
-                    Carrello newCart = new Carrello();
-                    newCart.setBuyer(carrello.getBuyer());
-                    return cartRepo.save(newCart);
-                });
-    }
 
-   public void clearCarrello(){
-       if (this.carrello.getProducts().isEmpty()) {
-           throw new RuntimeException("Il carrello è già vuoto.");
+
+   public void clearCarrello() throws Exception {
+
+        if(carrello.getProducts().isEmpty()){
+           throw new Exception("Il carrello è vuoto");
        }
 
-       this.carrello.clearCarrello();
-
+       carrello.clearCarrello();
        cartRepo.save(carrello);
    }
 
