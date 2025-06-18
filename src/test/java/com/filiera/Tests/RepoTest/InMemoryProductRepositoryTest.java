@@ -18,7 +18,7 @@ class InMemoryProductRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        repository = new InMemoryProductRepository();
+        repository = new  InMemoryProductRepository();
         prodotto = new Prodotto(
                 "Miele",
                 "Miele biologico",

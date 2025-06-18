@@ -1,6 +1,7 @@
 package com.filiera.model.products;
 
 import com.filiera.model.sellers.Venditore;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@DiscriminatorValue("PRODOTTODISTRIBUTORE")
 public class ProdottoDistributore extends Prodotto{
 
     @OneToMany

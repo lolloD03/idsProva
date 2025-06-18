@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@DiscriminatorColumn(name = "tipo_prodotto", discriminatorType = DiscriminatorType.STRING)
+
 public class Prodotto {
 
     @Id
