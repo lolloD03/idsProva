@@ -37,11 +37,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Prodotto createProduct(Venditore seller, String name, String descrizione, double price, int quantity, String certification) {
-        if(vendRepo.findById(seller.getId()).isEmpty()){
-            throw new IllegalArgumentException("Il venditore con ID " + seller.getId() + " non esiste.");
-        }
-        Prodotto prodotto = Prodotto.creaProdotto(name, descrizione, price, quantity, seller, certification);
+    public Prodotto createProduct(UUID seller, String name, String descrizione, double price, int quantity, String certification) {
+        Venditore venditore = vendRepo.findById(seller)
+                .orElseThrow(() -> new RuntimeException("Venditore non trovato con id: " + seller));
+        Prodotto prodotto = Prodotto.creaProdotto(name, descrizione, price, quantity, venditore, certification);
         return prodRepo.save(prodotto);
     }
 

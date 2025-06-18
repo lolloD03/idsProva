@@ -19,7 +19,7 @@ public class VenditoreController {
     public VenditoreController(ProductService service) { this.service = service; }
 
     @PostMapping("/create-product")
-    public Prodotto createProduct(@RequestBody Venditore venditor, @RequestParam String name, @RequestParam String descrizione, @RequestParam double price, @RequestParam int quantity, @RequestParam String certification) {
+    public Prodotto createProduct(@RequestParam UUID venditor, @RequestParam String name, @RequestParam String descrizione, @RequestParam double price, @RequestParam int quantity, @RequestParam String certification) {
 
         try {
             if (venditor == null || name == null || descrizione == null || price <= 0 || quantity <= 0) {

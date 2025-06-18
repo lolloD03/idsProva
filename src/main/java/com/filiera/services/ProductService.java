@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 public interface ProductService {
-    Prodotto createProduct(Venditore venditore, String name, String descrizione, double price, int quantity, String certitfication);
+    Prodotto createProduct(UUID seller, String name, String descrizione, double price, int quantity, String certitfication);
     List<Prodotto> listAll();
     Optional<Prodotto> getById(UUID id);
     Prodotto updateProduct(UUID prodottoId, String name, String descrizione, double price, int quantity);
