@@ -4,6 +4,7 @@ import com.filiera.model.payment.Carrello;
 import com.filiera.model.products.Prodotto;
 import com.filiera.repository.InMemoryProductRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class CarrelloServiceImpl {
     private final Carrello carrello;
     private final ProductService productService;
 
+    @Autowired
     public CarrelloServiceImpl(InMemoryProductRepository prodRepo, ProductService productService) {
         this.productService = productService;
         this.carrello = new Carrello();

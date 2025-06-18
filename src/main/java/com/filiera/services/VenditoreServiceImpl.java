@@ -17,11 +17,10 @@ public class VenditoreServiceImpl {
 
    private final UserService userService;
 
-    @Autowired
+   @Autowired
     public VenditoreServiceImpl(UserService userService) {
         this.userService = userService;
     }
-
 
     public void updateVenditoreByID(UUID id, String email, String name,int partitaIva){
 
@@ -39,4 +38,37 @@ public class VenditoreServiceImpl {
        return (Venditore) userService.findById(id);
     }
 
+
+
+
+    /* public Venditore getVenditoreByID(UUID id){
+        Optional<User> user = userRepository.findById(id);
+         if (user.isEmpty()) {
+             throw new RuntimeException("Utente non trovato con ID: " + id);
+         }
+         User u = user.get();
+
+         if (!(u instanceof Venditore)) {
+             throw new IllegalArgumentException("L'utente con ID " + id + " non è un venditore.");
+         }
+        return (Venditore) u;
+    }
+
+    public void removeVenditoreByID(UUID id) {
+        Venditore v = getVenditoreByID(id);
+        userRepository.deleteById(id);
+    }
+
+
+    public void UpdatePasswordByID(UUID id, String password){
+
+        Venditore v = getVenditoreByID(id);
+
+        if(password == v.getPassword()) {
+            v.setPassword(password);
+            userRepository.save(v);
+        } else {
+            System.out.println("Password errata");
+        }
+    }*/
 }

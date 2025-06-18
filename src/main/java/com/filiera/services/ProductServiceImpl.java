@@ -6,7 +6,11 @@ import com.filiera.model.users.User;
 import com.filiera.repository.CrudRepository;
 
 import com.filiera.model.products.StatoProdotto;
+import com.filiera.repository.InMemoryProductRepository;
+import com.filiera.repository.InMemoryUserRepository;
+import com.filiera.repository.InMemoryVenditoreRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -17,14 +21,16 @@ import java.util.UUID;
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
-    private final CrudRepository<Prodotto, UUID> prodRepo;
 
-    private final CrudRepository<User, UUID> userRepo;
+    private final InMemoryProductRepository prodRepo;
 
-    public ProductServiceImpl(CrudRepository<Prodotto, UUID> repo,  CrudRepository<User , UUID> userRepository)
+    private final InMemoryVenditoreRepository vendRepo;
+
+    @Autowired
+    public ProductServiceImpl(InMemoryProductRepository prodRepo,  InMemoryVenditoreRepository vendRepo)
     {
-        this.prodRepo = repo;
-        this.userRepo = userRepository;
+        this.prodRepo = prodRepo;
+        this.vendRepo = vendRepo;
     }
 
     @Override public List<Prodotto> listAll() { return prodRepo.findAll(); }
@@ -35,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Prodotto createProduct(Venditore seller, String name, String descrizione, double price, int quantity, String certification) {
-        if(userRepo.findById(seller.getId()).isEmpty()){
+        if(vendRepo.findById(seller.getId()).isEmpty()){
             throw new IllegalArgumentException("Il venditore con ID " + seller.getId() + " non esiste.");
         }
         Prodotto prodotto = Prodotto.creaProdotto(name, descrizione, price, quantity, seller, certification);
@@ -70,9 +76,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Prodotto> getApprovedProducts() {
-        return prodRepo.findAll().stream()
-                .filter(p -> p.getState() == StatoProdotto.APPROVATO)
-                .toList();
+        return prodRepo.findByState(StatoProdotto.APPROVATO);
     }
 
 

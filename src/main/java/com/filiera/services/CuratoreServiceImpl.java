@@ -6,6 +6,7 @@ import com.filiera.model.products.StatoProdotto;
 import com.filiera.repository.InMemoryProductRepository;
 import com.filiera.repository.InMemoryUserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class CuratoreServiceImpl {
     private final InMemoryProductRepository productRepository;
     private final InMemoryUserRepository userRepository;
 
+    @Autowired
     public CuratoreServiceImpl(InMemoryProductRepository productRepository, InMemoryUserRepository userRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;

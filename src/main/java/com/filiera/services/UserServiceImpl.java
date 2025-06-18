@@ -4,6 +4,7 @@ import com.filiera.model.users.User;
 import com.filiera.repository.CrudRepository;
 import com.filiera.repository.InMemoryUserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,6 +16,8 @@ import java.util.UUID;
 
 public class    UserServiceImpl implements UserService {
     private final CrudRepository<User , UUID> repo;
+
+    @Autowired
     public UserServiceImpl(InMemoryUserRepository repo) { this.repo = repo; }
     @Override
     public User register(User user) {
