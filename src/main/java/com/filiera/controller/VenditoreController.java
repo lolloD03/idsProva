@@ -35,27 +35,26 @@ public class VenditoreController {
 
     }
 
-    @PutMapping("/update-product")
-    public Prodotto updateProduct(@RequestBody Prodotto updatedProduct) {
 
+    @PutMapping("/update-product")
+    public Prodotto updateProduct(@RequestParam UUID prodottoId, @RequestParam String name, @RequestParam String descrizione, @RequestParam double price, @RequestParam int quantity) {
         try {
-            return service.updateProduct(updatedProduct);
+            return service.updateProduct(prodottoId, name, descrizione, price, quantity);
         } catch (Exception e) {
             System.err.println("Error updating product: " + e.getMessage());
             return null;
         }
-
     }
 
     @DeleteMapping("/delete-product")
-    public void deleteProduct(@RequestBody Prodotto toDeleteProduct) {
-
+    public void deleteProduct(@RequestParam UUID prodottoId) {
         try {
-            service.deleteProduct(toDeleteProduct);
+            service.deleteProduct(prodottoId);
         } catch (IllegalArgumentException e) {
-            System.err.println("Error updating product: " + e.getMessage());
+            System.err.println("Error deleting product: " + e.getMessage());
         }
     }
+
 
     @GetMapping("/approved-products")
     public List<Prodotto> getApprovedProducts() {

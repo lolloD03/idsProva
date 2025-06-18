@@ -45,29 +45,20 @@ public class ProductServiceImpl implements ProductService {
         return prodRepo.save(prodotto);
     }
 
-
     @Override
-    public Prodotto updateProduct(Prodotto updatedProduct) {
-        Prodotto actualProduct = prodRepo.findById(updatedProduct.getId())
-            .orElseThrow(() -> new RuntimeException("Prodotto non trovato con id: " + updatedProduct.getId()));
-        actualProduct.aggiornaProdotto(
-            updatedProduct.getName(),
-            updatedProduct.getDescription(),
-            updatedProduct.getPrice(),
-            updatedProduct.getAvailableQuantity()
-        );
+    public Prodotto updateProduct(UUID prodottoId, String name, String descrizione, double price, int quantity) {
+        Prodotto actualProduct = prodRepo.findById(prodottoId)
+                .orElseThrow(() -> new RuntimeException("Prodotto non trovato con id: " + prodottoId));
+        actualProduct.aggiornaProdotto(name, descrizione, price, quantity);
         return prodRepo.save(actualProduct);
     }
 
     @Override
-    public void deleteProduct(Prodotto prodotto) {
-
-        if (prodRepo.findById(prodotto.getId()).isEmpty()) {
-            throw new RuntimeException("Il prodotto con ID " + prodotto.getId() + " non esiste.");
+    public void deleteProduct(UUID prodottoId) {
+        if (prodRepo.findById(prodottoId).isEmpty()) {
+            throw new RuntimeException("Il prodotto con ID " + prodottoId + " non esiste.");
         }
-
-        prodRepo.deleteById(prodotto.getId());
-
+        prodRepo.deleteById(prodottoId);
     }
 
 
@@ -99,5 +90,7 @@ public class ProductServiceImpl implements ProductService {
          // Salva le modifiche al prodotto
         prodRepo.save(prodotto);
     }
+
+
 
 }

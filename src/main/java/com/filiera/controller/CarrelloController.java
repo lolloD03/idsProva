@@ -6,6 +6,8 @@ import com.filiera.services.CarrelloServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/carrello")
 public class CarrelloController {
@@ -18,7 +20,7 @@ public class CarrelloController {
     }
 
     @PostMapping("/add")
-    public Carrello addToCart(@RequestBody Prodotto prodotto) {
+    public Carrello addToCart(@RequestParam UUID prodotto ) {
         try {
             if (prodotto == null) {
                 throw new IllegalArgumentException("Product cannot be null");
@@ -33,7 +35,7 @@ public class CarrelloController {
     }
 
     @PostMapping("/remove")
-    public Carrello removeFromCart(@RequestBody Prodotto prodotto) {
+    public Carrello removeFromCart(@RequestParam UUID prodotto) {
         try {
             if (prodotto == null) {
                 throw new IllegalArgumentException("Product cannot be null");

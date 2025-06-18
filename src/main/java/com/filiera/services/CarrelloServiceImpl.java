@@ -29,26 +29,26 @@ public class CarrelloServiceImpl {
                 .orElseGet(() -> new Carrello());
     }
 
-    public List<Prodotto> addProduct(Prodotto prod) {
-        if(productService.getById(prod.getId()).isEmpty()) {
-            throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");
+    public List<Prodotto> addProduct(UUID prod) {
+        if(productService.getById(prod).isEmpty()) {
+            throw new RuntimeException("Il prodotto con id " + prod + " non esiste.");
         }
-        if(prod.getAvailableQuantity() == 0) {
-            throw new RuntimeException("Il prodotto con id " + prod.getId() + " non è disponibile.");
+        if(productService.getById(prod).get().getAvailableQuantity() <= 0) {
+            throw new RuntimeException("Il prodotto con id " + prod+ " non è disponibile.");
         }
 
-        this.carrello.addProduct(prod);
+        this.carrello.addProduct(productService.getById(prod).get());
 
         cartRepo.save(carrello);
         return List.copyOf(carrello.getProducts());
     }
 
-    public List<Prodotto> removeProduct(Prodotto prod) {
-        if(productService.getById(prod.getId()).isEmpty()) {
-            throw new RuntimeException("Il prodotto con id " + prod.getId() + " non esiste.");
+    public List<Prodotto> removeProduct(UUID prod) {
+        if(productService.getById(prod).isEmpty()) {
+            throw new RuntimeException("Il prodotto con id " + prod + " non esiste.");
         }
 
-        carrello.removeProduct(prod);
+        carrello.removeProduct(productService.getById(prod).get());
 
         cartRepo.save(carrello);
         return List.copyOf(carrello.getProducts());
