@@ -7,6 +7,7 @@ import com.filiera.model.users.User;
 import com.filiera.repository.InMemoryProductRepository;
 import com.filiera.repository.InMemoryUserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -16,9 +17,11 @@ public class VenditoreServiceImpl {
 
    private final UserService userService;
 
+    @Autowired
     public VenditoreServiceImpl(UserService userService) {
         this.userService = userService;
     }
+
 
     public void updateVenditoreByID(UUID id, String email, String name,int partitaIva){
 
