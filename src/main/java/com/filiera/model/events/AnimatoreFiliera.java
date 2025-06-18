@@ -1,11 +1,17 @@
 package com.filiera.model.events;
 
+import com.filiera.model.users.User;
+import jakarta.persistence.*;
+
 import java.util.List;
+import java.util.UUID;
 
-public class AnimatoreFiliera {
+@Entity
+@DiscriminatorValue("ANIMATORE")
+public class AnimatoreFiliera extends User {
 
-    private long id;
     private String name;
+
     private List<Evento> eventsCreated;
 
     public AnimatoreFiliera() {
@@ -15,13 +21,6 @@ public class AnimatoreFiliera {
         this.name = name;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -31,9 +30,9 @@ public class AnimatoreFiliera {
         this.name = name;
     }
 
-    public List<Evento> getEventsCreated() {
+    /*public List<Evento> getEventsCreated() {
         return eventsCreated;
-    }
+    }*/
 
     public void setEventsCreated(List<Evento> eventsCreated) {
         this.eventsCreated = eventsCreated;

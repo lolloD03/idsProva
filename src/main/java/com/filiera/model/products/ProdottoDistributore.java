@@ -1,12 +1,17 @@
 package com.filiera.model.products;
 
 import com.filiera.model.sellers.Venditore;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdottoDistributore {
+@Entity
+public class ProdottoDistributore extends Prodotto{
 
+    @OneToMany
     private List<Prodotto> prodotti;
 
     public ProdottoDistributore() {

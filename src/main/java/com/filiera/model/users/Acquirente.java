@@ -1,7 +1,12 @@
 package com.filiera.model.users;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
 import java.util.UUID;
 
+@Entity
+@DiscriminatorValue("ACQUIRENTE")
 public class Acquirente extends User {
 
 

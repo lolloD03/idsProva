@@ -1,8 +1,17 @@
 package com.filiera.model.users;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.util.UUID;
+@Entity
 public abstract class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+
     private String password;
     private String email;
     private String name;

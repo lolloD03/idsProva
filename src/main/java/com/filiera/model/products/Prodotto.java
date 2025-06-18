@@ -2,20 +2,34 @@ package com.filiera.model.products;
 
 import com.filiera.model.administration.Curatore;
 import com.filiera.model.sellers.Venditore;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Entity
 public class Prodotto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
+
+    @Enumerated(EnumType.STRING)
+    private StatoProdotto state;
+
+    @ManyToOne
+    private Venditore seller;
+
+    @ManyToOne
+    private Curatore approvedBy;
+
+    @Temporal(TemporalType.DATE)
+    private LocalDate expirationDate;
+
     private String name;
     private String description;
     private double price;
     private int availableQuantity;
-    private StatoProdotto state;
-    private Venditore seller;
-    private Curatore approvedBy;
-    private LocalDate expirationDate;
     private String certification;
 
     public Prodotto() {

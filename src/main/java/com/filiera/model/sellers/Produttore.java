@@ -2,8 +2,13 @@ package com.filiera.model.sellers;
 
 
 import com.filiera.model.users.RuoloUser;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import java.util.UUID;
+
+@Entity
+@DiscriminatorValue("PRODUTTORE")
 
 public class Produttore extends Venditore {
 

@@ -2,10 +2,14 @@ package com.filiera.model.sellers;
 
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.RuoloUser;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.UUID;
 
+@Entity
+@DiscriminatorValue("DISTRIBUTORE")
 public class DistributoreTipicita extends Venditore {
 
     private List<List<Prodotto>> listOfBundles;

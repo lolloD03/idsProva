@@ -1,19 +1,28 @@
 package com.filiera.model.sellers;
 
+import com.filiera.model.OsmMap.Indirizzo;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.RuoloUser;
 import com.filiera.model.users.User;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 public abstract class Venditore extends User {
 
 
-
+    @OneToMany(mappedBy = "seller")
     private List<Prodotto> prodotti;
+
+    @Embedded
+    private Indirizzo indirizzo;
+
     private int partitaIva;
 
     public Venditore() {
@@ -33,4 +42,5 @@ public abstract class Venditore extends User {
     public void setPartitaIva(int nuovaPartitaIva) {partitaIva = nuovaPartitaIva;}
     protected void prod(Prodotto prodotto){prodotti.add(prodotto);}
     protected void removeProductFromInventory(Prodotto prodotto) {prodotti.remove(prodotto);}
+
 }

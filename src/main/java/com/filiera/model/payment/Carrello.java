@@ -2,17 +2,24 @@ package com.filiera.model.payment;
 
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.Acquirente;
+import jakarta.persistence.*;
+import org.hibernate.annotations.IdGeneratorType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+ @Entity
 public class Carrello {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
+    @OneToMany
     private List<Prodotto> products;
 
+    @OneToOne
     private Acquirente buyer;
 
     private double totalPrice;
