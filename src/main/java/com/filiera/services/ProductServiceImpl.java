@@ -6,12 +6,16 @@ import com.filiera.model.users.User;
 import com.filiera.repository.CrudRepository;
 
 import com.filiera.model.products.StatoProdotto;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
     private final CrudRepository<Prodotto, UUID> prodRepo;
 
