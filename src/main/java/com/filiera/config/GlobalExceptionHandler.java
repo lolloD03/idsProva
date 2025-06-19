@@ -1,9 +1,8 @@
 package com.filiera.config;
 
 
+import com.filiera.exception.*;
 import com.filiera.model.dto.ErrorResponse;
-import com.filiera.exception.InsufficientQuantityException;
-import com.filiera.exception.ProductNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
@@ -45,6 +44,43 @@ public class GlobalExceptionHandler {
         log.error("Invalid argument: {}", ex.getMessage());
         ErrorResponse errorResponse = new ErrorResponse(
                 "INVALID_ARGUMENT",
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+
+    // Handle custom ProductNotPendingException
+    @ExceptionHandler(ProductNotPendingException.class)
+    public ResponseEntity<ErrorResponse> handleProductNotPendingException(ProductNotPendingException ex) {
+        log.error("Product not pending approval: {}", ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(
+                "PRODUCT_NOT_PENDING",
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    // Handle custom CuratorNotFoundException
+    @ExceptionHandler(CuratorNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCuratorNotFoundException(CuratorNotFoundException ex) {
+        log.error("Curator not found: {}", ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(
+                "CURATOR_NOT_FOUND",
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND.value()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    // Handle custom InvalidUserTypeException
+    @ExceptionHandler(InvalidUserTypeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidUserTypeException(InvalidUserTypeException ex) {
+        log.error("Invalid user type: {}", ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(
+                "INVALID_USER_TYPE",
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value()
         );
