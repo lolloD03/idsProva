@@ -1,4 +1,4 @@
-package com.filiera.dto;
+package com.filiera.model.dto;
 
 import lombok.Data;
 
