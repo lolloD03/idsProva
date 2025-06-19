@@ -32,16 +32,13 @@ public class CuratoreServiceImpl {
     }
 
 
-
     public Prodotto approveProduct(UUID prodottoId, UUID curatoreId) {
         Prodotto prodotto = productRepository.findById(prodottoId)
                 .orElseThrow(() -> new RuntimeException("Prodotto non trovato con id: " + prodottoId));
-        if (prodotto.getState() != StatoProdotto.IN_ATTESA_DI_APPROVAZIONE) {
-            throw new IllegalArgumentException("Il prodotto non è in attesa di approvazione.");
-        }
-        if (userRepository.findById(curatoreId).isEmpty()) {
-            throw new IllegalArgumentException("Il curatore con ID " + curatoreId + " non esiste.");
-        }
+
+        checkProduct(prodotto);
+        checkCuratore(curatoreId);
+
         Curatore curatore = (Curatore) userRepository.findById(curatoreId).get();
         prodotto.approveBy(curatore);
         return productRepository.save(prodotto);
@@ -50,14 +47,24 @@ public class CuratoreServiceImpl {
     public Prodotto rejectProduct(UUID prodottoId, UUID curatoreId) {
         Prodotto prodotto = productRepository.findById(prodottoId)
                 .orElseThrow(() -> new RuntimeException("Prodotto non trovato con id: " + prodottoId));
-        if (prodotto.getState() != StatoProdotto.IN_ATTESA_DI_APPROVAZIONE) {
-            throw new IllegalArgumentException("Il prodotto non è in attesa di approvazione.");
-        }
-        if (userRepository.findById(curatoreId).isEmpty()) {
-            throw new IllegalArgumentException("Il curatore con ID " + curatoreId + " non esiste.");
-        }
+
+        checkProduct(prodotto);
+        checkCuratore(curatoreId);
+
         Curatore curatoreObj = (Curatore) userRepository.findById(curatoreId).get();
         prodotto.rejectBy(curatoreObj);
         return productRepository.save(prodotto);
+    }
+
+    private void checkProduct(Prodotto prodotto) {
+        if (prodotto.getState() != StatoProdotto.IN_ATTESA_DI_APPROVAZIONE) {
+            throw new IllegalArgumentException("Il prodotto non è in attesa di approvazione.");
+        }
+    }
+
+    private void checkCuratore(UUID curatoreId) {
+        if (userRepository.findById(curatoreId).isEmpty()) {
+            throw new IllegalArgumentException("Il curatore con ID " + curatoreId + " non esiste.");
+        }
     }
 }
