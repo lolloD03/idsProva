@@ -1,5 +1,6 @@
 package com.filiera.controller;
 
+import com.filiera.model.dto.ProdottoRequestDTO;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.services.ProductService;
@@ -28,6 +29,21 @@ public class VenditoreController {
         this.service = service;
     }
 
+    @PostMapping("/create-productDTO")
+    public ResponseEntity<Prodotto> createProductDTO(
+            @RequestBody @NotNull ProdottoRequestDTO prodotto) {
+
+        if (prodotto == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Prodotto createdProduct = service.createProduct(prodotto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+    }
+
+
+
+/*
     @PostMapping("/create-product")
     public ResponseEntity<Prodotto> createProduct(
             @RequestParam @NotNull UUID venditor,
@@ -41,6 +57,8 @@ public class VenditoreController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
+
+ */
     @PutMapping("/update-product")
     public ResponseEntity<Prodotto> updateProduct(
             @RequestParam @NotNull UUID prodottoId,

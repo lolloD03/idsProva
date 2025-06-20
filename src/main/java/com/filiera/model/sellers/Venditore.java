@@ -39,7 +39,7 @@ public abstract class Venditore extends User { // Nota: Manteniamo abstract se c
     private Indirizzo indirizzo; // Assicurati di avere la classe Indirizzo con @Embeddable
 
     @Column(nullable = false, unique = true) // La partita IVA non può essere null e deve essere unica
-    private int partitaIva;
+    private String partitaIva;
 
     // Con @SuperBuilder, @NoArgsConstructor e @Getter/@Setter,
     // i costruttori e i metodi toString manuali non sono più necessari.

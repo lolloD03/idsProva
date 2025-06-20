@@ -1,5 +1,6 @@
 package com.filiera.services;
 
+import com.filiera.model.sellers.Produttore;
 import com.filiera.model.users.User;
 import com.filiera.repository.InMemoryUserRepository;
 import jakarta.transaction.Transactional;
@@ -23,6 +24,25 @@ public class    UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Email già registrata!");
         }
         return userRepo.save(user);
+    }
+
+    @Override
+    public Iterable<User> findAll() {
+        return userRepo.findAll();
+    }
+
+
+    @Override
+    public Produttore registerProduttore(Produttore produttore) {
+        if (produttore == null) {
+            throw new IllegalArgumentException("Produttore cannot be null");
+        }
+        if (userRepo.findAll().stream().anyMatch(u -> u.getEmail().equals(produttore.getEmail()))) {
+            throw new IllegalArgumentException("Email già registrata!");
+        }
+
+
+        return userRepo.save(produttore);
     }
 
     @Override
