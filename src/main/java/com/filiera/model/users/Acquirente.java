@@ -20,10 +20,6 @@ import java.util.UUID;
 @ToString(callSuper = true) // Genera un toString che include anche i campi della classe padre
 public class Acquirente extends User {
 
-    // Aggiungiamo anche qui una validazione base
-    @Column(nullable = false) // L'indirizzo non può essere null
-    private String address;
-
     // Con @SuperBuilder, @NoArgsConstructor e @Getter/@Setter,
     // i costruttori e i metodi toString manuali non sono più necessari.
     // L'ID è ora gestito dalla classe User tramite @GeneratedValue.

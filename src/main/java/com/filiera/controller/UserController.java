@@ -1,5 +1,6 @@
 package com.filiera.controller;
 
+import com.filiera.model.sellers.Produttore;
 import com.filiera.model.users.User;
 import com.filiera.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,19 @@ public class UserController {
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         return service.register(user);
+    }
+
+    @PostMapping("/register/produttore")
+    public User registerProduttore(@RequestBody Produttore produttore) {
+        if (produttore == null) {
+            throw new IllegalArgumentException("Produttore cannot be null");
+        }
+        return service.registerProduttore(produttore);
+    }
+
+    @GetMapping("/all")
+    public Iterable<User> getAllUsers() {
+        return service.findAll();
     }
 
     @GetMapping("/{id}")

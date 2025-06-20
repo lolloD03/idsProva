@@ -2,6 +2,7 @@ package com.filiera.services;
 
 import com.filiera.exception.InsufficientQuantityException;
 import com.filiera.exception.ProductNotFoundException;
+import com.filiera.model.dto.ProdottoRequestDTO;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,33 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Prodotto createProduct(ProdottoRequestDTO prodottoRequestDTO) {
+        logger.info("Creating new product from request DTO: {}", prodottoRequestDTO);
+
+        // Validate input parameters
+        validateProductInput(prodottoRequestDTO.getName(), prodottoRequestDTO.getDescrizione(),
+                prodottoRequestDTO.getPrice(), prodottoRequestDTO.getQuantity(), prodottoRequestDTO.getCertification());
+
+        // Find seller
+        Venditore venditore = vendRepo.findById(prodottoRequestDTO.getVenditorId())
+                .orElseThrow(() -> new ProductNotFoundException("Venditore non trovato con id: " + prodottoRequestDTO.getVenditorId()));
+
+        // Create and save product
+        Prodotto prodotto = Prodotto.builder()
+                .name(prodottoRequestDTO.getName())
+                .description(prodottoRequestDTO.getDescrizione())
+                .price(prodottoRequestDTO.getPrice())
+                .availableQuantity(prodottoRequestDTO.getQuantity())
+                .seller(venditore).build();
+        Prodotto savedProduct = prodRepo.save(prodotto);
+
+        venditore.addProdotto(savedProduct);
+        logger.info("Product created successfully with id: {}", savedProduct.getId());
+        return savedProduct;
+    }
+
+    /*
+    @Override
     public Prodotto createProduct(UUID sellerId, String name, String descrizione, double price, int quantity, String certification) {
         logger.info("Creating new product for seller: {}", sellerId);
 
@@ -66,6 +94,8 @@ public class ProductServiceImpl implements ProductService {
         return savedProduct;
     }
 
+
+     */
     @Override
     public Prodotto updateProduct(UUID prodottoId, String name, String descrizione, double price, int quantity) {
         logger.info("Updating product with id: {}", prodottoId);
@@ -80,6 +110,7 @@ public class ProductServiceImpl implements ProductService {
         // Update product
         actualProduct.aggiornaProdotto(name, descrizione, price, quantity);
         Prodotto updatedProduct = prodRepo.save(actualProduct);
+
 
         logger.info("Product updated successfully with id: {}", prodottoId);
         return updatedProduct;
@@ -138,10 +169,6 @@ public class ProductServiceImpl implements ProductService {
         logger.info("Quantity reduced successfully for product: {}", prodottoId);
     }
 
-    // Overloaded method for backward compatibility
-    public void riduciQuantità(Prodotto prodotto, int quantity) {
-        riduciQuantità(prodotto.getId(), quantity);
-    }
 
     private void validateProductInput(String name, String descrizione, double price, int quantity, String certification) {
         if (name == null || name.trim().isEmpty()) {
