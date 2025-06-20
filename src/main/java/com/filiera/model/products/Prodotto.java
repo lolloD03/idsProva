@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Prodotto {
 
     @Id
-    @Column(columnDefinition = "varchar(36)")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Enumerated(EnumType.STRING)
@@ -35,12 +35,11 @@ public class Prodotto {
     private String certification;
 
     public Prodotto() {
-        this.id = UUID.randomUUID();
+
     }
 
     public Prodotto(String name, String description, double price, int quantity, Venditore seller,int daysToExpire,String certification) {
         this.certification = certification;
-        this.id = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.price = price;

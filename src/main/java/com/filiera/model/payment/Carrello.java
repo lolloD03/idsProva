@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Carrello {
 
     @Id
-    @Column(columnDefinition = "varchar(36)")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @OneToMany
@@ -25,13 +25,13 @@ public class Carrello {
     private double totalPrice;
 
     public Carrello() {
-        this.id = UUID.randomUUID();
+
         this.products = new ArrayList<>();
         this.buyer = new Acquirente();
     }
 
     public Carrello(List<Prodotto> products , Acquirente buyer) {
-        this.id = UUID.randomUUID();
+
         this.products = products;
         this.buyer = buyer;
     }
