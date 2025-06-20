@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Carrello {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "varchar(36)")
     private UUID id;
 
     @OneToMany

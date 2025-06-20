@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Table(name = "app_users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_user", discriminatorType = DiscriminatorType.STRING)
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String password;
@@ -19,14 +20,16 @@ public abstract class User {
 
 
     public User(String password, String email, String name , RuoloUser ruolo) {
-        this.id = UUID.randomUUID();
+        //this.id = UUID.randomUUID();
         this.password = password;
         this.email = email;
         this.name = name;
         this.ruolo = ruolo;
     }
 
-    public User() {}
+    public User() {
+        //this.id = UUID.randomUUID();
+    }
 
 
 
