@@ -20,15 +20,11 @@ import java.util.UUID;
 @Transactional
 public class CarrelloServiceImpl {
 
-
     private final ProductService productService;
-
 
     private final InMemoryCarrelloRepository cartRepo;
 
-
     private final InMemoryAcquirenteRepository buyerRepo;
-
 
     public CarrelloServiceImpl(ProductService productService , InMemoryCarrelloRepository cartRepo, InMemoryAcquirenteRepository buyerRepo ) {
         this.cartRepo = cartRepo;

@@ -14,10 +14,7 @@ import java.util.UUID;
 @Embeddable
 public class ItemCarrello {
 
-    @ManyToOne
     private Prodotto product;
-
-    private UUID idProd;
 
     private UUID idItem;
 
@@ -26,7 +23,6 @@ public class ItemCarrello {
     public ItemCarrello(Prodotto product, int quantity) {
         this.product = product;
         this.quantity = quantity;
-        this.idProd = product.getId();
     }
 
     public void increaseQuantity(int q) {
