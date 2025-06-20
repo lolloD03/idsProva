@@ -9,8 +9,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class AcquirenteController {
+/*
+    InMemoryUserRepository userRepo = new InMemoryUserRepository();
 
-    private final InMemoryUserRepository userRepo;
 
     public AcquirenteController(InMemoryUserRepository userRepo) {
         this.userRepo = userRepo;
@@ -28,6 +29,6 @@ public class AcquirenteController {
     }
 
 
-
+*/
 
 }

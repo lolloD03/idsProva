@@ -11,7 +11,7 @@ import java.util.UUID;
 @Entity
 @DiscriminatorValue("DISTRIBUTORE")
 public class DistributoreTipicita extends Venditore {
-
+/*
     private List<List<Prodotto>> listOfBundles;
 
     public DistributoreTipicita() {
@@ -27,5 +27,5 @@ public class DistributoreTipicita extends Venditore {
     public void addToListOfBundles(List<Prodotto> bundleOfproducts) {listOfBundles.add(bundleOfproducts);}
 
     public void removeFromListOfBundles(List<Prodotto> bundleOfproducts) {listOfBundles.remove(bundleOfproducts);}
-
+*/
 }

@@ -25,8 +25,11 @@ public class CarrelloServiceImpl {
     public CarrelloServiceImpl( ProductService productService , InMemoryCarrelloRepository cartRepo) {
         this.cartRepo = cartRepo;
         this.productService = productService;
+        /*
         this.carrello = cartRepo.findById(carrello.getBuyer().getId())  // oppure id del carrello utente
                 .orElseGet(() -> new Carrello());
+                */
+
     }
 
     public List<Prodotto> addProduct(UUID prod) {
