@@ -3,21 +3,26 @@ package com.filiera.model.payment;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.Acquirente;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.IdGeneratorType;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
- @Entity
+@Getter
+@Setter
+@Entity
 public class Carrello {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToMany
-    private List<Prodotto> products;
+    @ElementCollection
+    private List<ItemCarrello> products;
 
     @OneToOne
     private Acquirente buyer;
@@ -30,54 +35,55 @@ public class Carrello {
         this.buyer = new Acquirente();
     }
 
-    public Carrello(List<Prodotto> products , Acquirente buyer) {
+    public Carrello(List<ItemCarrello> products , Acquirente buyer) {
 
         this.products = products;
         this.buyer = buyer;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public List<Prodotto> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Prodotto> products) {
-        this.products = products;
-    }
-
-    public Acquirente getBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(Acquirente buyer) {
-        this.buyer = buyer;
-    }
 
     public double getTotalPrice() {
 
-         return products.stream()
-                   .mapToDouble(Prodotto::getPrice)
-                   .sum();
+        if(products.isEmpty()) {
+            throw new RuntimeException("Il carrello è vuoto");
+        }
+
+        return products.stream().mapToDouble(ItemCarrello::getTotal).sum();
 
     }
 
-    public Prodotto addProduct(Prodotto product) {
+    public void addProduct(Prodotto product , int quantity) {
         if(product==null){throw new RuntimeException("Il prodotto è nullo");}
-        products.add(product);
-        return product;
+
+        for (ItemCarrello item : products) {
+            if (item.getProduct().getId().equals(product.getId())) {
+                item.increaseQuantity(quantity);
+                return;
+            }
+        }
+        products.add(new ItemCarrello(product, quantity));
     }
 
-    public Prodotto removeProduct(Prodotto product) {
-        if(!products.contains(product)){throw new RuntimeException("Il prodotto non è nel carrello");}
-        products.remove(product);
-        return product;
+    public void removeProduct(Prodotto product , int quantity) {
+
+        Iterator<ItemCarrello> iter = products.iterator();
+
+        while (iter.hasNext()) {
+            ItemCarrello item = iter.next();
+            if (item.getProduct().getId().equals(product.getId())) {
+                item.decreaseQuantity(quantity);
+                if (item.getQuantity() <= 0) {
+                    iter.remove();
+                }
+                return;
+            }
+        }
+
     }
 
     public void clearCarrello() {
         products.clear();
     }
+
 
 }

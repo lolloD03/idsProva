@@ -3,13 +3,16 @@ package com.filiera.model.products;
 import com.filiera.model.administration.Curatore;
 import com.filiera.model.sellers.Venditore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
 @DiscriminatorColumn(name = "tipo_prodotto", discriminatorType = DiscriminatorType.STRING)
-
+@Getter
+@Setter
 public class Prodotto {
 
     @Id
@@ -76,86 +79,6 @@ public class Prodotto {
     public void rejectBy(Curatore curatoreObj) {
         this.state = StatoProdotto.RIFIUTATO;
         this.approvedBy = curatoreObj;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getAvailableQuantity() {
-        return availableQuantity;
-    }
-
-    public void setAvailableQuantity(int availableQuantity) {
-        this.availableQuantity = availableQuantity;
-    }
-
-    public StatoProdotto getState() {
-        return state;
-    }
-
-    public void setState(StatoProdotto state) {
-        this.state = state;
-    }
-
-    public Venditore getSeller() {
-        return seller;
-    }
-
-    public void setSeller(Venditore seller) {
-        this.seller = seller;
-    }
-
-    public Curatore getApprovedBy() {
-        return approvedBy;
-    }
-
-    public void setApprovedBy(Curatore approvedBy) {
-        this.approvedBy = approvedBy;
-    }
-
-    public LocalDate getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(LocalDate expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    public String getCertification() {
-        return certification;
-    }
-
-    public void setCertification(String certification) {
-        this.certification = certification;
     }
 
     public String toString(){
