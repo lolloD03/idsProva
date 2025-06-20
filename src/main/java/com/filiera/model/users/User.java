@@ -5,11 +5,11 @@ import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo_user", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "users")
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "varchar(36)")
     private UUID id;
 
     private String password;
