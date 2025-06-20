@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Platform {
-
+/*
     private List<Prodotto> productsInPlatform;
 
     public Platform() {
@@ -20,5 +20,5 @@ public class Platform {
     public void setProductsInPlatform(List<Prodotto> productsInPlatform) {
         this.productsInPlatform = productsInPlatform;
     }
-
+*/
 }

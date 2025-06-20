@@ -16,7 +16,7 @@ import java.util.UUID;
 public abstract class Venditore extends User {
 
 
-    @OneToMany(mappedBy = "venditore")
+    @OneToMany(mappedBy = "seller")
     private List<Prodotto> prodotti;
 
     @Embedded

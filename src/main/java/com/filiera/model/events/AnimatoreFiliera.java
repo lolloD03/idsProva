@@ -9,7 +9,7 @@ import java.util.UUID;
 @Entity
 @DiscriminatorValue("ANIMATORE")
 public class AnimatoreFiliera extends User {
-
+/*
     private String name;
 
     private List<Evento> eventsCreated;
@@ -32,9 +32,13 @@ public class AnimatoreFiliera extends User {
 
     /*public List<Evento> getEventsCreated() {
         return eventsCreated;
-    }*/
+    }
 
     public void setEventsCreated(List<Evento> eventsCreated) {
         this.eventsCreated = eventsCreated;
     }
+
+
+ */
+
 }
