@@ -113,7 +113,7 @@ public class CarrelloServiceImpl {
         return loadOrCreateCarrello(buyerId);
    }
 
-   public StringBuilder buyCart(UUID buyerId) {
+   public Ordine buyCart(UUID buyerId) {
 
         Carrello carrello = getCarrello(buyerId);
 
@@ -126,15 +126,21 @@ public class CarrelloServiceImpl {
                    .orElseThrow(() -> new RuntimeException("Prodotto non trovato"));
 
 
-           productService.updateProduct(prodotto.getId() ,
-                   prodotto.getName(),
-                   prodotto.getDescription(),
-                   prodotto.getPrice(),
-                   prodotto.getAvailableQuantity() - item.getQuantity());
-
+           productService.riduciQuantità(prodotto.getId(), item.getQuantity());
        }
 
-       return getInvoice(buyerId);
+       //TODO MI SONO ROTTO IL CAZZO , DA FIXARE QUESTO METODO E GET ORDER
+
+       Ordine ordine = new Ordine();
+       ordine.setNumeroOrdine(UUID.randomUUID());
+       ordine.setBuyerId(buyerId);
+       ordine.setItems(carrello.getProducts());
+       ordine.setTotale(totale);
+       ordine.setDataOrdine(new Date());
+
+       clearCarrello(buyerId);
+       return new Ordine();
+
 
    }
 

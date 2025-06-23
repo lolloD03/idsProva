@@ -7,13 +7,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static java.util.UUID.randomUUID;
+
 @Data
 public class Ordine {
 
     public Ordine(){}
 
-    public Ordine(UUID numeroOrdine, UUID buyerId, List<ItemCarrello> items, double totale, Date dataOrdine) {
-        this.numeroOrdine = numeroOrdine;
+    public Ordine(UUID buyerId, List<ItemCarrello> items, double totale, Date dataOrdine) {
+        this.numeroOrdine = randomUUID();
         this.buyerId = buyerId;
         this.items = items;
         this.totale = totale;
@@ -27,6 +29,7 @@ public class Ordine {
     private List<ItemCarrello> items;
     private double totale;
     private Date dataOrdine;
+
 
 
 }
