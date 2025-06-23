@@ -11,11 +11,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@Embeddable
+@Entity
 public class ItemCarrello {
 
+    @ManyToOne
     private Prodotto product;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID idItem;
 
     private int quantity;
