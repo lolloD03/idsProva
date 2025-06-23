@@ -2,6 +2,7 @@ package com.filiera.services;
 
 import com.filiera.exception.InsufficientQuantityException;
 import com.filiera.exception.ProductNotFoundException;
+import com.filiera.exception.UnauthorizedOperationException;
 import com.filiera.model.dto.ProdottoRequestDTO;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
@@ -49,16 +50,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Prodotto createProduct(ProdottoRequestDTO prodottoRequestDTO) {
-        logger.info("Creating new product from request DTO: {}", prodottoRequestDTO);
+    public Prodotto createProduct(ProdottoRequestDTO prodottoRequestDTO, UUID venditorId) {
+        logger.info("Creating new product from request DTO for vendor: {}", venditorId);
 
         // Validate input parameters
-        validateProductInput(prodottoRequestDTO.getName(), prodottoRequestDTO.getDescrizione(),
-                prodottoRequestDTO.getPrice(), prodottoRequestDTO.getQuantity(), prodottoRequestDTO.getCertification());
+        validateProductInput(prodottoRequestDTO);
 
         // Find seller
-        Venditore venditore = vendRepo.findById(prodottoRequestDTO.getVenditorId())
-                .orElseThrow(() -> new ProductNotFoundException("Venditore non trovato con id: " + prodottoRequestDTO.getVenditorId()));
+        Venditore venditore = vendRepo.findById(venditorId)
+                .orElseThrow(() -> new ProductNotFoundException("Venditore non trovato con id: " + venditorId));
 
         // Create and save product
         Prodotto prodotto = Prodotto.builder()
@@ -66,10 +66,14 @@ public class ProductServiceImpl implements ProductService {
                 .description(prodottoRequestDTO.getDescrizione())
                 .price(prodottoRequestDTO.getPrice())
                 .availableQuantity(prodottoRequestDTO.getQuantity())
-                .seller(venditore).build();
-        Prodotto savedProduct = prodRepo.save(prodotto);
+                .certification(prodottoRequestDTO.getCertification())
+                .expirationDate(prodottoRequestDTO.getExpirationDate()) // Se presente
+                .seller(venditore)
+                .build();
 
+        Prodotto savedProduct = prodRepo.save(prodotto);
         venditore.addProdotto(savedProduct);
+
         logger.info("Product created successfully with id: {}", savedProduct.getId());
         return savedProduct;
     }
@@ -97,22 +101,36 @@ public class ProductServiceImpl implements ProductService {
 
      */
     @Override
-    public Prodotto updateProduct(UUID prodottoId, String name, String descrizione, double price, int quantity) {
-        logger.info("Updating product with id: {}", prodottoId);
+    public Prodotto updateProduct(UUID productId, ProdottoRequestDTO prodottoRequestDTO, UUID venditorId) {
+        logger.info("Aggiornamento del prodotto con id: {} per il venditore: {}", productId, venditorId);
 
-        // Validate input parameters
-        validateProductInput(name, descrizione, price, quantity, null);
+        // 1. Valida i parametri di input per l'aggiornamento
+        validateProductInput(prodottoRequestDTO);
 
-        // Find existing product
-        Prodotto actualProduct = prodRepo.findById(prodottoId)
-                .orElseThrow(() -> new ProductNotFoundException("Prodotto non trovato con id: " + prodottoId));
+        // 2. Trova il prodotto esistente
+        Prodotto existingProduct = prodRepo.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Prodotto non trovato con id: " + productId));
 
-        // Update product
-        actualProduct.aggiornaProdotto(name, descrizione, price, quantity);
-        Prodotto updatedProduct = prodRepo.save(actualProduct);
+        // 3. Verifica la proprietà del venditore
+        // È fondamentale assicurarsi che solo il venditore proprietario possa modificare il prodotto.
+        if (!existingProduct.getSeller().getId().equals(venditorId)) {
+            logger.warn("Tentativo non autorizzato di aggiornare il prodotto {} da parte del venditore {}. Il prodotto appartiene al venditore {}.",
+                    productId, venditorId, existingProduct.getSeller().getId());
+            throw new UnauthorizedOperationException("Il venditore con ID " + venditorId +
+                    " non è autorizzato a modificare il prodotto con ID " + productId);
+        }
 
+        // 4. Aggiorna i campi del prodotto
+        existingProduct.setName(prodottoRequestDTO.getName());
+        existingProduct.setDescription(prodottoRequestDTO.getDescrizione());
+        existingProduct.setPrice(prodottoRequestDTO.getPrice());
+        existingProduct.setAvailableQuantity(prodottoRequestDTO.getQuantity());
+        existingProduct.setCertification(prodottoRequestDTO.getCertification());
+        existingProduct.setExpirationDate(prodottoRequestDTO.getExpirationDate());
 
-        logger.info("Product updated successfully with id: {}", prodottoId);
+        // 5. Salva il prodotto aggiornato
+        Prodotto updatedProduct = prodRepo.save(existingProduct);
+        logger.info("Prodotto aggiornato con successo con id: {}", updatedProduct.getId());
         return updatedProduct;
     }
 
@@ -170,21 +188,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    private void validateProductInput(String name, String descrizione, double price, int quantity, String certification) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Il nome del prodotto non può essere vuoto");
+    private void validateProductInput(ProdottoRequestDTO prodottoRequestDTO) {
+        if (prodottoRequestDTO == null) {
+            throw new IllegalArgumentException("Il prodotto non può essere nullo.");
         }
-        if (descrizione == null || descrizione.trim().isEmpty()) {
-            throw new IllegalArgumentException("La descrizione del prodotto non può essere vuota");
+
+        if (prodottoRequestDTO.getName() == null || prodottoRequestDTO.getName().isBlank()) {
+            throw new IllegalArgumentException("Il nome del prodotto non può essere vuoto.");
         }
-        if (price <= 0) {
-            throw new IllegalArgumentException("Il prezzo deve essere maggiore di zero");
+        if (prodottoRequestDTO.getDescrizione() == null || prodottoRequestDTO.getDescrizione().isBlank()) {
+            throw new IllegalArgumentException("La descrizione del prodotto non può essere vuota.");
         }
-        if (quantity <= 0) {
-            throw new IllegalArgumentException("La quantità deve essere maggiore di zero");
+        if (prodottoRequestDTO.getPrice() <= 0) {
+            throw new IllegalArgumentException("Il prezzo deve essere maggiore di 0.");
         }
-        if (certification != null && certification.trim().isEmpty()) {
-            throw new IllegalArgumentException("La certificazione non può essere vuota se fornita");
+        if (prodottoRequestDTO.getQuantity() <= 0) {
+            throw new IllegalArgumentException("La quantità deve essere maggiore di 0.");
         }
+        if (prodottoRequestDTO.getCertification() == null || prodottoRequestDTO.getCertification().isBlank()) {
+            throw new IllegalArgumentException("La certificazione non può essere vuota.");
+        }
+        if (prodottoRequestDTO.getExpirationDate() == null) {
+            throw new IllegalArgumentException("La data di scadenza non può essere nulla.");
+        }
+
+
     }
 }

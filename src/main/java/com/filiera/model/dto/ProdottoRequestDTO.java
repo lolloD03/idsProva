@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data // Include @Getter, @Setter, @ToString, @EqualsAndHashCode
@@ -16,11 +17,6 @@ import java.util.UUID;
 @AllArgsConstructor // Costruttore con tutti gli argomenti
 @Builder // Per creare facilmente istanze (utile nei test)
 public class ProdottoRequestDTO {
-
-    // Questo campo servirà per passare l'ID del venditore nel JSON,
-    // finché non avrai la security configurata per recuperarlo automaticamente.
-    @NotNull(message = "L'ID del venditore non può essere nullo")
-    private UUID venditorId;
 
     @NotBlank(message = "Il nome del prodotto non può essere vuoto")
     private String name;
@@ -36,4 +32,7 @@ public class ProdottoRequestDTO {
 
     @NotBlank(message = "La certificazione non può essere vuota")
     private String certification;
+
+    @NotNull(message = " La data di scadenza non può essere nulla")
+    private LocalDate expirationDate;
 }
