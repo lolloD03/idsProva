@@ -86,6 +86,17 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UnauthorizedOperationException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedOperationException(UnauthorizedOperationException ex) {
+        log.error("Unauthorized operation: {}", ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(
+                "UNAUTHORIZED_OPERATION",
+                ex.getMessage(),
+                HttpStatus.FORBIDDEN.value()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
 /*
     // Handle validation errors for @RequestParam
     @ExceptionHandler(ConstraintViolationException.class)
