@@ -4,6 +4,7 @@ import com.filiera.model.dto.ProdottoRequestDTO;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.services.ProductService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -29,18 +30,24 @@ public class VenditoreController {
         this.service = service;
     }
 
-    @PostMapping("/create-productDTO")
-    public ResponseEntity<Prodotto> createProductDTO(
-            @RequestBody @NotNull ProdottoRequestDTO prodotto) {
+    @PostMapping("/create-product")
+    public ResponseEntity<Prodotto> createProduct(
+            @RequestBody @Valid ProdottoRequestDTO prodottoDTO,
+            @RequestHeader("X-User-Id") UUID venditorId) { // Simulazione header di autenticazione
 
-        if (prodotto == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Prodotto createdProduct = service.createProduct(prodotto);
+        Prodotto createdProduct = service.createProduct(prodottoDTO, venditorId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
+    // Alternativa: endpoint temporaneo per testing
+    @PostMapping("/create-product-test")
+    public ResponseEntity<Prodotto> createProductForTesting(
+            @RequestBody @Valid ProdottoRequestDTO prodottoDTO,
+            @RequestParam UUID venditorId) { // Parametro temporaneo per test
+
+        Prodotto createdProduct = service.createProduct(prodottoDTO, venditorId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+    }
 
 
 /*
@@ -62,12 +69,24 @@ public class VenditoreController {
     @PutMapping("/update-product")
     public ResponseEntity<Prodotto> updateProduct(
             @RequestParam @NotNull UUID prodottoId,
-            @RequestParam @NotBlank String name,
-            @RequestParam @NotBlank String descrizione,
-            @RequestParam @DecimalMin(value = "0.01") double price,
-            @RequestParam @Min(1) int quantity) {
+            @RequestBody @Valid ProdottoRequestDTO prodottoDTO ,
+            @RequestHeader("X-User-Id") UUID venditorId) { // Simulazione header di autenticazione
 
-        Prodotto product = service.updateProduct(prodottoId, name, descrizione, price, quantity);
+
+
+        Prodotto product = service.updateProduct(prodottoId, prodottoDTO , venditorId);
+        return ResponseEntity.ok(product);
+    }
+
+    @PutMapping("/update-product")
+    public ResponseEntity<Prodotto> updateProductForTesting(
+            @RequestParam @NotNull UUID prodottoId,
+            @RequestBody @Valid ProdottoRequestDTO prodottoDTO ,
+            @RequestParam UUID venditorId) { // Simulazione header di autenticazione
+
+
+
+        Prodotto product = service.updateProduct(prodottoId, prodottoDTO , venditorId);
         return ResponseEntity.ok(product);
     }
 

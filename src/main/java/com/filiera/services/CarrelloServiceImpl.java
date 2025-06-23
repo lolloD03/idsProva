@@ -6,12 +6,11 @@ import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.Acquirente;
 import com.filiera.repository.InMemoryAcquirenteRepository;
 import com.filiera.repository.InMemoryCarrelloRepository;
-import com.filiera.repository.InMemoryProductRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.InvalidPropertyException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.filiera.model.payment.Ordine;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,6 +54,10 @@ public class CarrelloServiceImpl {
 
         Carrello carrello = getCarrello(buyerId);
 
+        if(cartIsEmpty(buyerId)) {
+            throw new RuntimeException("Il carrello è vuoto");
+        }
+
         carrello.removeProduct(productService.getById(prod).get() , quantity);
 
         cartRepo.save(carrello);
@@ -74,8 +77,8 @@ public class CarrelloServiceImpl {
             sb.append("Prodotto: ").append(prod.getProduct().getName()).append("\n");
             sb.append("Prezzo: ").append(prod.getProduct().getPrice()).append("\n");
             sb.append("Quantità: ").append(prod.getQuantity()).append("\n");
-            sb.append("Prezzo totale: ").append(prod.getTotal()).append("\n");
         }
+        sb.append("Totale: ").append(totalInvoice).append("\n");
         return sb;
     }
 
@@ -85,7 +88,7 @@ public class CarrelloServiceImpl {
 
         Carrello carrello = getCarrello(buyerId);
 
-        if(carrello.getProducts().isEmpty()){
+        if(cartIsEmpty(buyerId)) {
            throw new RuntimeException("Il carrello è vuoto");
        }
 
@@ -110,4 +113,56 @@ public class CarrelloServiceImpl {
         return loadOrCreateCarrello(buyerId);
    }
 
+   public Ordine buyCart(UUID buyerId) {
+
+        Carrello carrello = getCarrello(buyerId);
+
+       if(cartIsEmpty(buyerId)) {
+           throw new RuntimeException("Il carrello è vuoto");
+       }
+
+       for (ItemCarrello item : carrello.getProducts()) {
+           Prodotto prodotto = productService.getById(item.getProduct().getId())
+                   .orElseThrow(() -> new RuntimeException("Prodotto non trovato"));
+
+
+           productService.riduciQuantità(prodotto.getId(), item.getQuantity());
+       }
+
+       //TODO MI SONO ROTTO IL CAZZO , DA FIXARE QUESTO METODO E GET ORDER
+
+       Ordine ordine = new Ordine();
+       ordine.setNumeroOrdine(UUID.randomUUID());
+       ordine.setBuyerId(buyerId);
+       ordine.setItems(carrello.getProducts());
+       ordine.setTotale(totale);
+       ordine.setDataOrdine(new Date());
+
+       clearCarrello(buyerId);
+       return new Ordine();
+
+
+   }
+
+   public Ordine getOrder (UUID buyerId) {
+
+        Carrello carrello = getCarrello(buyerId);
+        buyCart(buyerId);
+
+        Ordine ordine = new Ordine();
+       ordine.setNumeroOrdine(UUID.randomUUID());
+       ordine.setBuyerId(buyerId);
+       ordine.setItems(carrello.getProducts());
+       ordine.setTotale(carrello.getTotalPrice());
+       ordine.setDataOrdine(new Date());
+
+       clearCarrello(buyerId);
+
+        return ordine;
+    }
+
+    public boolean cartIsEmpty(UUID buyerId) {
+        Carrello carrello = getCarrello(buyerId);
+        return carrello.getProducts().isEmpty();
+    }
 }

@@ -1,10 +1,12 @@
 package com.filiera.controller;
 
 import com.filiera.model.payment.Carrello;
+import com.filiera.model.payment.Ordine;
 import com.filiera.services.CarrelloServiceImpl;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -87,5 +89,17 @@ public class CarrelloController {
 
         // Se il carrello è vuoto, restituisci comunque 200 con carrello vuoto
         return ResponseEntity.ok(carrello);    }
+
+    @PostMapping("/buy")
+    public ResponseEntity<Ordine> buyCart(@RequestParam @NotNull (message = "Buyer ID cannot be null")UUID buyerId) {
+
+        log.debug("Buying cart for buyer {}", buyerId);
+
+        Ordine ordine = service.getOrder(buyerId);
+        return ResponseEntity.ok(ordine);
+
+    }
+
+
 
 }
