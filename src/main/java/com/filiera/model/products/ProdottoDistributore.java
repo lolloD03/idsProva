@@ -5,6 +5,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,3 +42,5 @@ public class ProdottoDistributore extends Prodotto{
     }
 
 }
+
+

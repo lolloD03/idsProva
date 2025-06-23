@@ -22,7 +22,7 @@ public class VenditoreServiceImpl {
         this.userService = userService;
     }
 
-    public void updateVenditoreByID(UUID id, String email, String name,int partitaIva){
+    public void updateVenditoreByID(UUID id, String email, String name,String partitaIva){
 
         Venditore v = getVenditoreByID(id);
         v.setEmail(email);

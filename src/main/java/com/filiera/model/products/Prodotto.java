@@ -4,174 +4,86 @@ import com.filiera.model.administration.Curatore;
 import com.filiera.model.sellers.Venditore;
 import jakarta.persistence.*;
 
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.time.LocalDate;
 import java.util.UUID;
-
 @Entity
-@DiscriminatorColumn(name = "tipo_prodotto", discriminatorType = DiscriminatorType.STRING)
-
+// @DiscriminatorColumn non è necessario su una classe che non è parte di una gerarchia di ereditarietà JPA.
+// Se Prodotto fosse classe base per altri tipi di prodotti (es. ProdottoAgricolo, ProdottoArtigianale),
+// allora avrebbe senso. Ma in base al tuo schema, Prodotto è una classe concreta.
+@Data // Genera getter, setter, equals, hashCode, toString
+@NoArgsConstructor // Costruttore senza argomenti per JPA
+// Abilita il pattern Builder per una creazione oggetti fluida
+@EqualsAndHashCode(of = "id") // Genera equals/hashCode solo basato sull'ID per le entità
+@ToString // Genera toString
+@SuperBuilder
 public class Prodotto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.UUID) // <--- Cambiato da UUID a Long, generazione automatica
+    private UUID id; // <--- Tipo Long
 
-    @Enumerated(EnumType.STRING)
-    private StatoProdotto state;
+    @Enumerated(EnumType.STRING) // Mappa l'enum come stringa nel DB
+    private StatoProdotto state; // Enum StatoProdotto (APPROVATO, ESAURITO, IN_ATTESA_DI_APPROVAZIONE, RIFIUTATO)
 
-    @ManyToOne
+    @ManyToOne // Molti prodotti possono essere venduti da un singolo venditore
+    @JoinColumn(name = "seller_id", nullable = false) // Colonna FK nella tabella 'prodotto', obbligatoria
     private Venditore seller;
 
-    @ManyToOne
+    @ManyToOne // Molti prodotti possono essere approvati da un singolo curatore
+    @JoinColumn(name = "approved_by_id") // Colonna FK, può essere null se non ancora approvato
     private Curatore approvedBy;
 
-    @Temporal(TemporalType.DATE)
+    // LocalDate non richiede @Temporal(TemporalType.DATE) con JPA moderno (Spring Boot 2.x+ / Hibernate 5+),
+    // dato che viene mappato correttamente a DATE per default. Puoi lasciarlo per chiarezza se preferisci.
     private LocalDate expirationDate;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(columnDefinition = "TEXT") // Utile per testi più lunghi
     private String description;
+
+    @Column(nullable = false)
     private double price;
+
+    @Column(nullable = false)
     private int availableQuantity;
-    private String certification;
 
-    public Prodotto() {
-        // Default constructor
+    private String certification; // Potrebbe essere nullable = true per default
+
+    // --- Lifecycle Callbacks JPA ---
+    // Questo metodo viene eseguito prima che l'entità venga salvata per la prima volta
+    @PrePersist
+    public void prePersist() {
+        if (this.state == null) {
+            this.state = StatoProdotto.IN_ATTESA_DI_APPROVAZIONE;
+        }
+        // Se non viene settata una data di scadenza, puoi settarla qui
+        // if (this.expirationDate == null) {
+        //     this.expirationDate = LocalDate.now().plusDays(30); // Esempio: 30 giorni di default
+        // }
     }
 
-    public Prodotto(String name, String description, double price, int quantity, Venditore seller,int daysToExpire,String certification) {
-        this.certification = certification;
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.availableQuantity = quantity;
-        this.seller =seller;
-        this.setExpirationDate(LocalDate.now().plusDays(daysToExpire));
-    }
-
-    public static Prodotto creaProdotto(String name, String description, double price, int quantity, Venditore seller,String certification) {
-        Prodotto prodotto = new Prodotto();
-        prodotto.certification = certification;
-        prodotto.id = UUID.randomUUID();
-        prodotto.name = name;
-        prodotto.description = description;
-        prodotto.price = price;
-        prodotto.availableQuantity = quantity;
-        prodotto.seller = seller;
-        prodotto.state = StatoProdotto.IN_ATTESA_DI_APPROVAZIONE;
-        return prodotto;
-    }
+    // --- Metodi con Logica di Business ---
+    // Nota: I getter e setter standard sono forniti da @Data
 
     public void aggiornaProdotto(String name, String description, double price, int quantity) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.availableQuantity = quantity;
+        this.setName(name); // Usa i setter generati da Lombok
+        this.setDescription(description);
+        this.setPrice(price);
+        this.setAvailableQuantity(quantity);
     }
 
     public void approveBy(Curatore curatore) {
-        this.state = StatoProdotto.APPROVATO;
-        this.approvedBy = curatore;
+        this.setState(StatoProdotto.APPROVATO);
+        this.setApprovedBy(curatore);
     }
 
     public void rejectBy(Curatore curatoreObj) {
-        this.state = StatoProdotto.RIFIUTATO;
-        this.approvedBy = curatoreObj;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getAvailableQuantity() {
-        return availableQuantity;
-    }
-
-    public void setAvailableQuantity(int availableQuantity) {
-        this.availableQuantity = availableQuantity;
-    }
-
-    public StatoProdotto getState() {
-        return state;
-    }
-
-    public void setState(StatoProdotto state) {
-        this.state = state;
-    }
-
-    public Venditore getSeller() {
-        return seller;
-    }
-
-    public void setSeller(Venditore seller) {
-        this.seller = seller;
-    }
-
-    public Curatore getApprovedBy() {
-        return approvedBy;
-    }
-
-    public void setApprovedBy(Curatore approvedBy) {
-        this.approvedBy = approvedBy;
-    }
-
-    public LocalDate getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(LocalDate expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    public String getCertification() {
-        return certification;
-    }
-
-    public void setCertification(String certification) {
-        this.certification = certification;
-    }
-
-    public String toString(){
-
-        return "Prodotto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", availableQuantity=" + availableQuantity +
-                ", state=" + state +
-                ", seller=" + seller +
-                ", approvedBy=" + approvedBy +
-                ", expirationDate=" + expirationDate +
-                ", certification='" + certification + '\'' +
-                '}';
+        this.setState(StatoProdotto.RIFIUTATO);
+        this.setApprovedBy(curatoreObj);
     }
 }

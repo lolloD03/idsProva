@@ -1,8 +1,12 @@
 package com.filiera.controller;
 
 import com.filiera.model.products.Prodotto;
+import com.filiera.model.products.StatoProdotto;
 import com.filiera.services.CuratoreServiceImpl;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -11,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/curatore")
+@Validated
 public class CuratoreController {
 
     private final CuratoreServiceImpl curatoreService;
@@ -21,45 +26,46 @@ public class CuratoreController {
     }
 
     @GetMapping("/pending-products")
-    public List<Prodotto> getPendingProducts() {
-        try {
-            List<Prodotto> pendingProducts = curatoreService.getPendingProducts();
-
-            if(pendingProducts == null||pendingProducts.isEmpty()) {
-                System.out.println("No pending products found.");
-                return Collections.emptyList();
-            }
-            return pendingProducts;
-
-        } catch (Exception e) {
-            System.out.println("Error retrieving pending products: " + e.getMessage());
-            return null;
-
-        }
-
+    public ResponseEntity<List<Prodotto>> getPendingProducts() {
+        List<Prodotto> pendingProducts = curatoreService.getPendingProducts();
+        return ResponseEntity.ok(pendingProducts);
     }
 
-    @PostMapping("/approve-product")
-    public Prodotto approveProduct(@RequestBody Prodotto prodotto, @RequestParam UUID curatore) {
-        try {
-            return curatoreService.approveProduct(prodotto, curatore);
-        } catch (Exception e) {
-            System.out.println("Error approving product: " + e.getMessage());
-            return null;
-        }
+    @PutMapping("/approve-product")
+    public ResponseEntity<Prodotto> approveProduct(
+            @RequestParam @NotNull UUID prodottoId,
+            @RequestParam @NotNull UUID curatoreId) {
+
+        Prodotto approvedProduct = curatoreService.approveProduct(prodottoId, curatoreId);
+        return ResponseEntity.ok(approvedProduct);
     }
 
-    @PostMapping("/reject-product")
-    public Prodotto rejectProduct(@RequestBody Prodotto prodotto, @RequestParam UUID curatore) {
-        try {
-            return curatoreService.rejectProduct(prodotto, curatore);
-        } catch (Exception e) {
-            System.out.println("Error rejecting product: " + e.getMessage());
-            return null;
-        }
+    @PutMapping("/reject-product")
+    public ResponseEntity<Prodotto> rejectProduct(
+            @RequestParam @NotNull UUID prodottoId,
+            @RequestParam @NotNull UUID curatoreId) {
+
+        Prodotto rejectedProduct = curatoreService.rejectProduct(prodottoId, curatoreId);
+        return ResponseEntity.ok(rejectedProduct);
     }
 
+    @GetMapping("/products/by-state")
+    public ResponseEntity<List<Prodotto>> getProductsByState(
+            @RequestParam @NotNull StatoProdotto stato) {
 
+        List<Prodotto> products = curatoreService.getProductsByState(stato);
+        return ResponseEntity.ok(products);
+    }
 
+    @GetMapping("/approved-products")
+    public ResponseEntity<List<Prodotto>> getApprovedProducts() {
+        List<Prodotto> approvedProducts = curatoreService.getApprovedProducts();
+        return ResponseEntity.ok(approvedProducts);
+    }
+
+    @GetMapping("/rejected-products")
+    public ResponseEntity<List<Prodotto>> getRejectedProducts() {
+        List<Prodotto> rejectedProducts = curatoreService.getRejectedProducts();
+        return ResponseEntity.ok(rejectedProducts);
+    }
 }
-

@@ -1,45 +1,22 @@
 package com.filiera.model.OsmMap;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Indirizzo {
+    @Column(nullable = false)
     private String citta;
-
+    @Column(nullable = false)
     private String via;
-
+    @Column(nullable = false)
     private String numeroCivico;
-
-    public Indirizzo() {}
-
-    public Indirizzo(String citta, String via, String numeroCivico) {
-        this.citta = citta;
-        this.via = via;
-        this.numeroCivico = numeroCivico;
-    }
-
-    public String getCitta() {
-        return citta;
-    }
-
-    public void setCitta(String citta) {
-        this.citta = citta;
-    }
-
-    public String getVia() {
-        return via;
-    }
-
-    public void setVia(String via) {
-        this.via = via;
-    }
-
-    public String getNumeroCivico() {
-        return numeroCivico;
-    }
-
-    public void setNumeroCivico(String numeroCivico){
-        this.numeroCivico = numeroCivico;
-    }
-
 }
