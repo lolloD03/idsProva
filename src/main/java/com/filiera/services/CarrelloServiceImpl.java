@@ -1,5 +1,6 @@
 package com.filiera.services;
 
+import com.filiera.exception.ProductNotFoundException;
 import com.filiera.model.payment.Carrello;
 import com.filiera.model.payment.ItemCarrello;
 import com.filiera.model.products.Prodotto;
@@ -125,7 +126,7 @@ public class CarrelloServiceImpl {
         List<ItemCarrello > listOfItems = carrello.getProducts();
 
        if(cartIsEmpty(buyerId)) {
-           throw new RuntimeException("Il carrello è vuoto");
+           throw new ProductNotFoundException("Il carrello è vuoto");
        }
 
        for (ItemCarrello item : carrello.getProducts()) {
