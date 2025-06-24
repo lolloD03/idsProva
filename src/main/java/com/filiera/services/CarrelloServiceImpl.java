@@ -1,5 +1,6 @@
 package com.filiera.services;
 
+import com.filiera.exception.ProductNotFoundException;
 import com.filiera.model.payment.Carrello;
 import com.filiera.model.payment.ItemCarrello;
 import com.filiera.model.products.Prodotto;
@@ -40,7 +41,8 @@ public class CarrelloServiceImpl {
     public Carrello addProduct(UUID prod , int quantity , UUID buyerId) {
 
 
-        Prodotto prodotto = productService.checkProductState(prod);
+        Prodotto prodotto = productService.getById(prod)
+                .orElseThrow(() -> new ProductNotFoundException("Il prodotto con id " + prod + " non esiste."));
 
         Carrello carrello = getCarrello(buyerId);
 

@@ -61,7 +61,10 @@ public class Carrello {
                 return;
             }
         }
-        products.add(new ItemCarrello(product, quantity));
+
+        ItemCarrello newItem = new ItemCarrello(product, quantity);
+        newItem.setCarrello(this);
+        products.add(newItem);
     }
 
     public void removeProduct(Prodotto product , int quantity) {
