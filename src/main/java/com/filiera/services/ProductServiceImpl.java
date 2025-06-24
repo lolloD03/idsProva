@@ -155,7 +155,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void riduciQuantità(UUID prodottoId, int quantity) {
+    public void riduciQuantita(UUID prodottoId, int quantity) {
         logger.info("Reducing quantity for product: {} by {}", prodottoId, quantity);
 
         // Validate quantity

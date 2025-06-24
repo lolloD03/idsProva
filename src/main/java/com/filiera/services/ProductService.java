@@ -22,5 +22,5 @@ public interface ProductService {
     public List<Prodotto> getApprovedProducts();
 
 
-    void riduciQuantità(UUID prodottoId, int quantity);
+    void riduciQuantita(UUID prodottoId, int quantity);
 }
