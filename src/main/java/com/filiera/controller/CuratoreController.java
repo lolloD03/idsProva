@@ -3,6 +3,7 @@ package com.filiera.controller;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.products.StatoProdotto;
 import com.filiera.services.CuratoreServiceImpl;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

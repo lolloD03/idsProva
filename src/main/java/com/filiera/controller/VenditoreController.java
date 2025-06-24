@@ -4,6 +4,7 @@ import com.filiera.model.dto.ProdottoRequestDTO;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import com.filiera.services.ProductService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+@Transactional
 @RestController
 @RequestMapping("/venditore")
 @Validated

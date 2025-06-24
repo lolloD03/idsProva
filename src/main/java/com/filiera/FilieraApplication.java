@@ -8,6 +8,7 @@ import com.filiera.model.sellers.Venditore;
 import com.filiera.model.users.Acquirente;
 import com.filiera.model.users.RuoloUser;
 import com.filiera.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -46,7 +47,6 @@ public class FilieraApplication implements CommandLineRunner {
     @Autowired
     InMemoryCuratoreRepository curatoreRepository;
 
-
     @Override
     public void run(String... args) throws Exception {
 
@@ -66,6 +66,19 @@ public class FilieraApplication implements CommandLineRunner {
                 .password("password")
                 .ruolo(RuoloUser.PRODUTTORE)
                 .build();
+
+        Venditore venditore2 = Produttore.builder()
+                .name("produttore2")
+                .indirizzo(indirizzo2)
+                .process("boh2")
+                .partitaIva("tuobabbo2")
+                .email("venditore2@gmail.com")
+                .password("password")
+                .ruolo(RuoloUser.PRODUTTORE)
+                .build();
+
+        userRepository.save(venditore1);
+        userRepository.save(venditore2);
 
         Prodotto pomodoro = Prodotto.builder()
                 .name("Pomodoro")
@@ -89,15 +102,7 @@ public class FilieraApplication implements CommandLineRunner {
 
 
 
-        Venditore venditore2 = Produttore.builder()
-                .name("produttore2")
-                .indirizzo(indirizzo2)
-                .process("boh2")
-                .partitaIva("tuobabbo2")
-                .email("venditore2@gmail.com")
-                .password("password")
-                .ruolo(RuoloUser.PRODUTTORE)
-                .build();
+
 
         Prodotto passataDiPomodoro = Prodotto.builder()
                 .name("Passata di pomodoro")
@@ -108,6 +113,14 @@ public class FilieraApplication implements CommandLineRunner {
                 .expirationDate(LocalDate.of(2025, 10, 5)) // Se presente
                 .seller(venditore2)
                 .build();
+
+        prodottiRepository.save(pomodoro);
+        prodottiRepository.save(patata);
+        prodottiRepository.save(passataDiPomodoro);
+
+        venditore1.addProdotto(pomodoro);
+        venditore1.addProdotto(patata);
+        venditore2.addProdotto(passataDiPomodoro);
 
 
         Curatore curatore = Curatore.builder()
@@ -132,15 +145,7 @@ public class FilieraApplication implements CommandLineRunner {
                 .build();
 
 
-        userRepository.save(venditore1);
-        userRepository.save(venditore2);
-        prodottiRepository.save(pomodoro);
-        prodottiRepository.save(patata);
-        prodottiRepository.save(passataDiPomodoro);
 
-        venditore1.addProdotto(pomodoro);
-        venditore1.addProdotto(patata);
-        venditore2.addProdotto(passataDiPomodoro);
 
         System.out.println(venditore1.getId());
 

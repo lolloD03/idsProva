@@ -125,7 +125,7 @@ public class CarrelloServiceImpl {
         List<ItemCarrello > listOfItems = carrello.getProducts();
 
        if(cartIsEmpty(buyerId)) {
-           throw new RuntimeException("Il carrello è vuoto");
+           throw new ProductNotFoundException("Il carrello è vuoto");
        }
 
        for (ItemCarrello item : carrello.getProducts()) {

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-@Transactional
 public class VenditoreServiceImpl {
 
    private final UserService userService;
