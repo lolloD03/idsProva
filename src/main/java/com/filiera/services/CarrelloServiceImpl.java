@@ -6,10 +6,12 @@ import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.Acquirente;
 import com.filiera.repository.InMemoryAcquirenteRepository;
 import com.filiera.repository.InMemoryCarrelloRepository;
+import com.filiera.repository.InMemoryOrdineRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.filiera.model.payment.Ordine;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -25,10 +27,13 @@ public class CarrelloServiceImpl {
 
     private final InMemoryAcquirenteRepository buyerRepo;
 
-    public CarrelloServiceImpl(ProductService productService , InMemoryCarrelloRepository cartRepo, InMemoryAcquirenteRepository buyerRepo ) {
+    private final InMemoryOrdineRepository ordineRepo;
+
+    public CarrelloServiceImpl(ProductService productService , InMemoryCarrelloRepository cartRepo, InMemoryAcquirenteRepository buyerRepo, InMemoryOrdineRepository ordineRepo) {
         this.cartRepo = cartRepo;
         this.productService = productService;
         this.buyerRepo = buyerRepo;
+        this.ordineRepo = ordineRepo;
     }
 
     public List<ItemCarrello> addProduct(UUID prod , int quantity , UUID buyerId) {
@@ -117,6 +122,8 @@ public class CarrelloServiceImpl {
 
         Carrello carrello = getCarrello(buyerId);
 
+        List<ItemCarrello > listOfItems = carrello.getProducts();
+
        if(cartIsEmpty(buyerId)) {
            throw new RuntimeException("Il carrello è vuoto");
        }
@@ -126,40 +133,22 @@ public class CarrelloServiceImpl {
                    .orElseThrow(() -> new RuntimeException("Prodotto non trovato"));
 
 
-           productService.riduciQuantità(prodotto.getId(), item.getQuantity());
+           productService.riduciQuantita(prodotto.getId(), item.getQuantity());
        }
 
-       //TODO MI SONO ROTTO IL CAZZO , DA FIXARE QUESTO METODO E GET ORDER
-
-       Ordine ordine = new Ordine();
-       ordine.setNumeroOrdine(UUID.randomUUID());
-       ordine.setBuyerId(buyerId);
-       ordine.setItems(carrello.getProducts());
-       ordine.setTotale(totale);
-       ordine.setDataOrdine(new Date());
+       Ordine ordine = Ordine.builder()
+                        .buyer(buyerRepo.getById(buyerId))
+                        .items(listOfItems)
+                        .totale(carrello.getTotalPrice())
+                        .dataOrdine (LocalDate.now())
+                        .build();
 
        clearCarrello(buyerId);
-       return new Ordine();
 
-
+       ordineRepo.save(ordine);
+       return ordine;
    }
 
-   public Ordine getOrder (UUID buyerId) {
-
-        Carrello carrello = getCarrello(buyerId);
-        buyCart(buyerId);
-
-        Ordine ordine = new Ordine();
-       ordine.setNumeroOrdine(UUID.randomUUID());
-       ordine.setBuyerId(buyerId);
-       ordine.setItems(carrello.getProducts());
-       ordine.setTotale(carrello.getTotalPrice());
-       ordine.setDataOrdine(new Date());
-
-       clearCarrello(buyerId);
-
-        return ordine;
-    }
 
     public boolean cartIsEmpty(UUID buyerId) {
         Carrello carrello = getCarrello(buyerId);
