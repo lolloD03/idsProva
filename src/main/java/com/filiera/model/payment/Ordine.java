@@ -21,9 +21,6 @@ import static java.util.UUID.randomUUID;
 @Data
 public class Ordine {
 
-
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID numeroOrdine; // UUID o codice ordine
@@ -39,7 +36,5 @@ public class Ordine {
     private double totale;
 
     private LocalDate dataOrdine;
-
-
 
 }

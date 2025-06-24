@@ -4,7 +4,9 @@ import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.Acquirente;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.IdGeneratorType;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -29,11 +32,6 @@ public class Carrello {
 
     private double totalPrice;
 
-    public Carrello() {
-
-        this.products = new ArrayList<>();
-        this.buyer = new Acquirente();
-    }
 
     public Carrello(List<ItemCarrello> products , Acquirente buyer) {
 
