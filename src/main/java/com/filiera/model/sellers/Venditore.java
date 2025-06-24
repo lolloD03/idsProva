@@ -1,5 +1,6 @@
 package com.filiera.model.sellers;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.filiera.model.OsmMap.Indirizzo;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.RuoloUser;
@@ -28,6 +29,7 @@ import java.util.UUID;
 @ToString(callSuper = true) // Genera un toString che include anche i campi della classe padre
 public abstract class Venditore extends User { // Nota: Manteniamo abstract se ci sono sottoclassi concrete di Venditore
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
     // Inizializza la lista per evitare NullPointerException quando JPA la carica o se la usi prima del salvataggio
     // Se la lista è null quando JPA la carica, ci penserà JPA a inizializzarla con una sua implementazione.

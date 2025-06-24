@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "app_users") // 'app_users' è un buon nome, coerenza con lo standard
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipo_user", discriminatorType = DiscriminatorType.STRING)
 @Getter // Genera tutti i getter per tutti i campi
 @Setter // Genera tutti i setter per tutti i campi
