@@ -1,5 +1,6 @@
 package com.filiera.model.products;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.filiera.model.administration.Curatore;
 import com.filiera.model.sellers.Venditore;
 import jakarta.persistence.*;
@@ -29,7 +30,8 @@ public class Prodotto {
     private StatoProdotto state; // Enum StatoProdotto (APPROVATO, ESAURITO, IN_ATTESA_DI_APPROVAZIONE, RIFIUTATO)
 
     @ManyToOne // Molti prodotti possono essere venduti da un singolo venditore
-    @JoinColumn(name = "seller_id", nullable = false) // Colonna FK nella tabella 'prodotto', obbligatoria
+    @JoinColumn(name = "seller_id", nullable = false)
+    @JsonBackReference// Colonna FK nella tabella 'prodotto', obbligatoria
     private Venditore seller;
 
     @ManyToOne // Molti prodotti possono essere approvati da un singolo curatore

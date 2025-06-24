@@ -87,8 +87,7 @@ public class FilieraApplication implements CommandLineRunner {
                 .seller(venditore1)
                 .build();
 
-        venditore1.addProdotto(pomodoro);
-        venditore1.addProdotto(patata);
+
 
         Venditore venditore2 = Produttore.builder()
                 .name("produttore2")
@@ -110,7 +109,6 @@ public class FilieraApplication implements CommandLineRunner {
                 .seller(venditore2)
                 .build();
 
-        venditore2.addProdotto(passataDiPomodoro);
 
         Curatore curatore = Curatore.builder()
                 .name("Curatore")
@@ -127,17 +125,25 @@ public class FilieraApplication implements CommandLineRunner {
                 .build();
 
         Acquirente buyer2 = Acquirente.builder()
-                .name("Acquirente1")
+                .name("Acquirente2")
                 .ruolo(RuoloUser.ACQUIRENTE)
-                .email("acquirente1@gmail.com")
+                .email("acquirente2@gmail.com")
                 .password("password")
                 .build();
 
+
+        userRepository.save(venditore1);
+        userRepository.save(venditore2);
         prodottiRepository.save(pomodoro);
         prodottiRepository.save(patata);
         prodottiRepository.save(passataDiPomodoro);
-        userRepository.save(venditore1);
-        userRepository.save(venditore2);
+
+        venditore1.addProdotto(pomodoro);
+        venditore1.addProdotto(patata);
+        venditore2.addProdotto(passataDiPomodoro);
+
+        System.out.println(venditore1.getId());
+
         userRepository.save(curatore);
         userRepository.save(buyer1);
         userRepository.save(buyer2);

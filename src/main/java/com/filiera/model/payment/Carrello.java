@@ -21,7 +21,7 @@ public class Carrello {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToMany
+    @OneToMany(mappedBy = "carrello", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemCarrello> products;
 
     @OneToOne

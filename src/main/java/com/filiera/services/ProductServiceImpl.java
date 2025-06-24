@@ -187,6 +187,22 @@ public class ProductServiceImpl implements ProductService {
         logger.info("Quantity reduced successfully for product: {}", prodottoId);
     }
 
+    public Prodotto checkProductState(UUID prodottoId) {
+
+        Prodotto prodotto = prodRepo.findById(prodottoId)
+                .orElseThrow(() -> new ProductNotFoundException("Il prodotto con ID " + prodottoId + " non esiste."));
+
+        if(prodotto.getState()==StatoProdotto.IN_ATTESA_DI_APPROVAZIONE)
+            throw new RuntimeException("Non puoi acquistare un prodotto in attesa di approvazione");
+
+        if(prodotto.getState()==StatoProdotto.ESAURITO)
+            throw new RuntimeException("Non puoi acquistare un prodotto esaurito");
+
+        if(prodotto.getState()==StatoProdotto.RIFIUTATO)
+            throw new RuntimeException("Non puoi acquistare un prodotto rifiutato");
+
+        return prodotto;
+    }
 
     private void validateProductInput(ProdottoRequestDTO prodottoRequestDTO) {
         if (prodottoRequestDTO == null) {

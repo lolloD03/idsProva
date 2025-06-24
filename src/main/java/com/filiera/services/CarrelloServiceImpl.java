@@ -3,6 +3,7 @@ package com.filiera.services;
 import com.filiera.model.payment.Carrello;
 import com.filiera.model.payment.ItemCarrello;
 import com.filiera.model.products.Prodotto;
+import com.filiera.model.products.StatoProdotto;
 import com.filiera.model.users.Acquirente;
 import com.filiera.repository.InMemoryAcquirenteRepository;
 import com.filiera.repository.InMemoryCarrelloRepository;
@@ -36,23 +37,20 @@ public class CarrelloServiceImpl {
         this.ordineRepo = ordineRepo;
     }
 
-    public List<ItemCarrello> addProduct(UUID prod , int quantity , UUID buyerId) {
-        if(productService.getById(prod).isEmpty()) {
-            throw new RuntimeException("Il prodotto con id " + prod + " non esiste.");
-        }
-        if(productService.getById(prod).get().getAvailableQuantity() <= 0) {
-            throw new RuntimeException("Il prodotto con id " + prod+ " non è disponibile.");
-        }
+    public Carrello addProduct(UUID prod , int quantity , UUID buyerId) {
+
+
+        Prodotto prodotto = productService.checkProductState(prod);
 
         Carrello carrello = getCarrello(buyerId);
 
-        carrello.addProduct(productService.getById(prod).get() , quantity);
+        carrello.addProduct(prodotto , quantity);
 
         cartRepo.save(carrello);
-        return carrello.getProducts();
+        return carrello;
     }
 
-    public List<ItemCarrello> removeProduct(UUID prod , int quantity , UUID buyerId) {
+    public Carrello removeProduct(UUID prod , int quantity , UUID buyerId) {
         if(productService.getById(prod).isEmpty()) {
             throw new RuntimeException("Il prodotto con id " + prod + " non esiste.");
         }
@@ -66,7 +64,7 @@ public class CarrelloServiceImpl {
         carrello.removeProduct(productService.getById(prod).get() , quantity);
 
         cartRepo.save(carrello);
-        return carrello.getProducts();
+        return carrello;
     }
 
     public StringBuilder getInvoice(UUID buyerId) {

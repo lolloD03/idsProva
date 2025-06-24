@@ -23,4 +23,6 @@ public interface ProductService {
 
 
     void riduciQuantita(UUID prodottoId, int quantity);
+
+    Prodotto checkProductState(UUID prod);
 }

@@ -17,6 +17,9 @@ public class ItemCarrello {
     @ManyToOne
     private Prodotto product;
 
+    @ManyToOne
+    private Carrello carrello;
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID idItem;
