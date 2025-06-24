@@ -70,12 +70,6 @@ public class Prodotto {
     // --- Metodi con Logica di Business ---
     // Nota: I getter e setter standard sono forniti da @Data
 
-    public void aggiornaProdotto(String name, String description, double price, int quantity) {
-        this.setName(name); // Usa i setter generati da Lombok
-        this.setDescription(description);
-        this.setPrice(price);
-        this.setAvailableQuantity(quantity);
-    }
 
     public void approveBy(Curatore curatore) {
         this.setState(StatoProdotto.APPROVATO);

@@ -21,7 +21,7 @@ public class Carrello {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ElementCollection
+    @OneToMany
     private List<ItemCarrello> products;
 
     @OneToOne

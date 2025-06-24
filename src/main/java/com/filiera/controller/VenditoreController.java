@@ -73,12 +73,11 @@ public class VenditoreController {
             @RequestHeader("X-User-Id") UUID venditorId) { // Simulazione header di autenticazione
 
 
-
         Prodotto product = service.updateProduct(prodottoId, prodottoDTO , venditorId);
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/update-product")
+    @PutMapping("/update-product-testing")
     public ResponseEntity<Prodotto> updateProductForTesting(
             @RequestParam @NotNull UUID prodottoId,
             @RequestBody @Valid ProdottoRequestDTO prodottoDTO ,
