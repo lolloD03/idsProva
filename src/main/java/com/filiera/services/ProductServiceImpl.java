@@ -136,6 +136,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(UUID prodottoId) {
+
+
         logger.info("Deleting product with id: {}", prodottoId);
 
         // Check if product exists

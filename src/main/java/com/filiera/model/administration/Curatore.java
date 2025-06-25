@@ -19,9 +19,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder // Essenziale per estendere il builder dalla classe padre User
 @ToString(callSuper = true) // Genera un toString che include i campi della classe padre User
 public class Curatore extends User {
-
-
-
     // Questa classe non ha campi specifici, eredita tutto da User.
     // Con @SuperBuilder e @NoArgsConstructor, i costruttori manuali non sono più necessari.
 }
