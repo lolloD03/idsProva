@@ -64,12 +64,12 @@ public class Evento {
         this.date = date;
     }
 
-    public AnimatoreFiliera getAnimatore() {
-        return animatore;
+    public AnimatoreFiliera getAnimator() {
+        return animator;
     }
 
     public void setAnimatore(AnimatoreFiliera animatore) {
-        this.animatore = animatore;
+        this.animator = animatore;
     }
 
 }
