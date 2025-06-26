@@ -3,6 +3,7 @@ package com.filiera.services;
 import com.filiera.exception.ProductNotFoundException;
 import com.filiera.model.dto.CarrelloResponseDTO;
 import com.filiera.model.dto.ItemCarrelloResponseDTO;
+import com.filiera.model.dto.OrdineResponseDTO;
 import com.filiera.model.payment.Carrello;
 import com.filiera.model.payment.ItemCarrello;
 import com.filiera.model.payment.ItemOrdine;
@@ -64,6 +65,31 @@ public class CarrelloServiceImpl {
                 .buyerId(carrello.getBuyer().getId())
                 .items(itemDTOs)
                 .totalPrice(carrello.getTotalPrice()) // Assumendo che getTotalPrice() calcoli dinamicamente
+                .build();
+    }
+
+    // Metodo helper per mappare l'entità Ordine al DTO di risposta
+    private OrdineResponseDTO mapToOrdineResponseDTO(Ordine ordine) {
+        if (ordine == null) {
+            return null;
+        }
+
+        List<ItemCarrelloResponseDTO> itemDTOs = ordine.getItems().stream() // Assumendo che Ordine.getItems() esista
+                .map(item -> ItemCarrelloResponseDTO.builder()
+                        .productId(item.getProductId()) // L'ID del prodotto è già in ItemOrdine
+                        .productName(item.getProductName())
+                        .unitPrice(item.getProductPrice())
+                        .quantity(item.getQuantity())
+                        .subtotal(item.getProductPrice() * item.getQuantity())
+                        .build())
+                .collect(Collectors.toList());
+
+        return OrdineResponseDTO.builder()
+                .id(ordine.getNumeroOrdine())
+                .buyerId(ordine.getBuyer().getId()) // Assumendo che Ordine abbia un riferimento all'Acquirente
+                .orderDate(ordine.getDataOrdine()) // Assumendo che Ordine abbia getDataOrdine()
+                .totalAmount(ordine.getTotalPrice())    // Assumendo che Ordine.getTotale() sia calcolato o persistito
+                .items(itemDTOs)
                 .build();
     }
 
@@ -134,7 +160,7 @@ public class CarrelloServiceImpl {
         return  mapToCarrelloResponseDTO(carrello);
    }
 
-   public Ordine buyCart(UUID buyerId) {
+   public OrdineResponseDTO buyCart(UUID buyerId) {
 
         Carrello carrello = getCarrelloEntity(buyerId);
 
@@ -172,7 +198,7 @@ public class CarrelloServiceImpl {
          //ordine.setTotale(carrello.getTotalPrice());
 
        clearCarrello(buyerId);
-       return ordine;
+       return mapToOrdineResponseDTO(ordine);
    }
 
 
