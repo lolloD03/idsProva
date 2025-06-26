@@ -73,13 +73,13 @@ public class Prodotto {
     // Nota: I getter e setter standard sono forniti da @Data
 
 
-    public void approveBy(Curatore curatore) {
+    public void approveBy(Curatore curator) {
         this.setState(StatoProdotto.APPROVATO);
-        this.setApprovedBy(curatore);
+        this.setApprovedBy(curator);
     }
 
-    public void rejectBy(Curatore curatoreObj) {
+    public void rejectBy(Curatore curator) {
         this.setState(StatoProdotto.RIFIUTATO);
-        this.setApprovedBy(curatoreObj);
+        this.setApprovedBy(curator);
     }
 }

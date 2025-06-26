@@ -3,14 +3,12 @@ package com.filiera.controller;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.products.StatoProdotto;
 import com.filiera.services.CuratoreServiceImpl;
-import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,27 +32,27 @@ public class CuratoreController {
 
     @PutMapping("/approve-product")
     public ResponseEntity<Prodotto> approveProduct(
-            @RequestParam @NotNull UUID prodottoId,
+            @RequestParam @NotNull UUID productId,
             @RequestParam @NotNull UUID curatoreId) {
 
-        Prodotto approvedProduct = curatoreService.approveProduct(prodottoId, curatoreId);
+        Prodotto approvedProduct = curatoreService.approveProduct(productId, curatoreId);
         return ResponseEntity.ok(approvedProduct);
     }
 
     @PutMapping("/reject-product")
     public ResponseEntity<Prodotto> rejectProduct(
-            @RequestParam @NotNull UUID prodottoId,
-            @RequestParam @NotNull UUID curatoreId) {
+            @RequestParam @NotNull UUID productId,
+            @RequestParam @NotNull UUID curatorId) {
 
-        Prodotto rejectedProduct = curatoreService.rejectProduct(prodottoId, curatoreId);
+        Prodotto rejectedProduct = curatoreService.rejectProduct(productId, curatorId);
         return ResponseEntity.ok(rejectedProduct);
     }
 
     @GetMapping("/products/by-state")
     public ResponseEntity<List<Prodotto>> getProductsByState(
-            @RequestParam @NotNull StatoProdotto stato) {
+            @RequestParam @NotNull StatoProdotto state) {
 
-        List<Prodotto> products = curatoreService.getProductsByState(stato);
+        List<Prodotto> products = curatoreService.getProductsByState(state);
         return ResponseEntity.ok(products);
     }
 

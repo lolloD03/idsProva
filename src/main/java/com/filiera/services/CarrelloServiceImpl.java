@@ -7,7 +7,6 @@ import com.filiera.model.dto.OrderResponseDTO;
 import com.filiera.model.payment.Carrello;
 import com.filiera.model.payment.ItemCarrello;
 import com.filiera.model.products.Prodotto;
-import com.filiera.model.products.StatoProdotto;
 import com.filiera.model.users.Acquirente;
 import com.filiera.repository.InMemoryAcquirenteRepository;
 import com.filiera.repository.InMemoryCarrelloRepository;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.filiera.model.payment.Ordine;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -139,7 +137,7 @@ public class CarrelloServiceImpl {
                    .orElseThrow(() -> new RuntimeException("Prodotto non trovato"));
 
 
-           productService.riduciQuantita(prodotto.getId(), item.getQuantity());
+           productService.decreaseQuantity(prodotto.getId(), item.getQuantity());
        }
 
        Ordine ordine = Ordine.builder()
