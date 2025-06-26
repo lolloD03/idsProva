@@ -32,7 +32,7 @@ public class VenditoreServiceImpl {
 
     public Venditore getVenditoreByID(UUID id){
        if(!(userService.findById(id) instanceof Venditore)){
-           throw new IllegalArgumentException("Non è un venditore");
+           throw new IllegalArgumentException(id + " is not a seller");
        }
        return (Venditore) userService.findById(id);
     }

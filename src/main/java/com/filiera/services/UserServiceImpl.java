@@ -21,7 +21,7 @@ public class    UserServiceImpl implements UserService {
     public User register(User user) {
 
         if (userRepo.findAll().stream().anyMatch(u -> u.getEmail().equals(user.getEmail()))) {
-            throw new IllegalArgumentException("Email già registrata!");
+            throw new IllegalArgumentException("Already registered email!");
         }
         return userRepo.save(user);
     }
@@ -33,22 +33,22 @@ public class    UserServiceImpl implements UserService {
 
 
     @Override
-    public Produttore registerProduttore(Produttore produttore) {
-        if (produttore == null) {
-            throw new IllegalArgumentException("Produttore cannot be null");
+    public Produttore registerProducer(Produttore producer) {
+        if (producer == null) {
+            throw new IllegalArgumentException("Producer cannot be null");
         }
-        if (userRepo.findAll().stream().anyMatch(u -> u.getEmail().equals(produttore.getEmail()))) {
-            throw new IllegalArgumentException("Email già registrata!");
+        if (userRepo.findAll().stream().anyMatch(u -> u.getEmail().equals(producer.getEmail()))) {
+            throw new IllegalArgumentException("Already registered email!");
         }
 
 
-        return userRepo.save(produttore);
+        return userRepo.save(producer);
     }
 
     @Override
     public User findById(UUID id) {
         return userRepo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(("Utente non trovato con id: " + id)));
+                .orElseThrow(() -> new IllegalArgumentException(("User not found with id : " + id)));
     }
 
 

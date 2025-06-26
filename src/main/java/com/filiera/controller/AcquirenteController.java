@@ -25,35 +25,35 @@ public class AcquirenteController {
 
     @PostMapping("/add")
     public ResponseEntity<Carrello> addToCart(
-            @RequestParam @NotNull(message = "Product Id cannot be null") UUID prodotto ,
+            @RequestParam @NotNull(message = "Product Id cannot be null") UUID product ,
             @RequestParam @Min( value = 1 , message = "Quantity must be at least 1") int quantity ,
             @RequestParam @NotNull (message = "Buyer Id cannot be null") UUID buyerId) {
 
-            log.info("Adding product {} with quantity {} to cart for buyer {}", prodotto, quantity, buyerId);
+            log.info("Adding product {} with quantity {} to cart for buyer {}", product, quantity, buyerId);
 
 
-            service.addProduct(prodotto , quantity , buyerId);
+            service.addProduct(product , quantity , buyerId);
 
         // Lascia che le eccezioni si propaghino al GlobalExceptionHandler
-            Carrello carrello = service.getCarrello(buyerId);
+            Carrello cart = service.getCarrello(buyerId);
 
             log.info("Product successfully added to cart for buyer {}", buyerId);
-            return ResponseEntity.ok(carrello);
+            return ResponseEntity.ok(cart);
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<Carrello> removeFromCart(@RequestParam @NotNull(message = "Product ID cannot be null") UUID prodotto,
+    public ResponseEntity<Carrello> removeFromCart(@RequestParam @NotNull(message = "Product ID cannot be null") UUID product,
                                                    @RequestParam @Min(value = 1, message = "Quantity must be at least 1") int quantity,
                                                    @RequestParam @NotNull(message = "Buyer ID cannot be null") UUID buyerId) {
 
-            log.info("Removing product {} with quantity {} from cart for buyer {}", prodotto, quantity, buyerId);
+            log.info("Removing product {} with quantity {} from cart for buyer {}", product, quantity, buyerId);
 
-            service.removeProduct(prodotto , quantity , buyerId);
+            service.removeProduct(product , quantity , buyerId);
 
-            Carrello carrello = service.getCarrello(buyerId);
+            Carrello cart = service.getCarrello(buyerId);
 
             log.info("Product successfully removed from cart for buyer {}", buyerId);
-            return ResponseEntity.ok(carrello);
+            return ResponseEntity.ok(cart);
     }
 
     @PostMapping("/invoice")
@@ -61,7 +61,7 @@ public class AcquirenteController {
 
         log.info("Generating invoice for buyer {}", buyerId);
 
-        Carrello carrello = service.getCarrello(buyerId);
+        Carrello cart = service.getCarrello(buyerId);
 
         StringBuilder invoice = service.getInvoice(buyerId);
 
@@ -84,18 +84,19 @@ public class AcquirenteController {
     public ResponseEntity<Carrello> getCart(@RequestParam  @NotNull (message = "Buyer ID cannot be null")UUID buyerId) {
         log.debug("Retrieving cart for buyer {}", buyerId);
 
-        Carrello carrello = service.getCarrello(buyerId);
+        Carrello cart = service.getCarrello(buyerId);
 
         // Se il carrello è vuoto, restituisci comunque 200 con carrello vuoto
-        return ResponseEntity.ok(carrello);    }
+        return ResponseEntity.ok(cart);
+    }
 
     @PostMapping("/buy")
     public ResponseEntity<Ordine> buyCart(@RequestParam @NotNull (message = "Buyer ID cannot be null")UUID buyerId) {
 
         log.debug("Buying cart for buyer {}", buyerId);
 
-        Ordine ordine = service.buyCart(buyerId);
-        return ResponseEntity.ok(ordine);
+        Ordine order = service.buyCart(buyerId);
+        return ResponseEntity.ok(order);
 
     }
 

@@ -8,7 +8,6 @@ import com.filiera.model.sellers.Venditore;
 import com.filiera.model.users.Acquirente;
 import com.filiera.model.users.RuoloUser;
 import com.filiera.repository.*;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -118,9 +117,9 @@ public class FilieraApplication implements CommandLineRunner {
         prodottiRepository.save(patata);
         prodottiRepository.save(passataDiPomodoro);
 
-        venditore1.addProdotto(pomodoro);
-        venditore1.addProdotto(patata);
-        venditore2.addProdotto(passataDiPomodoro);
+        venditore1.addProduct(pomodoro);
+        venditore1.addProduct(patata);
+        venditore2.addProduct(passataDiPomodoro);
 
 
         Curatore curatore = Curatore.builder()
