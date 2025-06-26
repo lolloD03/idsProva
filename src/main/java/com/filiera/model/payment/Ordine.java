@@ -33,8 +33,14 @@ public class Ordine {
     @JoinColumn(name = "items" , nullable = false)
     private List<ItemCarrello> items;
 
-    private double totale;
+
 
     private LocalDate dataOrdine;
+
+    public double getTotalAmount() {
+        return items.stream()
+                .mapToDouble(ItemCarrello::getTotal)
+                .sum();
+    }
 
 }

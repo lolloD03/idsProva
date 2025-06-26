@@ -30,11 +30,9 @@ public class Carrello {
     @OneToOne
     private Acquirente buyer;
 
-    private double totalPrice;
 
 
     public Carrello(List<ItemCarrello> products , Acquirente buyer) {
-
         this.products = products;
         this.buyer = buyer;
     }
@@ -42,8 +40,8 @@ public class Carrello {
 
     public double getTotalPrice() {
 
-        if(products.isEmpty()) {
-            throw new RuntimeException("Il carrello è vuoto");
+        if (products == null || products.isEmpty()) {
+            return 0.0; // Se il carrello è vuoto, il totale è 0
         }
 
         return products.stream().mapToDouble(ItemCarrello::getTotal).sum();

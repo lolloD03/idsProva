@@ -1,5 +1,8 @@
 package com.filiera.model.users;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,16 +29,20 @@ public abstract class User {
     // Aggiungiamo alcune validazioni base con Jakarta Validation (JSR 380)
     // Richiede la dipendenza 'jakarta.validation:jakarta.validation-api' e un'implementazione come 'org.hibernate.validator:hibernate-validator'
     @Column(nullable = false) // Indica che la password non può essere null
+    @NotBlank(message = "Password cannot be blank")
     private String password;
 
     @Column(nullable = false, unique = true) // L'email non può essere null e deve essere unica
+    @Email(message = "Invalid email format")
     private String email;
 
     @Column(nullable = false) // Il nome non può essere null
+    @NotBlank(message = "Name cannot be blank")
     private String name;
 
     @Enumerated(EnumType.STRING) // Memorizza l'enum come stringa nel DB, più leggibile e robusto
     @Column(nullable = false) // Il ruolo non può essere null
+    @NotNull(message = "Role cannot be null")
     private RuoloUser ruolo;
 
     // Se hai bisogno di un costruttore specifico che non sia un "no-args"
