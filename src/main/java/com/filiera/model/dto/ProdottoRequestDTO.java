@@ -22,7 +22,7 @@ public class ProdottoRequestDTO {
     private String name;
 
     @NotBlank(message = "La descrizione del prodotto non può essere vuota")
-    private String description;
+    private String descrizione;
 
     @DecimalMin(value = "0.01", message = "Il prezzo deve essere maggiore di 0")
     private double price;

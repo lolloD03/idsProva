@@ -5,8 +5,11 @@ import com.filiera.model.administration.Curatore;
 import com.filiera.model.sellers.Venditore;
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DialectOverride;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -29,17 +32,18 @@ public class Prodotto {
     @Enumerated(EnumType.STRING) // Mappa l'enum come stringa nel DB
     private StatoProdotto state; // Enum StatoProdotto (APPROVATO, ESAURITO, IN_ATTESA_DI_APPROVAZIONE, RIFIUTATO)
 
-    @ManyToOne // Molti prodotti possono essere venduti da un singolo venditore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", nullable = false)
-    @JsonBackReference// Colonna FK nella tabella 'prodotto', obbligatoria
+    @JsonBackReference
     private Venditore seller;
 
-    @ManyToOne // Molti prodotti possono essere approvati da un singolo curatore
-    @JoinColumn(name = "approved_by_id") // Colonna FK, può essere null se non ancora approvato
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "approved_by_id")
     private Curatore approvedBy;
 
     // LocalDate non richiede @Temporal(TemporalType.DATE) con JPA moderno (Spring Boot 2.x+ / Hibernate 5+),
     // dato che viene mappato correttamente a DATE per default. Puoi lasciarlo per chiarezza se preferisci.
+    @FutureOrPresent(message = "Expiration date cannot be in the past")
     private LocalDate expirationDate;
 
     @Column(nullable = false)
@@ -49,9 +53,12 @@ public class Prodotto {
     private String description;
 
     @Column(nullable = false)
+    @Min(value = 0, message = "Price cannot be negative") // Assicura che il prezzo non sia negativo
     private double price;
 
     @Column(nullable = false)
+    @Min(value = 0, message = "Available quantity cannot be negative")
+    @Version
     private int availableQuantity;
 
     private String certification; // Potrebbe essere nullable = true per default
@@ -73,13 +80,13 @@ public class Prodotto {
     // Nota: I getter e setter standard sono forniti da @Data
 
 
-    public void approveBy(Curatore curator) {
+    public void approveBy(Curatore curatore) {
         this.setState(StatoProdotto.APPROVATO);
-        this.setApprovedBy(curator);
+        this.setApprovedBy(curatore);
     }
 
-    public void rejectBy(Curatore curator) {
+    public void rejectBy(Curatore curatoreObj) {
         this.setState(StatoProdotto.RIFIUTATO);
-        this.setApprovedBy(curator);
+        this.setApprovedBy(curatoreObj);
     }
 }

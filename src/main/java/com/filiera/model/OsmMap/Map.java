@@ -21,17 +21,17 @@ public class Map {
         this.map = map;
     }
 
-    public void addAddress(Indirizzo address) {
-        map.add(address);
+    public void addIndirizzo(Indirizzo indirizzo) {
+        map.add(indirizzo);
     }
-    public void removeAddress(Indirizzo address) {
-        map.remove(address);
+    public void removeIndirizzo(Indirizzo indirizzo) {
+        map.remove(indirizzo);
     }
 
-    public void updateAddress(Indirizzo address) {
-        int index = map.indexOf(address);
+    public void updateIndirizzo(Indirizzo indirizzo) {
+        int index = map.indexOf(indirizzo);
         if (index >= 0) {
-            map.set(index, address);
+            map.set(index, indirizzo);
         }
     }
 

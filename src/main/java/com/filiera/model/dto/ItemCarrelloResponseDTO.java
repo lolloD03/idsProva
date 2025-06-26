@@ -1,6 +1,5 @@
 package com.filiera.model.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ItemCartResponseDTO {
+public class ItemCarrelloResponseDTO {
     private UUID productId; // ID del prodotto
     private String productName; // Nome del prodotto
     private double unitPrice; // Prezzo unitario del prodotto

@@ -14,10 +14,12 @@ import java.util.UUID;
 @Entity
 public class ItemCarrello {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // Evita di caricare il Prodotto a meno che non sia necessario
+    @JoinColumn(name = "product_id", nullable = false) // Assicura che l'ItemCarrello sia sempre legato a un Prodotto
     private Prodotto product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "carrello_id", nullable = false) // Assicura che l'ItemCarrello sia sempre legato a un Carrello
     private Carrello carrello;
 
     @Id

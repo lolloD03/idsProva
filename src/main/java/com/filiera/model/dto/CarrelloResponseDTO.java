@@ -13,9 +13,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartResponseDTO {
+public class CarrelloResponseDTO {
     private UUID id; // ID del carrello
     private UUID buyerId; // ID dell'acquirente proprietario del carrello
-    private List<ItemCartResponseDTO> items; // Lista degli item nel carrello
+    private List<ItemCarrelloResponseDTO> items; // Lista degli item nel carrello
     private double totalPrice; // Totale complessivo del carrello
 }

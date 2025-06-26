@@ -1,12 +1,13 @@
 package com.filiera.services;
 
 import com.filiera.exception.ProductNotFoundException;
-import com.filiera.model.dto.CartResponseDTO;
-import com.filiera.model.dto.ItemCartResponseDTO;
-import com.filiera.model.dto.OrderResponseDTO;
+import com.filiera.model.dto.CarrelloResponseDTO;
+import com.filiera.model.dto.ItemCarrelloResponseDTO;
 import com.filiera.model.payment.Carrello;
 import com.filiera.model.payment.ItemCarrello;
+import com.filiera.model.payment.ItemOrdine;
 import com.filiera.model.products.Prodotto;
+import com.filiera.model.products.StatoProdotto;
 import com.filiera.model.users.Acquirente;
 import com.filiera.repository.InMemoryAcquirenteRepository;
 import com.filiera.repository.InMemoryCarrelloRepository;
@@ -16,8 +17,10 @@ import org.springframework.stereotype.Service;
 import com.filiera.model.payment.Ordine;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -40,64 +43,65 @@ public class CarrelloServiceImpl {
     }
 
 
+    // Metodo helper per mappare l'entità Carrello al DTO di risposta
+    private CarrelloResponseDTO mapToCarrelloResponseDTO(Carrello carrello) {
+        if (carrello == null) {
+            return null;
+        }
 
+        List<ItemCarrelloResponseDTO> itemDTOs = carrello.getProducts().stream()
+                .map(item -> ItemCarrelloResponseDTO.builder()
+                        .productId(item.getProduct().getId())
+                        .productName(item.getProduct().getName())
+                        .unitPrice(item.getProduct().getPrice())
+                        .quantity(item.getQuantity())
+                        .subtotal(item.getProduct().getPrice() * item.getQuantity())
+                        .build())
+                .collect(Collectors.toList());
 
-    
-    
-    public Carrello addProduct(UUID prod , int quantity , UUID buyerId) {
+        return CarrelloResponseDTO.builder()
+                .id(carrello.getId())
+                .buyerId(carrello.getBuyer().getId())
+                .items(itemDTOs)
+                .totalPrice(carrello.getTotalPrice()) // Assumendo che getTotalPrice() calcoli dinamicamente
+                .build();
+    }
+
+    public CarrelloResponseDTO addProduct(UUID prod , int quantity , UUID buyerId) {
 
 
         Prodotto prodotto = productService.getById(prod)
                 .orElseThrow(() -> new ProductNotFoundException("Il prodotto con id " + prod + " non esiste."));
 
-        Carrello carrello = getCarrello(buyerId);
+        Carrello carrello = getCarrelloEntity(buyerId);
 
         carrello.addProduct(prodotto , quantity);
 
         cartRepo.save(carrello);
-        return carrello;
+        return mapToCarrelloResponseDTO(carrello);
     }
 
-    public Carrello removeProduct(UUID prod , int quantity , UUID buyerId) {
-        if(productService.getById(prod).isEmpty()) {
-            throw new RuntimeException("Il prodotto con id " + prod + " non esiste.");
-        }
+    public CarrelloResponseDTO removeProduct(UUID prod , int quantity , UUID buyerId) {
+        Prodotto prodotto = productService.getById(prod)
+                .orElseThrow(() -> new ProductNotFoundException("Il prodotto con id " + prod + " non esiste."));
+// ...
 
-        Carrello carrello = getCarrello(buyerId);
+        Carrello carrello = getCarrelloEntity(buyerId);
 
         if(cartIsEmpty(buyerId)) {
             throw new RuntimeException("Il carrello è vuoto");
         }
 
-        carrello.removeProduct(productService.getById(prod).get() , quantity);
+        carrello.removeProduct(prodotto, quantity);
 
         cartRepo.save(carrello);
-        return carrello;
+        return mapToCarrelloResponseDTO(carrello);
     }
-
-    public StringBuilder getInvoice(UUID buyerId) {
-
-        Carrello carrello = getCarrello(buyerId);
-
-        double totalInvoice = carrello.getTotalPrice();
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Fattura:\n");
-        for(ItemCarrello prod : carrello.getProducts()) {
-            sb.append("Prodotto: ").append(prod.getProduct().getName()).append("\n");
-            sb.append("Prezzo: ").append(prod.getProduct().getPrice()).append("\n");
-            sb.append("Quantità: ").append(prod.getQuantity()).append("\n");
-        }
-        sb.append("Totale: ").append(totalInvoice).append("\n");
-        return sb;
-    }
-
 
 
    public void clearCarrello(UUID buyerId) {
 
-        Carrello carrello = getCarrello(buyerId);
+        Carrello carrello = getCarrelloEntity(buyerId);
 
         if(cartIsEmpty(buyerId)) {
            throw new RuntimeException("Il carrello è vuoto");
@@ -120,13 +124,19 @@ public class CarrelloServiceImpl {
                 });
    }
 
-   public Carrello getCarrello(UUID buyerId)  {
+    // Metodo helper per ottenere l'entità Carrello (rinominato per chiarezza)
+    public Carrello getCarrelloEntity(UUID buyerId) {
         return loadOrCreateCarrello(buyerId);
+    }
+
+   public CarrelloResponseDTO getCarrello(UUID buyerId)  {
+        Carrello carrello = getCarrelloEntity(buyerId);
+        return  mapToCarrelloResponseDTO(carrello);
    }
 
    public Ordine buyCart(UUID buyerId) {
 
-        Carrello carrello = getCarrello(buyerId);
+        Carrello carrello = getCarrelloEntity(buyerId);
 
         List<ItemCarrello > listOfItems = carrello.getProducts();
 
@@ -139,25 +149,35 @@ public class CarrelloServiceImpl {
                    .orElseThrow(() -> new RuntimeException("Prodotto non trovato"));
 
 
-           productService.decreaseQuantity(prodotto.getId(), item.getQuantity());
+           productService.riduciQuantita(prodotto.getId(), item.getQuantity());
        }
 
-       Ordine ordine = Ordine.builder()
-                        .buyer(buyerRepo.getById(buyerId))
-                        .items(listOfItems)
-                        .totale(carrello.getTotalPrice())
-                        .dataOrdine (LocalDate.now())
-                        .build();
+       Ordine ordine = new Ordine();
+       ordine.setBuyer(buyerRepo.findById(buyerId)
+                .orElseThrow(() -> new IllegalArgumentException("Acquirente non trovato")));
+       ordine.setDataOrdine(LocalDate.now());
+       ordineRepo.save(ordine);
+
+       List<ItemOrdine> itemsOrdine = listOfItems.stream()
+               .map(item -> new ItemOrdine(item.getIdItem() ,item.getProduct().getName(), item.getProduct().getPrice() ,item.getQuantity()))
+               .toList();
+
+
+       for (ItemOrdine itemOrdine : itemsOrdine) {
+           ordine.addItem(itemOrdine);
+       }
+
+
+
+         //ordine.setTotale(carrello.getTotalPrice());
 
        clearCarrello(buyerId);
-
-       ordineRepo.save(ordine);
        return ordine;
    }
 
 
     public boolean cartIsEmpty(UUID buyerId) {
-        Carrello carrello = getCarrello(buyerId);
+        Carrello carrello = getCarrelloEntity(buyerId);
         return carrello.getProducts().isEmpty();
     }
 }

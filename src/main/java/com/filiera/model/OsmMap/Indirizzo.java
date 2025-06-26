@@ -14,9 +14,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Indirizzo {
     @Column(nullable = false)
-    private String city;
+    private String citta;
     @Column(nullable = false)
-    private String road;
+    private String via;
     @Column(nullable = false)
-    private String civicNumber;
+    private String numeroCivico;
 }

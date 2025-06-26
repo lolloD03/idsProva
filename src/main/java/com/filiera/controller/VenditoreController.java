@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Transactional
 @RestController
 @RequestMapping("/venditore")
 @Validated
@@ -35,20 +34,20 @@ public class VenditoreController {
 
     @PostMapping("/create-product")
     public ResponseEntity<Prodotto> createProduct(
-            @RequestBody @Valid ProdottoRequestDTO productDTO,
-            @RequestHeader("X-User-Id") UUID sellerId) { // Simulazione header di autenticazione
+            @RequestBody @Valid ProdottoRequestDTO prodottoDTO,
+            @RequestHeader("X-User-Id") UUID venditorId) { // Simulazione header di autenticazione
 
-        Prodotto createdProduct = service.createProduct(productDTO, sellerId);
+        Prodotto createdProduct = service.createProduct(prodottoDTO, venditorId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
     // Alternativa: endpoint temporaneo per testing
     @PostMapping("/create-product-test")
     public ResponseEntity<Prodotto> createProductForTesting(
-            @RequestBody @Valid ProdottoRequestDTO productDTO,
-            @RequestParam UUID sellerId) { // Parametro temporaneo per test
+            @RequestBody @Valid ProdottoRequestDTO prodottoDTO,
+            @RequestParam UUID venditorId) { // Parametro temporaneo per test
 
-        Prodotto createdProduct = service.createProduct(productDTO, sellerId);
+        Prodotto createdProduct = service.createProduct(prodottoDTO, venditorId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
@@ -71,30 +70,30 @@ public class VenditoreController {
  */
     @PutMapping("/update-product")
     public ResponseEntity<Prodotto> updateProduct(
-            @RequestParam @NotNull UUID productId,
-            @RequestBody @Valid ProdottoRequestDTO productDTO ,
-            @RequestHeader("X-User-Id") UUID sellerId) { // Simulazione header di autenticazione
+            @PathVariable UUID prodottoId,
+            @RequestBody @Valid ProdottoRequestDTO prodottoDTO ,
+            @RequestHeader("X-User-Id") UUID venditorId) { // Simulazione header di autenticazione
 
 
-        Prodotto product = service.updateProduct(productId, productDTO , sellerId);
+        Prodotto product = service.updateProduct(prodottoId, prodottoDTO , venditorId);
         return ResponseEntity.ok(product);
     }
 
     @PutMapping("/update-product-testing")
     public ResponseEntity<Prodotto> updateProductForTesting(
-            @RequestParam @NotNull UUID productId,
-            @RequestBody @Valid ProdottoRequestDTO productDTO ,
-            @RequestParam UUID sellerId) { // Simulazione header di autenticazione
+            @PathVariable UUID prodottoId,
+            @RequestBody @Valid ProdottoRequestDTO prodottoDTO ,
+            @RequestParam UUID venditorId) { // Simulazione header di autenticazione
 
 
 
-        Prodotto product = service.updateProduct(productId, productDTO , sellerId);
+        Prodotto product = service.updateProduct(prodottoId, prodottoDTO , venditorId);
         return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("/delete-product")
-    public ResponseEntity<Void> deleteProduct(@RequestParam @NotNull UUID productId) {
-        service.deleteProduct(productId);
+    public ResponseEntity<Void> deleteProduct(@PathVariable UUID prodottoId) {
+        service.deleteProduct(prodottoId);
         return ResponseEntity.noContent().build();
     }
 

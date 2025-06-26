@@ -6,30 +6,30 @@ import java.util.Date;
 
 public class Evento {
 
-    private Indirizzo address;
+    private Indirizzo indirizzo;
     private String name;
     private String description;
     private int maxPeople;
     private Date date;
-    private AnimatoreFiliera animator;
+    private AnimatoreFiliera animatore;
 
     public Evento(){}
 
-    public Evento (Indirizzo address, String name, String description, int maxPeople, Date date, AnimatoreFiliera animator) {
-        this.address = address;
+    public Evento (Indirizzo indirizzo, String name, String description, int maxPeople, Date date, AnimatoreFiliera animatore) {
+        this.indirizzo = indirizzo;
         this.name = name;
         this.description = description;
         this.maxPeople = maxPeople;
         this.date = date;
-        this.animator = animator;
+        this.animatore = animatore;
     }
 
-    public Indirizzo getAddress() {
-        return address;
+    public Indirizzo getIndirizzo() {
+        return indirizzo;
     }
 
-    public void setAddress(Indirizzo address) {
-        this.address = address;
+    public void setIndirizzo(Indirizzo indirizzo) {
+        this.indirizzo = indirizzo;
     }
 
     public String getName() {
@@ -64,12 +64,12 @@ public class Evento {
         this.date = date;
     }
 
-    public AnimatoreFiliera getAnimator() {
-        return animator;
+    public AnimatoreFiliera getAnimatore() {
+        return animatore;
     }
 
     public void setAnimatore(AnimatoreFiliera animatore) {
-        this.animator = animatore;
+        this.animatore = animatore;
     }
 
 }
