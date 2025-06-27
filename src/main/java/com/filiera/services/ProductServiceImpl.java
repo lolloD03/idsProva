@@ -2,6 +2,8 @@ package com.filiera.services;
 
 import com.filiera.exception.*;
 import com.filiera.model.dto.ProdottoRequestDTO;
+import com.filiera.model.dto.ProductResponseDTO;
+import com.filiera.model.dto.SellerResponseDTO;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.sellers.Venditore;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -33,22 +36,30 @@ public class ProductServiceImpl implements ProductService {
         this.vendRepo = vendRepo;
     }
 
+
+
+
+
     @Override
     @Transactional(readOnly = true)
-    public List<Prodotto> listAll() {
+    public List<ProductResponseDTO> listAll() { // Changed return type
         logger.debug("Retrieving all products");
-        return prodRepo.findAll();
+        return prodRepo.findAll().stream()
+                .map(this::mapToProdottoResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Prodotto> getById(UUID id) {
+    public Optional<ProductResponseDTO> getById(UUID id) {
         logger.debug("Retrieving product with id: {}", id);
-        return prodRepo.findById(id);
+        Prodotto prodotto = prodRepo.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + id + " doesn't exist."));
+        return Optional.of(mapToProdottoResponseDTO(prodotto));
     }
 
     @Override
-    public Prodotto createProduct(ProdottoRequestDTO productRequestDTO, UUID sellerId) {
+    public ProductResponseDTO createProduct(ProdottoRequestDTO productRequestDTO, UUID sellerId) {
         logger.info("Creating new product from request DTO for vendor: {}", sellerId);
 
         // Find seller
@@ -70,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
         seller.addProduct(savedProduct);
 
         logger.info("Product created successfully with id: {}", savedProduct.getId());
-        return savedProduct;
+        return mapToProdottoResponseDTO(savedProduct);
     }
 
     /*
@@ -96,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
 
      */
     @Override
-    public Prodotto updateProduct(UUID productId, ProdottoRequestDTO productRequestDTO, UUID sellerId) {
+    public ProductResponseDTO updateProduct(UUID productId, ProdottoRequestDTO productRequestDTO, UUID sellerId) {
         logger.info("Updating product with ID : {} for seller: {}", productId, sellerId);
 
         // 2. Trova il prodotto esistente
@@ -123,7 +134,7 @@ public class ProductServiceImpl implements ProductService {
         // 5. Salva il prodotto aggiornato
         Prodotto updatedProduct = prodRepo.save(existingProduct);
         logger.info("Prodotto aggiornato con successo con id: {}", updatedProduct.getId());
-        return updatedProduct;
+        return mapToProdottoResponseDTO(updatedProduct);
     }
 
     @Override
@@ -143,9 +154,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Prodotto> getApprovedProducts() {
+    public List<ProductResponseDTO> getApprovedProducts() { // Changed return type
         logger.debug("Retrieving approved products");
-        return prodRepo.findByState(StatoProdotto.APPROVED);
+        return prodRepo.findByState(StatoProdotto.APPROVED).stream()
+                .map(this::mapToProdottoResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -198,5 +211,30 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+    // --- Helper method to map Prodotto entity to ProdottoResponseDTO ---
+    private ProductResponseDTO mapToProdottoResponseDTO(Prodotto prodotto) {
+        if (prodotto == null) {
+            return null;
+        }
+        // Assuming your Venditore entity has getName() or getCompanyName()
+        SellerResponseDTO sellerDTO = null;
+        if (prodotto.getSeller() != null) {
+            sellerDTO = SellerResponseDTO.builder()
+                    .id(prodotto.getSeller().getId())
+                    .name(prodotto.getSeller().getName()) // Adjust based on your Venditore fields
+                    .build();
+        }
 
+        return ProductResponseDTO.builder()
+                .id(prodotto.getId())
+                .name(prodotto.getName())
+                .description(prodotto.getDescription())
+                .price(prodotto.getPrice())
+                .availableQuantity(prodotto.getAvailableQuantity())
+                .certification(prodotto.getCertification())
+                .expirationDate(prodotto.getExpirationDate())
+                .state(prodotto.getState().name()) // Convert enum to String
+                .seller(sellerDTO)
+                .build();
+    }
 }
