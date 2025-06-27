@@ -1,7 +1,10 @@
 package com.filiera.model.events;
 
 import com.filiera.model.sellers.Venditore;
+import lombok.Data;
+import org.springframework.boot.convert.DataSizeUnit;
 
+@Data
 public class Invito {
 
     private int id;
@@ -21,37 +24,7 @@ public class Invito {
         this.description = description;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public AnimatoreFiliera getSender() {
-        return sender;
-    }
-
-    public void setSender(AnimatoreFiliera sender) {
-        this.sender = sender;
-    }
-
-    public Venditore getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(Venditore receiver) {
-        this.receiver = receiver;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
 
 }

@@ -2,8 +2,6 @@ package com.filiera.controller;
 
 import com.filiera.model.dto.CarrelloResponseDTO;
 import com.filiera.model.dto.OrdineResponseDTO;
-import com.filiera.model.payment.Carrello;
-import com.filiera.model.payment.Ordine;
 import com.filiera.services.CarrelloServiceImpl;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -27,31 +25,31 @@ public class AcquirenteController {
 
     @PostMapping("/add")
     public ResponseEntity<CarrelloResponseDTO> addToCart(
-            @RequestParam @NotNull(message = "Product Id cannot be null") UUID prodotto ,
+            @RequestParam @NotNull(message = "Product Id cannot be null") UUID product,
             @RequestParam @Min( value = 1 , message = "Quantity must be at least 1") int quantity ,
             @RequestParam @NotNull (message = "Buyer Id cannot be null") UUID buyerId) {
 
-            log.info("Adding product {} with quantity {} to cart for buyer {}", prodotto, quantity, buyerId);
+            log.info("Adding product {} with quantity {} to cart for buyer {}", product, quantity, buyerId);
 
         // Lascia che le eccezioni si propaghino al GlobalExceptionHandler
-            CarrelloResponseDTO carrello = service.addProduct(prodotto , quantity , buyerId);
+            CarrelloResponseDTO cart = service.addProduct(product, quantity , buyerId);
 
             log.info("Product successfully added to cart for buyer {}", buyerId);
-            return ResponseEntity.ok(carrello);
+            return ResponseEntity.ok(cart);
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<CarrelloResponseDTO> removeFromCart(@RequestParam @NotNull(message = "Product ID cannot be null") UUID prodotto,
+    public ResponseEntity<CarrelloResponseDTO> removeFromCart(@RequestParam @NotNull(message = "Product ID cannot be null") UUID product,
                                                    @RequestParam @Min(value = 1, message = "Quantity must be at least 1") int quantity,
                                                    @RequestParam @NotNull(message = "Buyer ID cannot be null") UUID buyerId) {
 
-            log.info("Removing product {} with quantity {} from cart for buyer {}", prodotto, quantity, buyerId);
+            log.info("Removing product {} with quantity {} from cart for buyer {}", product, quantity, buyerId);
 
 
-        CarrelloResponseDTO carrello = service.removeProduct(prodotto , quantity , buyerId); // Il service restituisce già il DTO
+        CarrelloResponseDTO cart = service.removeProduct(product, quantity , buyerId); // Il service restituisce già il DTO
 
             log.info("Product successfully removed from cart for buyer {}", buyerId);
-            return ResponseEntity.ok(carrello);
+            return ResponseEntity.ok(cart);
     }
 
     /*
@@ -73,7 +71,7 @@ public class AcquirenteController {
     public ResponseEntity<Void> clearCart(@RequestParam @NotNull (message = "Buyer ID cannot be null")UUID buyerId) {
         log.info("Clearing cart for buyer {}", buyerId);
 
-        service.clearCarrello(buyerId);
+        service.clearCart(buyerId);
 
         log.info("Cart successfully cleared for buyer {}", buyerId);
         return ResponseEntity.noContent().build(); // 204 No Content è più appropriato
@@ -83,9 +81,9 @@ public class AcquirenteController {
     public ResponseEntity<CarrelloResponseDTO> getCart(@RequestParam  @NotNull (message = "Buyer ID cannot be null")UUID buyerId) {
         log.debug("Retrieving cart for buyer {}", buyerId);
 
-        CarrelloResponseDTO carrelloResponse = service.getCarrello(buyerId); // Il service restituisce già il DTO
+        CarrelloResponseDTO cartResponse = service.getCart(buyerId); // Il service restituisce già il DTO
 
-        return ResponseEntity.ok(carrelloResponse);
+        return ResponseEntity.ok(cartResponse);
     }
 
 
@@ -94,8 +92,8 @@ public class AcquirenteController {
 
         log.debug("Buying cart for buyer {}", buyerId);
 
-        OrdineResponseDTO ordine = service.buyCart(buyerId);
-        return ResponseEntity.ok(ordine);
+        OrdineResponseDTO order = service.buyCart(buyerId);
+        return ResponseEntity.ok(order);
 
     }
 

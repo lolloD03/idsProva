@@ -9,7 +9,6 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.DialectOverride;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -68,7 +67,7 @@ public class Prodotto {
     @PrePersist
     public void prePersist() {
         if (this.state == null) {
-            this.state = StatoProdotto.IN_ATTESA_DI_APPROVAZIONE;
+            this.state = StatoProdotto.PENDING_APPROVAL;
         }
         // Se non viene settata una data di scadenza, puoi settarla qui
         // if (this.expirationDate == null) {
@@ -80,13 +79,13 @@ public class Prodotto {
     // Nota: I getter e setter standard sono forniti da @Data
 
 
-    public void approveBy(Curatore curatore) {
-        this.setState(StatoProdotto.APPROVATO);
-        this.setApprovedBy(curatore);
+    public void approveBy(Curatore curator) {
+        this.setState(StatoProdotto.APPROVED);
+        this.setApprovedBy(curator);
     }
 
-    public void rejectBy(Curatore curatoreObj) {
-        this.setState(StatoProdotto.RIFIUTATO);
-        this.setApprovedBy(curatoreObj);
+    public void rejectBy(Curatore curator) {
+        this.setState(StatoProdotto.REJECTED);
+        this.setApprovedBy(curator);
     }
 }

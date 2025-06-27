@@ -2,7 +2,6 @@ package com.filiera.services;
 
 import com.filiera.model.dto.ProdottoRequestDTO;
 import com.filiera.model.products.Prodotto;
-import com.filiera.model.sellers.Venditore;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +20,7 @@ public interface ProductService {
     public List<Prodotto> getApprovedProducts();
 
 
-    void riduciQuantita(UUID prodottoId, int quantity);
+    void decreaseQuantity(UUID prodottoId, int quantity);
 
     Prodotto checkProductState(UUID prod);
 }

@@ -9,7 +9,6 @@ import com.filiera.model.sellers.Venditore;
 import com.filiera.model.users.Acquirente;
 import com.filiera.model.users.RuoloUser;
 import com.filiera.repository.*;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -60,22 +59,22 @@ public class FilieraApplication implements CommandLineRunner {
 
         Venditore venditore1 = Produttore.builder()
                 .name("produttore1")
-                .indirizzo(indirizzo1)
+                .address(indirizzo1)
                 .process("boh")
                 .partitaIva("tuobabbo")
                 .email("venditore1@gmail.com")
                 .password("password")
-                .ruolo(RuoloUser.PRODUTTORE)
+                .role(RuoloUser.PRODUTTORE)
                 .build();
 
         Venditore venditore2 = Produttore.builder()
                 .name("produttore2")
-                .indirizzo(indirizzo2)
+                .address(indirizzo2)
                 .process("boh2")
                 .partitaIva("tuobabbo2")
                 .email("venditore2@gmail.com")
                 .password("password")
-                .ruolo(RuoloUser.PRODUTTORE)
+                .role(RuoloUser.PRODUTTORE)
                 .build();
 
         userRepository.save(venditore1);
@@ -91,7 +90,7 @@ public class FilieraApplication implements CommandLineRunner {
                 .seller(venditore1)
                 .build();
 
-        pomodoro.setState(StatoProdotto.APPROVATO);
+        pomodoro.setState(StatoProdotto.APPROVED);
 
         Prodotto patata = Prodotto.builder()
                 .name("Patata buona molto")
@@ -121,28 +120,28 @@ public class FilieraApplication implements CommandLineRunner {
         prodottiRepository.save(patata);
         prodottiRepository.save(passataDiPomodoro);
 
-        venditore1.addProdotto(pomodoro);
-        venditore1.addProdotto(patata);
-        venditore2.addProdotto(passataDiPomodoro);
+        venditore1.addProduct(pomodoro);
+        venditore1.addProduct(patata);
+        venditore2.addProduct(passataDiPomodoro);
 
 
         Curatore curatore = Curatore.builder()
                 .name("Curatore")
-                .ruolo(RuoloUser.CURATORE)
+                .role(RuoloUser.CURATORE)
                 .email("curatore@gmail.com")
                 .password("password")
                 .build();
 
         Acquirente buyer1 = Acquirente.builder()
                 .name("Acquirente1")
-                .ruolo(RuoloUser.ACQUIRENTE)
+                .role(RuoloUser.ACQUIRENTE)
                 .email("acquirente1@gmail.com")
                 .password("password")
                 .build();
 
         Acquirente buyer2 = Acquirente.builder()
                 .name("Acquirente2")
-                .ruolo(RuoloUser.ACQUIRENTE)
+                .role(RuoloUser.ACQUIRENTE)
                 .email("acquirente2@gmail.com")
                 .password("password")
                 .build();

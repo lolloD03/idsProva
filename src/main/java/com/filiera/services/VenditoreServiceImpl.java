@@ -2,11 +2,8 @@ package com.filiera.services;
 import java.util.*;
 
 
+import com.filiera.exception.SellerNotFoundException;
 import com.filiera.model.sellers.Venditore;
-import com.filiera.model.users.User;
-import com.filiera.repository.InMemoryProductRepository;
-import com.filiera.repository.InMemoryUserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +18,18 @@ public class VenditoreServiceImpl {
         this.userService = userService;
     }
 
-    public void updateVenditoreByID(UUID id, String email, String name,String partitaIva){
+    public void updateSellerByID(UUID id, String email, String name, String partitaIva){
 
-        Venditore v = getVenditoreByID(id);
+        Venditore v = getSellerByID(id);
         v.setEmail(email);
         v.setName(name);
         v.setPartitaIva(partitaIva);
 
     }
 
-    public Venditore getVenditoreByID(UUID id){
+    public Venditore getSellerByID(UUID id){
        if(!(userService.findById(id) instanceof Venditore)){
-           throw new IllegalArgumentException("Non è un venditore");
+           throw new SellerNotFoundException("Seller not found with ID: " + id);
        }
        return (Venditore) userService.findById(id);
     }

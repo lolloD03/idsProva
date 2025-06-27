@@ -1,5 +1,8 @@
 package com.filiera.services;
 
+import com.filiera.exception.BuyerNotFoundException;
+import com.filiera.exception.EmptyCartException;
+import com.filiera.exception.InvalidUserTypeException;
 import com.filiera.exception.ProductNotFoundException;
 import com.filiera.model.dto.CarrelloResponseDTO;
 import com.filiera.model.dto.ItemCarrelloResponseDTO;
@@ -8,7 +11,6 @@ import com.filiera.model.payment.Carrello;
 import com.filiera.model.payment.ItemCarrello;
 import com.filiera.model.payment.ItemOrdine;
 import com.filiera.model.products.Prodotto;
-import com.filiera.model.products.StatoProdotto;
 import com.filiera.model.users.Acquirente;
 import com.filiera.repository.InMemoryAcquirenteRepository;
 import com.filiera.repository.InMemoryCarrelloRepository;
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Service;
 import com.filiera.model.payment.Ordine;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -45,12 +46,12 @@ public class CarrelloServiceImpl {
 
 
     // Metodo helper per mappare l'entità Carrello al DTO di risposta
-    private CarrelloResponseDTO mapToCarrelloResponseDTO(Carrello carrello) {
-        if (carrello == null) {
+    private CarrelloResponseDTO mapToCartResponseDTO(Carrello cart) {
+        if (cart == null) {
             return null;
         }
 
-        List<ItemCarrelloResponseDTO> itemDTOs = carrello.getProducts().stream()
+        List<ItemCarrelloResponseDTO> itemDTOs = cart.getProducts().stream()
                 .map(item -> ItemCarrelloResponseDTO.builder()
                         .productId(item.getProduct().getId())
                         .productName(item.getProduct().getName())
@@ -61,20 +62,20 @@ public class CarrelloServiceImpl {
                 .collect(Collectors.toList());
 
         return CarrelloResponseDTO.builder()
-                .id(carrello.getId())
-                .buyerId(carrello.getBuyer().getId())
+                .id(cart.getId())
+                .buyerId(cart.getBuyer().getId())
                 .items(itemDTOs)
-                .totalPrice(carrello.getTotalPrice()) // Assumendo che getTotalPrice() calcoli dinamicamente
+                .totalPrice(cart.getTotalPrice()) // Assumendo che getTotalPrice() calcoli dinamicamente
                 .build();
     }
 
     // Metodo helper per mappare l'entità Ordine al DTO di risposta
-    private OrdineResponseDTO mapToOrdineResponseDTO(Ordine ordine) {
-        if (ordine == null) {
+    private OrdineResponseDTO mapToOrderResponseDTO(Ordine order) {
+        if (order == null) {
             return null;
         }
 
-        List<ItemCarrelloResponseDTO> itemDTOs = ordine.getItems().stream() // Assumendo che Ordine.getItems() esista
+        List<ItemCarrelloResponseDTO> itemDTOs = order.getItems().stream() // Assumendo che Ordine.getItems() esista
                 .map(item -> ItemCarrelloResponseDTO.builder()
                         .productId(item.getProductId()) // L'ID del prodotto è già in ItemOrdine
                         .productName(item.getProductName())
@@ -85,125 +86,125 @@ public class CarrelloServiceImpl {
                 .collect(Collectors.toList());
 
         return OrdineResponseDTO.builder()
-                .id(ordine.getNumeroOrdine())
-                .buyerId(ordine.getBuyer().getId()) // Assumendo che Ordine abbia un riferimento all'Acquirente
-                .orderDate(ordine.getDataOrdine()) // Assumendo che Ordine abbia getDataOrdine()
-                .totalAmount(ordine.getTotalPrice())    // Assumendo che Ordine.getTotale() sia calcolato o persistito
+                .id(order.getNumeroOrdine())
+                .buyerId(order.getBuyer().getId()) // Assumendo che Ordine abbia un riferimento all'Acquirente
+                .orderDate(order.getDataOrdine()) // Assumendo che Ordine abbia getDataOrdine()
+                .totalAmount(order.getTotalPrice())    // Assumendo che Ordine.getTotale() sia calcolato o persistito
                 .items(itemDTOs)
                 .build();
     }
 
-    public CarrelloResponseDTO addProduct(UUID prod , int quantity , UUID buyerId) {
+    public CarrelloResponseDTO addProduct(UUID productId , int quantity , UUID buyerId) {
 
 
-        Prodotto prodotto = productService.getById(prod)
-                .orElseThrow(() -> new ProductNotFoundException("Il prodotto con id " + prod + " non esiste."));
+        Prodotto product = productService.getById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with Id " + productId + " doesn't exist."));
 
-        Carrello carrello = getCarrelloEntity(buyerId);
+        Carrello carrello = getCartEntity(buyerId);
 
-        carrello.addProduct(prodotto , quantity);
+        carrello.addProduct(product , quantity);
 
         cartRepo.save(carrello);
-        return mapToCarrelloResponseDTO(carrello);
+        return mapToCartResponseDTO(carrello);
     }
 
-    public CarrelloResponseDTO removeProduct(UUID prod , int quantity , UUID buyerId) {
-        Prodotto prodotto = productService.getById(prod)
-                .orElseThrow(() -> new ProductNotFoundException("Il prodotto con id " + prod + " non esiste."));
+    public CarrelloResponseDTO removeProduct(UUID productId , int quantity , UUID buyerId) {
+        Prodotto product = productService.getById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with Id " + productId + " doesn't exist."));
 // ...
 
-        Carrello carrello = getCarrelloEntity(buyerId);
+        Carrello cart = getCartEntity(buyerId);
 
         if(cartIsEmpty(buyerId)) {
-            throw new RuntimeException("Il carrello è vuoto");
+            throw new EmptyCartException("Cart is empty");
         }
 
-        carrello.removeProduct(prodotto, quantity);
+        cart.removeProduct(product, quantity);
 
-        cartRepo.save(carrello);
-        return mapToCarrelloResponseDTO(carrello);
+        cartRepo.save(cart);
+        return mapToCartResponseDTO(cart);
     }
 
 
-   public void clearCarrello(UUID buyerId) {
+   public void clearCart(UUID buyerId) {
 
-        Carrello carrello = getCarrelloEntity(buyerId);
+        Carrello carrello = getCartEntity(buyerId);
 
         if(cartIsEmpty(buyerId)) {
-           throw new RuntimeException("Il carrello è vuoto");
+           throw new EmptyCartException("CartIsEmpty");
        }
 
        carrello.clearCarrello();
        cartRepo.save(carrello);
    }
 
-   public Carrello loadOrCreateCarrello(UUID buyerId)  {
+   public Carrello loadOrCreateCart(UUID buyerId)  {
 
         Acquirente buyer = buyerRepo.findById(buyerId)
-                .orElseThrow(() -> new IllegalArgumentException("Acquirente non trovato"));
+                .orElseThrow(() -> new BuyerNotFoundException("Buyer not found!"));
 
         return cartRepo.findByBuyerId(buyerId)
                .orElseGet(() -> {
-                   Carrello nuovoCarrello = new Carrello();
-                   nuovoCarrello.setBuyer(buyer);
-                   return cartRepo.save(nuovoCarrello);
+                   Carrello newCart = new Carrello();
+                   newCart.setBuyer(buyer);
+                   return cartRepo.save(newCart);
                 });
    }
 
     // Metodo helper per ottenere l'entità Carrello (rinominato per chiarezza)
-    public Carrello getCarrelloEntity(UUID buyerId) {
-        return loadOrCreateCarrello(buyerId);
+    public Carrello getCartEntity(UUID buyerId) {
+        return loadOrCreateCart(buyerId);
     }
 
-   public CarrelloResponseDTO getCarrello(UUID buyerId)  {
-        Carrello carrello = getCarrelloEntity(buyerId);
-        return  mapToCarrelloResponseDTO(carrello);
+   public CarrelloResponseDTO getCart(UUID buyerId)  {
+        Carrello cart = getCartEntity(buyerId);
+        return  mapToCartResponseDTO(cart);
    }
 
    public OrdineResponseDTO buyCart(UUID buyerId) {
 
-        Carrello carrello = getCarrelloEntity(buyerId);
+        Carrello cart = getCartEntity(buyerId);
 
-        List<ItemCarrello > listOfItems = carrello.getProducts();
+        List<ItemCarrello > listOfItems = cart.getProducts();
 
        if(cartIsEmpty(buyerId)) {
-           throw new ProductNotFoundException("Il carrello è vuoto");
+           throw new EmptyCartException("Cart is empty");
        }
 
-       for (ItemCarrello item : carrello.getProducts()) {
-           Prodotto prodotto = productService.getById(item.getProduct().getId())
-                   .orElseThrow(() -> new RuntimeException("Prodotto non trovato"));
+       for (ItemCarrello item : cart.getProducts()) {
+           Prodotto product = productService.getById(item.getProduct().getId())
+                   .orElseThrow(() -> new ProductNotFoundException("Product not found!"));
 
 
-           productService.riduciQuantita(prodotto.getId(), item.getQuantity());
+           productService.decreaseQuantity(product.getId(), item.getQuantity());
        }
 
-       Ordine ordine = new Ordine();
-       ordine.setBuyer(buyerRepo.findById(buyerId)
-                .orElseThrow(() -> new IllegalArgumentException("Acquirente non trovato")));
-       ordine.setDataOrdine(LocalDate.now());
-       ordineRepo.save(ordine);
+       Ordine order = new Ordine();
+       order.setBuyer(buyerRepo.findById(buyerId)
+                .orElseThrow(() -> new BuyerNotFoundException("Buyer not found!")));
+       order.setDataOrdine(LocalDate.now());
+       ordineRepo.save(order);
 
-       List<ItemOrdine> itemsOrdine = listOfItems.stream()
+       List<ItemOrdine> orderItems = listOfItems.stream()
                .map(item -> new ItemOrdine(item.getIdItem() ,item.getProduct().getName(), item.getProduct().getPrice() ,item.getQuantity()))
                .toList();
 
 
-       for (ItemOrdine itemOrdine : itemsOrdine) {
-           ordine.addItem(itemOrdine);
+       for (ItemOrdine itemOrdine : orderItems) {
+           order.addItem(itemOrdine);
        }
 
 
 
          //ordine.setTotale(carrello.getTotalPrice());
 
-       clearCarrello(buyerId);
-       return mapToOrdineResponseDTO(ordine);
+       clearCart(buyerId);
+       return mapToOrderResponseDTO(order);
    }
 
 
     public boolean cartIsEmpty(UUID buyerId) {
-        Carrello carrello = getCarrelloEntity(buyerId);
-        return carrello.getProducts().isEmpty();
+        Carrello cart = getCartEntity(buyerId);
+        return cart.getProducts().isEmpty();
     }
 }

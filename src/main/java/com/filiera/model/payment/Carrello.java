@@ -1,16 +1,15 @@
 package com.filiera.model.payment;
 
+import com.filiera.exception.EmptyCartException;
+import com.filiera.exception.ProductNotFoundException;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.Acquirente;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.IdGeneratorType;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +23,7 @@ public class Carrello {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToMany(mappedBy = "carrello", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemCarrello> products = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY) // Eager potrebbe caricare troppi dati inutilmente
@@ -43,7 +42,7 @@ public class Carrello {
     public double getTotalPrice() {
 
         if(products.isEmpty()) {
-            throw new RuntimeException("Il carrello è vuoto");
+            throw new EmptyCartException("Cart Is Empty");
         }
 
         return products.stream().mapToDouble(ItemCarrello::getTotal).sum();
@@ -52,7 +51,7 @@ public class Carrello {
 
     public void addProduct(Prodotto product, int quantity) {
         if (product == null) {
-            throw new RuntimeException("Il prodotto è nullo");
+            throw new IllegalArgumentException("Product can't be null");
         }
 
         // Prova a trovare un ItemCarrello esistente per il prodotto
@@ -64,7 +63,7 @@ public class Carrello {
                         // Altrimenti, crea un nuovo ItemCarrello e aggiungilo
                         () -> {
                             ItemCarrello newItem = new ItemCarrello(product, quantity);
-                            newItem.setCarrello(this); // Collega il nuovo item a questo carrello
+                            newItem.setCart(this); // Collega il nuovo item a questo carrello
                             products.add(newItem);
                         }
                 );
@@ -72,7 +71,7 @@ public class Carrello {
 
     public void removeProduct(Prodotto product, int quantity) {
         if (product == null) {
-            throw new RuntimeException("Il prodotto è nullo");
+            throw new IllegalArgumentException("Product can't be null");
         }
 
         // Trova l'ItemCarrello da modificare/rimuovere
@@ -91,7 +90,7 @@ public class Carrello {
                         // Se il prodotto non è nel carrello, potresti lanciare un'eccezione
                         // o semplicemente non fare nulla (dipende dalla logica di business desiderata)
                         () -> {
-                            throw new RuntimeException("Il prodotto " + product.getName() + " non è presente nel carrello.");
+                            throw new ProductNotFoundException("Product " + product.getName() + " is not in the cart");
                         }
                 );
     }

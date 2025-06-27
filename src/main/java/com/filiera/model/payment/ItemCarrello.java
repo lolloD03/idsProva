@@ -20,7 +20,7 @@ public class ItemCarrello {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "carrello_id", nullable = false) // Assicura che l'ItemCarrello sia sempre legato a un Carrello
-    private Carrello carrello;
+    private Carrello cart;
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

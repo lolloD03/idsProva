@@ -25,7 +25,7 @@ public class ItemOrdine {
 
     @ManyToOne // Molti ItemOrdine possono appartenere a un solo Ordine
     @JoinColumn(name = "ordine_id", nullable = false) // Colonna FK che punta all'Ordine
-    private Ordine ordine; // Riferimento all'Ordine a cui appartiene questo ItemOrdine
+    private Ordine order; // Riferimento all'Ordine a cui appartiene questo ItemOrdine
 
     // Costruttore per creare un ItemOrdine dallo snapshot del Carrello/Prodotto
     public ItemOrdine(UUID productId, String productName, double productPrice, int quantity) {

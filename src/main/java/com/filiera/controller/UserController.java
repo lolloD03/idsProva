@@ -6,7 +6,6 @@ import com.filiera.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -24,11 +23,11 @@ public class UserController {
     }
 
     @PostMapping("/register/produttore")
-    public User registerProduttore(@RequestBody Produttore produttore) {
-        if (produttore == null) {
+    public User registerProduttore(@RequestBody Produttore producer) {
+        if (producer == null) {
             throw new IllegalArgumentException("Produttore cannot be null");
         }
-        return service.registerProduttore(produttore);
+        return service.registerProducer(producer);
     }
 
     @GetMapping("/all")

@@ -1,21 +1,16 @@
 package com.filiera.model.payment;
 
-import com.filiera.model.products.Prodotto;
+import com.filiera.exception.EmptyCartException;
+import com.filiera.exception.EmptyOrderException;
 import com.filiera.model.users.Acquirente;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
-import static java.util.UUID.randomUUID;
 
 
 @NoArgsConstructor
@@ -31,7 +26,7 @@ public class Ordine {
     @JoinColumn(name = "buyer_id" , nullable = false)
     private Acquirente buyer;
 
-    @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemOrdine> items = new ArrayList<>();
 
     //private double totale;
@@ -41,7 +36,7 @@ public class Ordine {
 
     public double getTotalPrice() {
         if (items.isEmpty()) {
-            throw new RuntimeException("L'ordine è vuoto");
+            throw new EmptyOrderException("Order is empty");
         }
         return items.stream().mapToDouble(ItemOrdine::getTotal).sum();
     }
@@ -49,11 +44,11 @@ public class Ordine {
 
     public void addItem(ItemOrdine item) {
         this.items.add(item);
-        item.setOrdine(this);
+        item.setOrder(this);
     }
 
     public void removeItem(ItemOrdine item) {
         this.items.remove(item);
-        item.setOrdine(null);
+        item.setOrder(null);
     }
 }

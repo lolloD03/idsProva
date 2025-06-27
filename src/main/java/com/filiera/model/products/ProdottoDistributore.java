@@ -1,11 +1,8 @@
 package com.filiera.model.products;
 
-import com.filiera.model.sellers.Venditore;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,30 +12,30 @@ import java.util.List;
 public class ProdottoDistributore extends Prodotto{
 
     @OneToMany
-    private List<Prodotto> prodotti;
+    private List<Prodotto> products;
 
     public ProdottoDistributore() {
-        this.prodotti = new ArrayList<>();
+        this.products = new ArrayList<>();
     }
 
-    public ProdottoDistributore(List<Prodotto> prodotti) {
-        this.prodotti = prodotti;
+    public ProdottoDistributore(List<Prodotto> products) {
+        this.products = products;
     }
 
-    public void addToProdotti(Prodotto prodotto) {
-        prodotti.add(prodotto);
+    public void addToProducts(Prodotto product) {
+        products.add(product);
     }
 
-    public void removeFromProdotti(Prodotto prodotto) {
-        prodotti.remove(prodotto);
+    public void removeFromProducts(Prodotto product) {
+        products.remove(product);
     }
 
-    public List<Prodotto> getProdotti() {
-        return prodotti;
+    public List<Prodotto> getProducts() {
+        return products;
     }
 
-    public void setProdotti(List<Prodotto> prodotti) {
-        this.prodotti = prodotti;
+    public void setProducts(List<Prodotto> products) {
+        this.products = products;
     }
 
 }

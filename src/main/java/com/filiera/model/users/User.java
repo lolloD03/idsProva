@@ -1,6 +1,5 @@
 package com.filiera.model.users;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -42,7 +41,7 @@ public abstract class User {
     @Enumerated(EnumType.STRING) // Memorizza l'enum come stringa nel DB, più leggibile e robusto
     @Column(nullable = false)
     @NotNull(message = "Role cannot be null")// Il ruolo non può essere null
-    private RuoloUser ruolo;
+    private RuoloUser role;
 
     // Se hai bisogno di un costruttore specifico che non sia un "no-args"
     // e che NON generi l'ID manualmente (perché lo fa @GeneratedValue),
