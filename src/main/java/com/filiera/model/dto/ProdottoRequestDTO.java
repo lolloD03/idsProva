@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.UUID;
+
 
 @Data // Include @Getter, @Setter, @ToString, @EqualsAndHashCode
 @NoArgsConstructor // Costruttore senza argomenti
