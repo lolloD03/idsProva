@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-
 @Data // Include @Getter, @Setter, @ToString, @EqualsAndHashCode
 @NoArgsConstructor // Costruttore senza argomenti
 @AllArgsConstructor // Costruttore con tutti gli argomenti
