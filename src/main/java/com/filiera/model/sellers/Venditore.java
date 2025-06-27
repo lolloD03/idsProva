@@ -6,10 +6,7 @@ import com.filiera.model.OsmMap.Indirizzo;
 import com.filiera.model.products.Prodotto;
 import com.filiera.model.users.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 
@@ -33,6 +30,7 @@ public abstract class Venditore extends User { // Nota: Manteniamo abstract se c
     // Inizializza la lista per evitare NullPointerException quando JPA la carica o se la usi prima del salvataggio
     // Se la lista è null quando JPA la carica, ci penserà JPA a inizializzarla con una sua implementazione.
     // L'inizializzazione nell'istanza @SuperBuilder è gestita meglio.
+    @Builder.Default
     private List<Prodotto> products = new ArrayList<>();
 
     @Embedded
