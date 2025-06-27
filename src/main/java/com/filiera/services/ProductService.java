@@ -11,6 +11,7 @@ public interface ProductService {
     //Prodotto createProduct(UUID seller, String name, String descrizione, double price, int quantity, String certitfication);
     List<ProductResponseDTO> listAll();
     Optional<ProductResponseDTO> getById(UUID id);
+    Optional<Prodotto> getByIdEntity(UUID id);
 
     ProductResponseDTO createProduct(ProdottoRequestDTO prodottoRequestDTO, UUID venditoreId);
 

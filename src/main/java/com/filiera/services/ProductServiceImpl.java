@@ -106,6 +106,14 @@ public class ProductServiceImpl implements ProductService {
 
 
      */
+
+
+    public Optional<Prodotto> getByIdEntity(UUID id) {
+        logger.debug("Retrieving product with id: {}", id);
+        // findById già restituisce Optional<Prodotto>, quindi non c'è bisogno di .or() per loggare Optional.empty()
+        return prodRepo.findById(id);
+    }
+
     @Override
     public ProductResponseDTO updateProduct(UUID productId, ProdottoRequestDTO productRequestDTO, UUID sellerId) {
         logger.info("Updating product with ID : {} for seller: {}", productId, sellerId);
