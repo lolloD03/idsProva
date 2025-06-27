@@ -97,7 +97,7 @@ public class CarrelloServiceImpl {
     public CarrelloResponseDTO addProduct(UUID productId , int quantity , UUID buyerId) {
 
 
-        Prodotto product = productService.getById(productId)
+        Prodotto product = productService.getByIdEntity(productId)
                 .orElseThrow(() -> new ProductNotFoundException("Product with Id " + productId + " doesn't exist."));
 
         Carrello carrello = getCartEntity(buyerId);
@@ -109,7 +109,7 @@ public class CarrelloServiceImpl {
     }
 
     public CarrelloResponseDTO removeProduct(UUID productId , int quantity , UUID buyerId) {
-        Prodotto product = productService.getById(productId)
+        Prodotto product = productService.getByIdEntity(productId)
                 .orElseThrow(() -> new ProductNotFoundException("Product with Id " + productId + " doesn't exist."));
 // ...
 
@@ -172,7 +172,7 @@ public class CarrelloServiceImpl {
        }
 
        for (ItemCarrello item : cart.getProducts()) {
-           Prodotto product = productService.getById(item.getProduct().getId())
+           Prodotto product = productService.getByIdEntity(item.getProduct().getId())
                    .orElseThrow(() -> new ProductNotFoundException("Product not found!"));
 
 
