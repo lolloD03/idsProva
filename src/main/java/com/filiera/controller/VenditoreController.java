@@ -1,6 +1,7 @@
 package com.filiera.controller;
 
 import com.filiera.model.dto.ProdottoRequestDTO;
+import com.filiera.model.dto.ProductResponseDTO;
 import com.filiera.model.products.Prodotto;
 import com.filiera.services.ProductService;
 import jakarta.validation.Valid;
@@ -28,21 +29,21 @@ public class VenditoreController {
     }
 
     @PostMapping("/create-product")
-    public ResponseEntity<Prodotto> createProduct(
+    public ResponseEntity<ProductResponseDTO> createProduct(
             @RequestBody @Valid ProdottoRequestDTO productDTO,
             @RequestHeader("X-User-Id") UUID sellerId) { // Simulazione header di autenticazione
 
-        Prodotto createdProduct = service.createProduct(productDTO, sellerId);
+        ProductResponseDTO createdProduct = service.createProduct(productDTO, sellerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
     // Alternativa: endpoint temporaneo per testing
     @PostMapping("/create-product-test")
-    public ResponseEntity<Prodotto> createProductForTesting(
+    public ResponseEntity<ProductResponseDTO> createProductForTesting(
             @RequestBody @Valid ProdottoRequestDTO productDTO,
             @RequestParam UUID sellerId) { // Parametro temporaneo per test
 
-        Prodotto createdProduct = service.createProduct(productDTO, sellerId);
+        ProductResponseDTO createdProduct = service.createProduct(productDTO, sellerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
@@ -64,25 +65,25 @@ public class VenditoreController {
 
  */
     @PutMapping("/update-product")
-    public ResponseEntity<Prodotto> updateProduct(
+    public ResponseEntity<ProductResponseDTO> updateProduct(
             @PathVariable UUID productId,
             @RequestBody @Valid ProdottoRequestDTO productDTO ,
             @RequestHeader("X-User-Id") UUID sellerId) { // Simulazione header di autenticazione
 
 
-        Prodotto product = service.updateProduct(productId, productDTO , sellerId);
+        ProductResponseDTO product = service.updateProduct(productId, productDTO , sellerId);
         return ResponseEntity.ok(product);
     }
 
     @PutMapping("/update-product-testing")
-    public ResponseEntity<Prodotto> updateProductForTesting(
+    public ResponseEntity<ProductResponseDTO> updateProductForTesting(
             @PathVariable UUID productId,
             @RequestBody @Valid ProdottoRequestDTO productDTO ,
             @RequestParam UUID sellerId) { // Simulazione header di autenticazione
 
 
 
-        Prodotto product = service.updateProduct(productId, productDTO , sellerId);
+        ProductResponseDTO product = service.updateProduct(productId, productDTO , sellerId);
         return ResponseEntity.ok(product);
     }
 
@@ -93,21 +94,21 @@ public class VenditoreController {
     }
 
     @GetMapping("/approved-products")
-    public ResponseEntity<List<Prodotto>> getApprovedProducts() {
-        List<Prodotto> products = service.getApprovedProducts();
+    public ResponseEntity<List<ProductResponseDTO>> getApprovedProducts() {
+        List<ProductResponseDTO> products = service.getApprovedProducts();
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<Prodotto> getById(@PathVariable @NotNull UUID id) {
-        Optional<Prodotto> product = service.getById(id);
+    public ResponseEntity<ProductResponseDTO> getById(@PathVariable @NotNull UUID id) { // Changed return type
+        Optional<ProductResponseDTO> product = service.getById(id); // Service returns Optional<DTO>
         return product.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<Prodotto>> getAllProducts() {
-        List<Prodotto> products = service.listAll();
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+        List<ProductResponseDTO> products = service.listAll();
         return ResponseEntity.ok(products);
     }
 }
